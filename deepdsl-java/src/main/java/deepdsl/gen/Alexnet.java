@@ -7,7 +7,7 @@ import deepdsl.util.*;
 public class Alexnet {
 static{ JCudaTensor.enableMemoryCache();}
 // decay_1
-static float decay_1 = 0.9999995f;
+static float decay_1 = 0.999995f;
 // lrn_rate_1
 static float lrn_rate_1 = -0.01f;
 // lrn_rate_2
