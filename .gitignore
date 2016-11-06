@@ -1,0 +1,10 @@
+.DS_Store
+/target/
+.classpath
+.idea
+*.iml
+.settings
+.project
+dataset/
+.pydevproject
+src/main/java/deepdsl/gen/*

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>deepdsl</artifactId>
+        <groupId>deepdsl</groupId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>deepdsl-java</artifactId>
+
+    <dependencies>
+        <!--
+            internal dependencies
+        -->
+        <dependency>
+            <groupId>deepdsl</groupId>
+            <artifactId>deepdsl-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!--
+            local dependencies
+        -->
+        <dependency>
+            <groupId>org.naokishibata.sleef</groupId>
+            <artifactId>fastmath</artifactId>
+        </dependency>
+        <!--
+                test dependencies
+        -->
+        <dependency>
+            <groupId>deepdsl</groupId>
+            <artifactId>deepdsl-compile</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+</project>
