@@ -5,7 +5,7 @@ DeepDSL is a domain specific language embedded in Scala for writing deep convolu
 - The compiled Java source program uses JCuda to run on Nvidia GPU
 
 ## Run DeepDSL compiled programs
-- There are several compiled Java source program located at "deepdsl-java/src/main/java/deepdsl/gen". 
+- There are several compiled Java source program located at [src/main/java/deepdsl/gen/]. 
 - These programs train several well-known deep networks: Lenet, Alexnet, Overfeat, Googlenet, Vgg, and ResNet. 
 
 ### Adjust learning parameters
@@ -16,14 +16,24 @@ DeepDSL is a domain specific language embedded in Scala for writing deep convolu
 ### Default location for trained parameters
 Each program will save trained parameters (as serialized Java objects) into a default directory. 
 - It will try to load saved parameters (if exist) from the same directory as well. 
-- For example, Lenet.java will try to use the directory "src/main/java/deepdsl/gen/lenet" and Alexnet.java will try to use the directory "src/main/java/deepdsl/gen/alexnet" 
+- For example, [Lenet.java] will try to use the directory "[src/main/java/deepdsl/gen/]lenet" and [Alexnet.java] will try to use the directory "[src/main/java/deepdsl/gen/]alexnet" 
 - You can customize this in the source file directly.
 
 ### Default location for training and testing data
 Each program assumes a location for the training and test data. 
-- Lenet.java uses Mnist, which is assumed to be located at "dataset/mnist"
-- Programs such as Alexnet.java uses imagenet (as Lmdb database) located at "database/imagenet224/ilsvrc12_train_lmdb" for training data and "dataset/imagenet224/ilsvrc12_val_lmdb" for testing data, where the image sizes are cropped to 224 x 224. Other image sizes should work since we would randomly cropped it to the right size. (But testing images will also be randomly cropped -- this might be fixed later).
+- [Lenet.java] uses Mnist, which is assumed to be located at [dataset/mnist]
+- Programs such as [Alexnet.java] uses imagenet (as Lmdb database), which is assumed to be located at "[dataset/imagenet224/]ilsvrc12_train_lmdb" for training data and "[dataset/imagenet224/]ilsvrc12_val_lmdb" for testing data, where the image sizes are cropped to 224 x 224. Other image sizes should work since we would randomly cropped it to the right size. (But testing images will also be randomly cropped -- this might be fixed later).
 - The training and testing all use the same batch size. 
 
 ## Generate Java source
-You can generate Java source for a particular network by running a Scala test program located at "deepdsl-java/src/test/java/NetworkTest.scala". While this is a Scala program, you can run it as a JUnit test to generate Java source code, which will be written to "src/main/java/deepdsl/gen/".
+You can generate Java source for a particular network by running a Scala test program [NetworkTest.scala]. While this is a Scala program, you can run it as a JUnit test to generate Java source code, which will be written to [src/main/java/deepdsl/gen/].
+
+[NetworkTest.scala]: <https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/test/java/NetworkTest.scala>
+
+[src/main/java/deepdsl/gen/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen>
+
+[Lenet.java]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Lenet.java>
+[Alexnet.java]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Alexnet.java>
+
+[dataset/mnist]: <https://github.com/deepdsl/deepdsl/tree/master/dataset/mnist>
+[dataset/imagenet224/]: <https://github.com/deepdsl/deepdsl/tree/master/dataset/imagenet224/>
