@@ -166,7 +166,7 @@ public class LmdbUtils {
     }
 
     public static void main(String[] argv) {
-        Env env = getEnv("dataset/imagenet/ilsvrc12_train_lmdb");
+        Env env = getEnv("dataset/imagenet224/ilsvrc12_train_lmdb");
         Transaction tx = env.createReadTransaction();
         Database db = env.openDatabase();
         getImageAsByteArray(tx, db, 20, true, OS.OSX);
