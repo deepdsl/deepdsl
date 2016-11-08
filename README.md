@@ -28,6 +28,49 @@ Each program assumes a location for the training and test data.
 ## Generate Java source
 You can generate Java source for a particular network by running a Scala test program [NetworkTest.scala]. While this is a Scala program, you can run it as a JUnit test to generate Java source code, which will be written to [src/main/java/deepdsl/gen/].
 
+### Example: generate Lenet
+
+```scala
+    val K = 10 // # of classes 
+    val N = 500; val C = 1; val N1 = 28; val N2 = 28 // batch size, channel, and x/y size
+ 
+    // Specifying train dataSet. (code gen will also use this to find test dataSet)
+    val y = Vec._new(Mnist, "label", "Y", N)              
+    val x = Vec._new(Mnist, "image", "X", N, C, N1, N2)  
+       
+    // followings are tensor functions
+    val cv1 = CudaLayer.convolv("cv1", 5, 20)       // convolution layer with kernel 5, stride 1, padding 0, and output channel 20
+    val cv2 = CudaLayer.convolv("cv2", 5, 50)
+    val mp = CudaLayer.max_pool(2)                  // max pooling with kernel 2 and stride 2
+    val flat = Layer.flatten(4, 1)                  // flatten a 4-D tensor to 2-D: axis 0 - 3 becomes axis 0 and  axis 1-3
+    val f = Layer.full("fc1", 500)                  // fully connected layer with output dimension 500
+    val f2 = Layer.full("fc2", K)                   
+    val softmax = CudaLayer.softmax                 
+    val relu = CudaLayer.relu(2)                    // ReLU activation function (2-D)
+      
+    // o is a left-associative function composition operator: f o g o h == (f o g) o h  
+    val network = f2 o relu o f o flat o mp o cv2 o mp o cv1 
+
+    println(typeof(network))                        // typecheck the network and print out the tensor function type
+    
+    val x1 = x.asCuda                               // load x (images) to GPU memory
+    val y1 = y.asIndicator(K).asCuda                // convert y (labels) to indicator vectors and load into GPU memory
+    val c = (Layer.log_loss(y1) o softmax o network) (x1) // represent the log-loss of the training data
+    val p = (Layer.precision(y1) o network) (x1)    // represent the accuracy of the test data
+   
+    val param = c.freeVar.toList                    // discover the list of training parameters
+    
+    // parameters: name, training iterations, test iterations, learn rate, momentum, weight decay, cropping (0 means none)
+    val solver = Train("lenet", 100, 10, 0.01f, 0.9f, 0.0005f, 0)
+    
+    val loop = Loop(c, p, (x, y), param, solver)    // represent the training and testing loop
+ 
+    runtimeMemory(loop.train)                       // print out the detailed memory consumption for one training loop
+    parameterMemory(loop)                           // print out the parameter memory use
+    workspaceMemory(loop.train)                     // print out the GPU (convolution) workspace use (only if you has Nvidia GPU)
+    cudnn_gen.print(loop)                           // generate Java source code
+```
+
 [NetworkTest.scala]: <https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/test/java/NetworkTest.scala>
 
 [src/main/java/deepdsl/gen/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen>
