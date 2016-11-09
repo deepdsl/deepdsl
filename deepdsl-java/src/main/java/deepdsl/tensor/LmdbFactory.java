@@ -134,7 +134,7 @@ public class LmdbFactory extends JTensorFactory {
 	}
  
 	public static LmdbFactory getFactory(String path, int max_size, int[] dims) { 
-		return getFactory(dims, path, LmdbUtils.OS.WINDOWS, max_size);
+		return getFactory(dims, path, LmdbUtils.OS.LINUX, max_size);
 	}
 	 
 	public String toString() { return "LMDB " + Arrays.toString(dims); }

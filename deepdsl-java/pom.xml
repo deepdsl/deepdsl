@@ -20,6 +20,24 @@
             <artifactId>deepdsl-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.jcuda</groupId>
+            <artifactId>jcuda-natives</artifactId>
+            <version>0.8.0RC-linux-x86_64</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jcuda</groupId>
+            <artifactId>jcublas-natives</artifactId>
+            <version>0.8.0RC-linux-x86_64</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jcuda</groupId>
+            <artifactId>jcudnn-natives</artifactId>
+            <version>0.8.0RC-linux-x86_64</version>
+            <scope>test</scope>
+        </dependency>
         <!--
             local dependencies
         -->

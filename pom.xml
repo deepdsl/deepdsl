@@ -35,6 +35,11 @@
                 <artifactId>lmdbjni</artifactId>
                 <version>0.4.6</version>
             </dependency>
+            <dependency>
+                <groupId>org.deephacks.lmdbjni</groupId>
+                <artifactId>lmdbjni-linux64</artifactId>
+                <version>0.4.6</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
             <dependency>
                 <groupId>com.google.code.gson</groupId>
