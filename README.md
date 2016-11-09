@@ -7,7 +7,9 @@ DeepDSL is a domain specific language embedded in Scala for writing deep convolu
 ## Run DeepDSL compiled programs
 - There are several compiled Java source program located at [src/main/java/deepdsl/gen/]. 
 - These programs train several well-known deep networks: Lenet, Alexnet, Overfeat, Googlenet, Vgg, and ResNet. 
-> Note currently the native dependencies are Linux based, Windows based dependencies are coming up soon...
+
+### Maven
+Currently the Maven configuration only supports the native libraries for Linux; support for Windows are coming up soon ...
 
 ### Adjust learning parameters
 - At the start of each file, there are some parameters you can adjust such as learn_rate and moment, as well as training iterations and test iterations. 
