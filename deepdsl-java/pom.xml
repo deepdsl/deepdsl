@@ -13,40 +13,22 @@
 
     <dependencies>
         <!--
-            internal dependencies
+                         internal dependencies
         -->
         <dependency>
             <groupId>deepdsl</groupId>
             <artifactId>deepdsl-common</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.jcuda</groupId>
-            <artifactId>jcuda-natives</artifactId>
-            <version>0.8.0RC-linux-x86_64</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jcuda</groupId>
-            <artifactId>jcublas-natives</artifactId>
-            <version>0.8.0RC-linux-x86_64</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jcuda</groupId>
-            <artifactId>jcudnn-natives</artifactId>
-            <version>0.8.0RC-linux-x86_64</version>
-            <scope>test</scope>
-        </dependency>
         <!--
-            local dependencies
+                         local dependencies
         -->
         <dependency>
             <groupId>org.naokishibata.sleef</groupId>
             <artifactId>fastmath</artifactId>
         </dependency>
         <!--
-                test dependencies
+                             test dependencies
         -->
         <dependency>
             <groupId>deepdsl</groupId>
@@ -58,6 +40,5 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 </project>

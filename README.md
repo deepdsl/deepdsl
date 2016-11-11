@@ -4,12 +4,14 @@ DeepDSL is a domain specific language embedded in Scala for writing deep convolu
 - DeepDSL program compiles into plain Java source program
 - The compiled Java source program uses JCuda to run on Nvidia GPU
 
+### Maven Build
+- Windows build: mvn -Pwin64 clean install
+- Linux build: mvn -Plinux64 clean install
+- OSX build: mvn -Posx64 clean install
+
 ## Run DeepDSL compiled programs
 - There are several compiled Java source program located at [src/main/java/deepdsl/gen/]. 
 - These programs train several well-known deep networks: Lenet, Alexnet, Overfeat, Googlenet, Vgg, and ResNet. 
-
-### Maven
-Currently the Maven configuration only supports the native libraries for Linux; support for Windows are coming up soon ...
 
 ### Adjust learning parameters
 - At the start of each file, there are some parameters you can adjust such as learn_rate and moment, as well as training iterations and test iterations. 
@@ -21,6 +23,12 @@ Each program will save trained parameters (as serialized Java objects) into a de
 - It will try to load saved parameters (if exist) from the same directory as well. 
 - For example, [Lenet.java] will try to use the directory "[src/main/java/deepdsl/gen/]lenet" and [Alexnet.java] will try to use the directory "[src/main/java/deepdsl/gen/]alexnet" 
 - You can customize this in the source file directly.
+
+### Data handling utils
+There are a few util Python scripts under the folder src/main/python.
+- mnist_data_handler.py: download the mnist data and unzip to the dataset/mnist folder
+- imagenet_data_selector.py: to select given number of images of given number of categories from the oroginal imagenet data
+- proto_handler.py: generate the Google proto stub files using the provided proto file
 
 ### Default location for training and testing data
 Each program assumes a location for the training and test data. 
@@ -83,3 +91,4 @@ You can generate Java source for a particular network by running a Scala test pr
 
 [dataset/mnist]: <https://github.com/deepdsl/deepdsl/tree/master/dataset/mnist>
 [dataset/imagenet224/]: <https://github.com/deepdsl/deepdsl/tree/master/dataset/imagenet224/>
+

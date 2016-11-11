@@ -21,7 +21,7 @@
     <dependencyManagement>
         <dependencies>
             <!--
-                external dependencies
+                                 external dependencies
             -->
             <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
             <dependency>
@@ -37,6 +37,16 @@
             </dependency>
             <dependency>
                 <groupId>org.deephacks.lmdbjni</groupId>
+                <artifactId>lmdbjni-osx64</artifactId>
+                <version>0.4.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.deephacks.lmdbjni</groupId>
+                <artifactId>lmdbjni-win64</artifactId>
+                <version>0.4.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.deephacks.lmdbjni</groupId>
                 <artifactId>lmdbjni-linux64</artifactId>
                 <version>0.4.6</version>
             </dependency>
@@ -47,7 +57,7 @@
                 <version>2.8.0</version>
             </dependency>
             <!--
-                local dependencies
+                                 local dependencies
             -->
             <dependency>
                 <groupId>org.naokishibata.sleef</groupId>
@@ -74,8 +84,39 @@
                 <artifactId>jcuda-vec</artifactId>
                 <version>0.0.1</version>
             </dependency>
+            <!-- native dependencies -->
+            <dependency>
+                <groupId>org.jcuda</groupId>
+                <artifactId>jcuda-natives</artifactId>
+                <version>0.8.0RC-linux-x86_64</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jcuda</groupId>
+                <artifactId>jcublas-natives</artifactId>
+                <version>0.8.0RC-linux-x86_64</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jcuda</groupId>
+                <artifactId>jcudnn-natives</artifactId>
+                <version>0.8.0RC-linux-x86_64</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jcuda</groupId>
+                <artifactId>jcuda-natives</artifactId>
+                <version>0.8.0RC-windows-x86_64</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jcuda</groupId>
+                <artifactId>jcublas-natives</artifactId>
+                <version>0.8.0RC-windows-x86_64</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jcuda</groupId>
+                <artifactId>jcudnn-natives</artifactId>
+                <version>0.8.0RC-HOTFIX01-windows-x86_64</version>
+            </dependency>
             <!--
-                test dependencies
+                                 test dependencies
             -->
             <dependency>
                 <groupId>deepdsl</groupId>
@@ -90,8 +131,73 @@
         </dependencies>
     </dependencyManagement>
 
+    <profiles>
+        <profile>
+            <id>win64</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.deephacks.lmdbjni</groupId>
+                    <artifactId>lmdbjni-win64</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.jcuda</groupId>
+                    <artifactId>jcuda-natives</artifactId>
+                    <version>0.8.0RC-windows-x86_64</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jcuda</groupId>
+                    <artifactId>jcublas-natives</artifactId>
+                    <version>0.8.0RC-windows-x86_64</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jcuda</groupId>
+                    <artifactId>jcudnn-natives</artifactId>
+                    <version>0.8.0RC-HOTFIX01-windows-x86_64</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>linux64</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.deephacks.lmdbjni</groupId>
+                    <artifactId>lmdbjni-linux64</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.jcuda</groupId>
+                    <artifactId>jcuda-natives</artifactId>
+                    <version>0.8.0RC-linux-x86_64</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jcuda</groupId>
+                    <artifactId>jcublas-natives</artifactId>
+                    <version>0.8.0RC-linux-x86_64</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jcuda</groupId>
+                    <artifactId>jcudnn-natives</artifactId>
+                    <version>0.8.0RC-linux-x86_64</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>osx64</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.deephacks.lmdbjni</groupId>
+                    <artifactId>lmdbjni-osx64</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
     <!--
-        local repo
+                 local repo
     -->
     <repositories>
         <repository>

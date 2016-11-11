@@ -17,7 +17,7 @@
 
     <dependencies>
         <!--
-            external dependencies
+                         external dependencies
         -->
         <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
         <dependency>
@@ -29,17 +29,13 @@
             <groupId>org.deephacks.lmdbjni</groupId>
             <artifactId>lmdbjni</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.deephacks.lmdbjni</groupId>
-            <artifactId>lmdbjni-linux64</artifactId>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
         <!--
-            local dependencies
+                         local dependencies
         -->
         <dependency>
             <groupId>org.jcuda</groupId>
@@ -59,4 +55,33 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>Win64</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.deephacks.lmdbjni</groupId>
+                    <artifactId>lmdbjni-win64</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>linux64</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.deephacks.lmdbjni</groupId>
+                    <artifactId>lmdbjni-linux64</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>Osx64</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.deephacks.lmdbjni</groupId>
+                    <artifactId>lmdbjni-osx64</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>
