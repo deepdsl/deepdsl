@@ -5,18 +5,28 @@ DeepDSL is a domain specific language embedded in Scala for writing deep convolu
 - DeepDSL program compiles into plain Java source program
 - The compiled Java source program uses JCuda to run on Nvidia GPU
 
-### Prerequisites:
-- To build the project: You just need to install the latest [Apache Maven]
+### Performance Benchmark
+
+Below is the runtime and memory performance comparsion between DeepDSL and Tensorflow / Caffe with a single NVIDIA Tesla K40c GPU. 
+
+<img src="benchmark/runtime_performance.png" width="600">
+
+<img src="benchmark/memory_performance.png" width="600"> 
+
+Please refer to our paper draft [DeepDSL] for full details. 
+
+## Run DeepDSL compiled programs
+- There are several compiled Java source program located at [src/main/java/deepdsl/gen/]. 
+- These programs train several well-known deep networks: Lenet, Alexnet, Overfeat, Googlenet, Vgg, and ResNet. 
+
+### Maven Prerequisites:
+- To build the project using Maven: You just need to install the latest [Apache Maven]
 - To run test cases and different network programs, you also need to have a [Nvidia CUDA] enabled GPU machine and installed 8.X version of [CUDA Toolkit 8.0] and [cuDNN 5] libraries
 
 ### Maven Build (Please execute the below in the root folder of the project)
 - Windows build: mvn -Pwin64 clean install
 - Linux build: mvn -Plinux64 clean install
 - OSX build: mvn -Posx64 clean install
-
-## Run DeepDSL compiled programs
-- There are several compiled Java source program located at [src/main/java/deepdsl/gen/]. 
-- These programs train several well-known deep networks: Lenet, Alexnet, Overfeat, Googlenet, Vgg, and ResNet. 
 
 ### Maven Run program (the below uses Alexnet as example, executions with other networks are similar)
 After Maven Build step, you can cd to the deepdsl-java folder and run the following based on your operating system:
@@ -27,19 +37,8 @@ After Maven Build step, you can cd to the deepdsl-java folder and run the follow
 
 ### IDE notes
 It appears IntelliJ can handle the dependencies correctly once you import the Maven project or simply pull the latest code. Eclipse, however, after importing Maven project, you may also need to right select deepdsl project -> Maven -> Update Project... -> Ok to force refreshing the dependencies, if you have updated from previous build. 
-  
 
-
-### Performance Benchmark
-Below is the runtime and memory performance comparsion between DeepDSL and Tensorflow / Caffe with a single NVIDIA Tesla K40c GPU. 
-
-<img src="benchmark/runtime_performance.png" width="600">
-
-<img src="benchmark/memory_performance.png" width="600"> 
-
-Please refer to our paper draft [DeepDSL] for full details. 
-
-### Adjust learning parameters
+## Adjust learning parameters
 - At the start of each file, there are some parameters you can adjust such as learn_rate and moment, as well as training iterations and test iterations. 
 - The batch size for Lenet is set at 500; for Alexnet, Overfeat, and Googlenet is 128; for Vgg and ResNet is set at 64.  
 - At this time, if you want to change batch size, you may want to regenerate the Java source file. Directly editing the Java source might easily miss a few places.
