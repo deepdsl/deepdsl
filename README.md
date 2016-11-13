@@ -37,8 +37,8 @@ submission to International Conference on Learning Representations (ICLR2017), T
 ### Performance Benchmark
 Below is the performance comparsion charts between DeepDSL and Tensorflow / Caffe in terms of memory and CPU on a server with a single GPU. Please refer to our paper above for full details. 
 
-- ![runtime benchmark](benchmark/runtime_performance.png =700x500)
-- ![memory benchmark](benchmark/memory_performance.png =700x500)
+- ![runtime benchmark](benchmark/runtime_performance.png)
+- ![memory benchmark](benchmark/memory_performance.png)
 
 ### Adjust learning parameters
 - At the start of each file, there are some parameters you can adjust such as learn_rate and moment, as well as training iterations and test iterations. 
