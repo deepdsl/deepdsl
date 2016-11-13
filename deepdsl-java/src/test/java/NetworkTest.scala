@@ -1,6 +1,5 @@
-package deepdsl.derivation 
-
 import deepdsl.analysis._
+import deepdsl.derivation._
 import deepdsl.layer._
 import deepdsl.optimization._
 import deepdsl.run._

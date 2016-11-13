@@ -4,7 +4,11 @@ DeepDSL is a domain specific language embedded in Scala for writing deep convolu
 - DeepDSL program compiles into plain Java source program
 - The compiled Java source program uses JCuda to run on Nvidia GPU
 
-### Maven Build
+### Prerequisites:
+- To build the project: You just need to install the latest [Apache Maven]
+- To run test cases and different network programs, you also need to have a [Nvidia CUDA] enabled GPU machine and installed 8.X version of [CUDA Toolkit 8.0] and [cuDNN 5] libraries
+
+### Maven Build (Please execute the below in the root folder of the project)
 - Windows build: mvn -Pwin64 clean install
 - Linux build: mvn -Plinux64 clean install
 - OSX build: mvn -Posx64 clean install
@@ -12,6 +16,13 @@ DeepDSL is a domain specific language embedded in Scala for writing deep convolu
 ## Run DeepDSL compiled programs
 - There are several compiled Java source program located at [src/main/java/deepdsl/gen/]. 
 - These programs train several well-known deep networks: Lenet, Alexnet, Overfeat, Googlenet, Vgg, and ResNet. 
+
+### Maven Run program (the below uses Alexnet as example, executions with other networks are similar)
+After Maven Build step, you can cd to the deepdsl-java folder and run the following based on your operating system:
+
+- Windows build: mvn -Pwin64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"
+- Linux build: mvn -Plinux64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"
+- OSX build: mvn -Posx64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"
 
 ### Adjust learning parameters
 - At the start of each file, there are some parameters you can adjust such as learn_rate and moment, as well as training iterations and test iterations. 
@@ -92,3 +103,9 @@ You can generate Java source for a particular network by running a Scala test pr
 [dataset/mnist]: <https://github.com/deepdsl/deepdsl/tree/master/dataset/mnist>
 [dataset/imagenet224/]: <https://github.com/deepdsl/deepdsl/tree/master/dataset/imagenet224/>
 
+[Apache Maven]: <https://maven.apache.org/download.cgi>
+
+[Nvidia CUDA]: <https://en.wikipedia.org/wiki/CUDA>
+
+[CUDA Toolkit 8.0]: <https://developer.nvidia.com/cuda-downloads>
+[cuDNN 5]: <https://developer.nvidia.com/cudnn>
