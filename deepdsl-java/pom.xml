@@ -13,7 +13,7 @@
 
     <dependencies>
         <!--
-                         internal dependencies
+        	internal dependencies
         -->
         <dependency>
             <groupId>deepdsl</groupId>
@@ -21,15 +21,12 @@
             <version>${project.version}</version>
         </dependency>
         <!--
-                         local dependencies
+        	local dependencies
         -->
         <dependency>
             <groupId>org.naokishibata.sleef</groupId>
             <artifactId>fastmath</artifactId>
         </dependency>
-        <!--
-                             test dependencies
-        -->
         <dependency>
             <groupId>deepdsl</groupId>
             <artifactId>deepdsl-compile</artifactId>

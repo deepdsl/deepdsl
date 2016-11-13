@@ -24,6 +24,9 @@ After Maven Build step, you can cd to the deepdsl-java folder and run the follow
 - Linux build: mvn -Plinux64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"
 - OSX build: mvn -Posx64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"
 
+### IDE notes
+It appears IntelliJ can handle the dependencies correctly once you import the Maven project or simply pull the latest code. Eclipse, however, after importing Maven project, you may also need to right select deepdsl project -> Maven -> Update Project... -> Ok to force refreshing the dependencies, if you have updated from previous build. 
+
 ### Adjust learning parameters
 - At the start of each file, there are some parameters you can adjust such as learn_rate and moment, as well as training iterations and test iterations. 
 - The batch size for Lenet is set at 500; for Alexnet, Overfeat, and Googlenet is 128; for Vgg and ResNet is set at 64.  
