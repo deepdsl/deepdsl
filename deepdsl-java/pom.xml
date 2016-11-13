@@ -27,6 +27,14 @@
             <groupId>org.naokishibata.sleef</groupId>
             <artifactId>fastmath</artifactId>
         </dependency>
+        <!--
+        	test dependencies
+        -->
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<scope>test</scope>
+		</dependency>
         <dependency>
             <groupId>deepdsl</groupId>
             <artifactId>deepdsl-compile</artifactId>

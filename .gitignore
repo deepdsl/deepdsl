@@ -7,6 +7,10 @@ deepdsl-java/target
 .settings
 .project
 .pydevproject
+deepdsl-common/.cache-main
+deepdsl-common/.cache-tests
+deepdsl-java/.cache-main
+deepdsl-java/.cache-tests
 src/main/java/deepdsl/gen/*
 dataset
 

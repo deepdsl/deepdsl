@@ -1,3 +1,5 @@
+package deepdsl
+
 import deepdsl.analysis._
 import deepdsl.derivation._
 import deepdsl.layer._
@@ -5,7 +7,7 @@ import deepdsl.optimization._
 import deepdsl.run._
 import org.junit.Test
 
-class NetworkTest {
+class TestNetwork {
   
   @Test
   def testResidualNN_cuda {   
