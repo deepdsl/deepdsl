@@ -27,18 +27,17 @@ After Maven Build step, you can cd to the deepdsl-java folder and run the follow
 
 ### IDE notes
 It appears IntelliJ can handle the dependencies correctly once you import the Maven project or simply pull the latest code. Eclipse, however, after importing Maven project, you may also need to right select deepdsl project -> Maven -> Update Project... -> Ok to force refreshing the dependencies, if you have updated from previous build. 
+  
 
-### Academic Reference
-We kindly ask you to refer the following paper in any publication/software mentioning DeepDSL:
-
-T. Zhao, X. Huang, and Y. Cao, "[DEEPDSL: A COMPILATION-BASED DOMAINSPECIFIC LANGUAGE FOR DEEP LEARNING]" in
-submission to International Conference on Learning Representations (ICLR2017), Toulon, France April, 2017
 
 ### Performance Benchmark
-Below is the performance comparsion charts between DeepDSL and Tensorflow / Caffe in terms of memory and CPU on a server with a single GPU. Please refer to our paper above for full details. 
+Below is the runtime and memory performance comparsion between DeepDSL and Tensorflow / Caffe with a single NVIDIA Tesla K40c GPU. 
 
-- ![runtime benchmark](benchmark/runtime_performance.png)
-- ![memory benchmark](benchmark/memory_performance.png)
+<img src="benchmark/runtime_performance.png" width="600">
+
+<img src="benchmark/memory_performance.png" width="600"> 
+
+Please refer to our paper draft [DeepDSL] for full details. 
 
 ### Adjust learning parameters
 - At the start of each file, there are some parameters you can adjust such as learn_rate and moment, as well as training iterations and test iterations. 
@@ -116,7 +115,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
     cudnn_gen.print(loop)                           // generate Java source code
 ```
 
-[DEEPDSL: A COMPILATION-BASED DOMAINSPECIFIC LANGUAGE FOR DEEP LEARNING]: <http://openreview.net/pdf?id=Bks8cPcxe>
+[DeepDSL]: <http://openreview.net/pdf?id=Bks8cPcxe>
 
 [TestNetwork.scala]: <https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/test/java/deepdsl/TestNetwork.scala>
 [LmdbFactory]: <https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/main/java/deepdsl/tensor/LmdbFactory.java>
