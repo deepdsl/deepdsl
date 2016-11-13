@@ -29,7 +29,7 @@ After Maven Build step, you can cd to the deepdsl-java folder and run the follow
 It appears IntelliJ can handle the dependencies correctly once you import the Maven project or simply pull the latest code. Eclipse, however, after importing Maven project, you may also need to right select deepdsl project -> Maven -> Update Project... -> Ok to force refreshing the dependencies, if you have updated from previous build. 
 
 ### Academic Reference
-We kindly ask you to refer the following paper in any publication/software mentioning PIR:
+We kindly ask you to refer the following paper in any publication/software mentioning DeepDSL:
 
 T. Zhao, X. Huang, and Y. Cao, "[DEEPDSL: A COMPILATION-BASED DOMAINSPECIFIC LANGUAGE FOR DEEP LEARNING]" in
 submission to International Conference on Learning Representations (ICLR2017), Toulon, France April, 2017
@@ -37,8 +37,8 @@ submission to International Conference on Learning Representations (ICLR2017), T
 ### Performance Benchmark
 Below is the performance comparsion charts between DeepDSL and Tensorflow / Caffe in terms of memory and CPU on a server with a single GPU. Please refer to our paper above for full details. 
 
-- ![runtime benchmark](benchmark/runtime_performance.png)
-- ![memory benchmark](benchmark/memory_performance.png)
+- ![runtime benchmark](benchmark/runtime_performance.png =700x500)
+- ![memory benchmark](benchmark/memory_performance.png =700x500)
 
 ### Adjust learning parameters
 - At the start of each file, there are some parameters you can adjust such as learn_rate and moment, as well as training iterations and test iterations. 
