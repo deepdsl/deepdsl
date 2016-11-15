@@ -61,8 +61,8 @@ There are a few util Python scripts under the folder src/main/python.
 Each program assumes a location for the training and test data. 
 
 - [Lenet.java] uses Mnist, which is assumed to be located at [dataset/mnist]
-- Programs such as [Alexnet.java] uses imagenet (as Lmdb database), which is assumed to be located at "[dataset/imagenet224/]ilsvrc12_train_lmdb" for training data and "[dataset/imagenet224/]ilsvrc12_val_lmdb" for testing data, where the image sizes are cropped to 224 x 224. Other image sizes should work since we would randomly cropped it to the right size. (But testing images will also be randomly cropped -- this might be fixed later). 
-- For Lmdb data source, users should edit the call to [LmdbFactory].getFactory in the generated Java source to change the max number of training images and test images. The current default is 6400 and 640 respectively.
+- Programs such as [Alexnet.java] uses imagenet (as Lmdb database), which is assumed to be located at "[dataset/imagenet/]ilsvrc12_train_lmdb" for training data and "[dataset/imagenet/]ilsvrc12_val_lmdb" for testing data, where the image sizes are cropped to 224 x 224. Other image sizes should work since we would randomly cropped the training images to the right size while cropping the testing images at center. 
+- For Lmdb data source, users may edit the call to [LmdbFactory].getFactory in the generated Java source to change the max number of training images and test images. The current default is 1000,000 and 10,000 respectively. 
 - The training and testing all use the same batch size. 
 
 ## Generate Java source
