@@ -1,9 +1,9 @@
 package deepdsl.cudnn;
 
-import java.util.Arrays;
-
-import org.junit.Test; 
 import deepdsl.tensor.JTensorFloat;
+import org.junit.Test;
+
+import java.util.Arrays;
 
 public class TestLRN {
 	@Test
@@ -28,7 +28,7 @@ public class TestLRN {
 		
 		JCudnnLRN lrn = new JCudnnLRN(dims, 5, 0.0001, 0.75);
 		
-		JCudaTensor y = lrn.forward(x); 
+		JCudaTensor y = lrn.forward(x);
 		JCudaTensor dy = new JCudaTensor(new JTensorFloat(new float[]{1, 1, 1, 1, 1, 1}, dims));
 		
 		JCudaTensor dx = lrn.backward(dy, y, x);

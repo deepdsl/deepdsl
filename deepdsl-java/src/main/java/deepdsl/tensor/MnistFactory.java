@@ -1,6 +1,9 @@
 package deepdsl.tensor;
 
-import deepdsl.data.*;
+import deepdsl.data.mnist.JDataSetLoader;
+import deepdsl.data.mnist.JDataSetMeta;
+import deepdsl.data.mnist.JImgDataSet;
+import deepdsl.data.mnist.JLabelDataSet;
 import deepdsl.util.ArithStats;
 
 import java.io.IOException;

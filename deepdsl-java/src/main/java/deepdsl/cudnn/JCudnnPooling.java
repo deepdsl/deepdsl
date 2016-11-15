@@ -8,7 +8,7 @@ import static jcuda.jcudnn.JCudnn.cudnnPoolingForward;
 import static jcuda.jcudnn.JCudnn.cudnnSetPoolingNdDescriptor; 
 import jcuda.Pointer;
 import jcuda.jcudnn.cudnnPoolingDescriptor;  
-import deepdsl.cudnn.config.pooling.PoolingType;
+import deepdsl.cudnn.config.PoolingType;
 import deepdsl.util.ArithStats;
 
 public class JCudnnPooling extends JCudaFunction {
@@ -28,9 +28,9 @@ public class JCudnnPooling extends JCudaFunction {
 		this(x_dims, window, window, 0);
 	}
 	public JCudnnPooling(int[] x_dims, int window, int stride, int padding) {
-		this(x_dims, window, stride, padding, PoolingType.MAX.tpe()); // default to max pooling
+		this(x_dims, window, stride, padding, PoolingType.MAX); // default to max pooling
 	}
-	public JCudnnPooling(int[] x_dims, int window, int stride, int padding, int poolType) { 
+	public JCudnnPooling(int[] x_dims, int window, int stride, int padding, PoolingType poolType) { 
 		this.window_array = new int[] {window, window};
 		this.stride_array = new int[] {stride, stride};
 		this.padding_array = new int[] {padding, padding}; // (x + window + padding - stride) % stride == 0
@@ -39,7 +39,7 @@ public class JCudnnPooling extends JCudaFunction {
 		checkError(cudnnCreatePoolingDescriptor(poolingDesc));
 		
 		checkError(cudnnSetPoolingNdDescriptor(poolingDesc,
-				poolType, nanOption, poolDimSize,
+				poolType.value(), nanOption, poolDimSize,
 				window_array, padding_array,
 				stride_array));
 		x_dptr = new JCudnnDescriptor(x_dims);

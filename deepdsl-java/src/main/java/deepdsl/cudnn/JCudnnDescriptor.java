@@ -4,14 +4,14 @@ package deepdsl.cudnn;
 import java.util.Arrays;
 import static deepdsl.cudnn.JCudaFunction.checkError;
 
-import deepdsl.cudnn.config.DataType;
+import deepdsl.cudnn.config.TensorDataType;
 import deepdsl.cudnn.config.TensorFormat;
 import jcuda.jcudnn.JCudnn;
 import jcuda.jcudnn.cudnnTensorDescriptor;
 
 public class JCudnnDescriptor {
-	static int dataType = DataType.FLOAT.tpe();
-	static int format = TensorFormat.NCHW.format();
+	static TensorDataType dataType = TensorDataType.FLOAT;
+	static TensorFormat format = TensorFormat.NCHW;
 	
 	cudnnTensorDescriptor descriptor;
 	
@@ -35,7 +35,7 @@ public class JCudnnDescriptor {
 		else {
 			throw new RuntimeException("Illegal dimensions for tensor descriptor: " + Arrays.toString(dims));
 		}
-		checkError(JCudnn.cudnnSetTensor4dDescriptor(this.descriptor, format, dataType, n, c, h, w));
+		checkError(JCudnn.cudnnSetTensor4dDescriptor(this.descriptor, format.value(), dataType.value(), n, c, h, w));
 	}
 	
 	JCudnnDescriptor(int[] dims, int channelStride) {
@@ -49,7 +49,7 @@ public class JCudnnDescriptor {
 		int n = dims[0], c = dims[1], h = dims[2], w = dims[3];
 		int wStride = 1, hStride = wStride * w, cStride = hStride * h, nStride = cStride * channelStride;
 		
-		checkError(JCudnn.cudnnSetTensor4dDescriptorEx(this.descriptor, dataType, n, c, h, w, nStride, cStride, hStride, wStride));
+		checkError(JCudnn.cudnnSetTensor4dDescriptorEx(this.descriptor, dataType.value(), n, c, h, w, nStride, cStride, hStride, wStride));
 	}
 	
 	void free() {

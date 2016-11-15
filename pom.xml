@@ -10,12 +10,11 @@
     <version>0.1-SNAPSHOT</version>
     <modules>
         <module>deepdsl-java</module>
-        <module>deepdsl-common</module>
     </modules>
 
     <properties>
         <junit.version>4.12</junit.version>
-        <deepdsl-compile.version>1.0</deepdsl-compile.version>
+        <deepdsl-compile.version>0.1</deepdsl-compile.version>
     </properties>
 
     <dependencyManagement>

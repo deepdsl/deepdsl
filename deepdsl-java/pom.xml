@@ -11,14 +11,47 @@
 
     <artifactId>deepdsl-java</artifactId>
 
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+    </properties>
+
     <dependencies>
         <!--
-        	internal dependencies
+            external dependencies
+        -->
+        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.deephacks.lmdbjni/lmdbjni -->
+        <dependency>
+            <groupId>org.deephacks.lmdbjni</groupId>
+            <artifactId>lmdbjni</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <!--
+            local dependencies
         -->
         <dependency>
-            <groupId>deepdsl</groupId>
-            <artifactId>deepdsl-common</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.jcuda</groupId>
+            <artifactId>jcudnn</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jcuda</groupId>
+            <artifactId>jcuda</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jcuda</groupId>
+            <artifactId>jcublas</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jcuda</groupId>
+            <artifactId>jcuda-vec</artifactId>
         </dependency>
         <!--
         	local dependencies
@@ -46,4 +79,34 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>Win64</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.deephacks.lmdbjni</groupId>
+                    <artifactId>lmdbjni-win64</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>linux64</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.deephacks.lmdbjni</groupId>
+                    <artifactId>lmdbjni-linux64</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>Osx64</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.deephacks.lmdbjni</groupId>
+                    <artifactId>lmdbjni-osx64</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

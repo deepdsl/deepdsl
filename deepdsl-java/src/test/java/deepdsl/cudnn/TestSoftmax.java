@@ -1,12 +1,10 @@
 package deepdsl.cudnn;
 
-import java.util.Arrays;
-
+import deepdsl.cudnn.config.SoftmaxAlgorithm;
+import deepdsl.tensor.JTensorFloat;
 import org.junit.Test;
 
-import deepdsl.cudnn.JCudaTensor;
-import deepdsl.cudnn.JCudnnSoftmax;
-import deepdsl.tensor.JTensorFloat;
+import java.util.Arrays;
 
 public class TestSoftmax {
 	@Test
@@ -16,7 +14,7 @@ public class TestSoftmax {
 		JTensorFloat t = new JTensorFloat(a, dims);
 		JCudaTensor x = new JCudaTensor(t);
 		
-		JCudnnSoftmax softmax = new JCudnnSoftmax(dims, 2);
+		JCudnnSoftmax softmax = new JCudnnSoftmax(dims, SoftmaxAlgorithm.LOG);
 		
 		JCudaTensor y = softmax.forward(x);
 		System.out.println(Arrays.toString(y.asArray()));
@@ -30,9 +28,9 @@ public class TestSoftmax {
 		JTensorFloat t = new JTensorFloat(a, dims);
 		JCudaTensor x = new JCudaTensor(t);
 		
-		JCudnnSoftmax softmax = new JCudnnSoftmax(dims, 2);
+		JCudnnSoftmax softmax = new JCudnnSoftmax(dims, SoftmaxAlgorithm.LOG);
 		
-		JCudaTensor y = softmax.forward(x); 
+		JCudaTensor y = softmax.forward(x);
 		JCudaTensor dy = new JCudaTensor(new JTensorFloat(c, dims));
 		
 		JCudaTensor dx = softmax.backward(dy, y);

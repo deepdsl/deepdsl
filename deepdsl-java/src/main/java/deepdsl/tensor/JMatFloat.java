@@ -19,39 +19,6 @@ public class JMatFloat extends JMat {
 		}
 	}
 
-	public JTensorFloat times(JMatFloat m) {
-		long begin = System.nanoTime();
-		int col1 = columnSize(), col2 = m.columnSize();
-		int row1 = array.length/col1, row2 = m.array.length/col2;
-		if(row1 != row2) {
-			throw new RuntimeException("Matrix dimensions do not match");
-		}
-
-		float[] ret = timesSequential(array, m.array, col1, col2, row1); 
-
-		ArithStats.timing("times", begin);
-		return new JTensorFloat(ret, addDim(dim, m.dim));
-	}
-
-	public static float[] timesSequential(float[] a, float[] b, int col1, int col2, int row) {
-		float[] ret = new float[col1*col2];
-
-		for(int i=0; i<col1; i++) {
-			int offset1 = i*row;
-
-			for(int j=0; j<col2; j++) {
-				int offset2 = j*row;
-				float x = 0;
-
-				for(int k=0; k<row; k++) {
-					x += a[offset1 + k] * b[offset2 + k];
-				}
-				ret[i*col2 + j] = x;
-			}
-		}
-		return ret;
-	}
-
 	public JTensorFloat max() {
 		long begin = System.nanoTime();
 		int col = columnSize();

@@ -1,10 +1,9 @@
 package deepdsl.cudnn;
 
-import java.util.Arrays;
-
+import deepdsl.tensor.JTensorFloat;
 import org.junit.Test;
 
-import deepdsl.tensor.JTensorFloat;
+import java.util.Arrays;
 
 public class TestConcat {
 	@Test

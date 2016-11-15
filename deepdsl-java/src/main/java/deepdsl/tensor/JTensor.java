@@ -2,27 +2,27 @@ package deepdsl.tensor;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Random;
+import java.util.Random; 
 
 public abstract class JTensor implements Serializable { 
 	private static final long serialVersionUID = 3474255477686160191L;
 	public final int[] dim;  
 
-	int columnIndex(int[] index) {
+	protected int columnIndex(int[] index) {
 		int k = 0;
 		for(int i=0; i<index.length; i++) { k = k*dim[i] + index[i]; } 
 		return k;
 	}
-	int strideAt(int dimPosFromLeft) {
+	protected int strideAt(int dimPosFromLeft) {
 		int ret = 1; 
 		for(int i=dimPosFromLeft; i<dim.length; i++) { ret *= dim[i]; }
 		return ret;
 	} 
-	JTensor(int[] dim) { 
+	protected JTensor(int[] dim) { 
 		this.dim = dim; 
 	} 
 
-	private static int size(int[] dim) {
+	public static int size(int[] dim) {
 		int size = 1;
 
 		for(int i=0; i<dim.length; i++) {

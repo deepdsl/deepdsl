@@ -1,14 +1,15 @@
 package deepdsl.cudnn;
 
-import static jcuda.jcudnn.JCudnn.*; 
+import deepdsl.cudnn.config.ConvolutionMode;
+import deepdsl.cudnn.config.ConvolutionPreference;
+import deepdsl.cudnn.config.ConvolutionType;
+import deepdsl.cudnn.config.TensorFormat;
+import deepdsl.util.ArithStats;
 import jcuda.Pointer;
 import jcuda.jcudnn.cudnnConvolutionDescriptor;
-import jcuda.jcudnn.cudnnFilterDescriptor; 
-import deepdsl.cudnn.config.TensorFormat;
-import deepdsl.cudnn.config.conv.ConvMode;
-import deepdsl.cudnn.config.conv.ConvPref;
-import deepdsl.cudnn.config.conv.ConvType;
-import deepdsl.util.ArithStats; 
+import jcuda.jcudnn.cudnnFilterDescriptor;
+
+import static jcuda.jcudnn.JCudnn.*;
 
 public class JCudnnConvolution extends JCudaFunction {
 	// limit = -1 unlimited workspace
@@ -22,8 +23,8 @@ public class JCudnnConvolution extends JCudaFunction {
 	private int[] padding_array =  new int[] { 0, 0 };;
 	private int[] stride_array = new int[] { 1, 1 }; // TODO: stride 1 for 2 dimensions?
 	private int[] upscale = new int[] { 1, 1 };
-	private int convType = ConvType.TwoD.tpe();
-	private int mode = ConvMode.CROSS_CORRELATION.mode();
+	private ConvolutionType convType = ConvolutionType.TwoD;
+	private ConvolutionMode mode = ConvolutionMode.CROSS_CORRELATION;
 	 
 	int[] x_dims, y_dims, w_dims, b_dims;
 	JCudnnDescriptor x_dptr, y_dptr, b_dptr;
@@ -50,12 +51,12 @@ public class JCudnnConvolution extends JCudaFunction {
 		checkError(cudnnCreateFilterDescriptor(filter_dptr));
 		checkError(cudnnCreateConvolutionDescriptor(convolv_dptr));
 		
-		checkError(cudnnSetFilter4dDescriptor(filter_dptr, JCudnnDescriptor.dataType, TensorFormat.NCHW.format(), 
+		checkError(cudnnSetFilter4dDescriptor(filter_dptr, JCudnnDescriptor.dataType.value(), TensorFormat.NCHW.value(), 
 				w_dims[0], w_dims[1], w_dims[2], w_dims[3])); 
 //		cudnnSetConvolution2dDescriptor(convDesc, padding[0], padding[1], stride[0], stride[1], upscale[0], upscale[1], mode); 
 		// TODO: why not use 2-d?
-		checkError(cudnnSetConvolutionNdDescriptor(convolv_dptr, convType, padding_array, stride_array, 
-				upscale, mode, JCudnnDescriptor.dataType));
+		checkError(cudnnSetConvolutionNdDescriptor(convolv_dptr, convType.value(), padding_array, stride_array, 
+				upscale, mode.value(), JCudnnDescriptor.dataType.value()));
 		
 		y_dims = new int[x_dims.length];
 		checkError(cudnnGetConvolutionNdForwardOutputDim(convolv_dptr, x_dptr.descriptor, filter_dptr, x_dims.length, y_dims));
@@ -74,18 +75,18 @@ public class JCudnnConvolution extends JCudaFunction {
 		int algoArray[] = {0};
 		checkError(cudnnGetConvolutionForwardAlgorithm(cudnnHandle, x_dptr.descriptor, filter_dptr, convolv_dptr, y_dptr.descriptor, 
 				limit != 0? 
-						(limit < 0? ConvPref.CUDNN_CONVOLUTION_FWD_PREFER_FASTEST : ConvPref.CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT)
-						: ConvPref.CUDNN_CONVOLUTION_FWD_NO_WORKSPACE, limit, algoArray));
+						(limit < 0? ConvolutionPreference.CUDNN_CONVOLUTION_FWD_PREFER_FASTEST : ConvolutionPreference.CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT)
+						: ConvolutionPreference.CUDNN_CONVOLUTION_FWD_NO_WORKSPACE, limit, algoArray));
 		forward_algorithm =  algoArray[0];  // 1 is the best
 		checkError(cudnnGetConvolutionBackwardDataAlgorithm(cudnnHandle, filter_dptr, y_dptr.descriptor, convolv_dptr, x_dptr.descriptor, 
 				limit != 0? 
-						(limit < 0? ConvPref.CUDNN_CONVOLUTION_BWD_DATA_PREFER_FASTEST : ConvPref.CUDNN_CONVOLUTION_BWD_DATA_SPECIFY_WORKSPACE_LIMIT)
-						: ConvPref.CUDNN_CONVOLUTION_BWD_DATA_NO_WORKSPACE, limit, algoArray));
+						(limit < 0? ConvolutionPreference.CUDNN_CONVOLUTION_BWD_DATA_PREFER_FASTEST : ConvolutionPreference.CUDNN_CONVOLUTION_BWD_DATA_SPECIFY_WORKSPACE_LIMIT)
+						: ConvolutionPreference.CUDNN_CONVOLUTION_BWD_DATA_NO_WORKSPACE, limit, algoArray));
 		backward_data_algorithm = algoArray[0]; // 0 is the best
 		checkError(cudnnGetConvolutionBackwardFilterAlgorithm(cudnnHandle, x_dptr.descriptor, y_dptr.descriptor, convolv_dptr, filter_dptr, 
 				limit != 0? 
-						(limit < 0? ConvPref.CUDNN_CONVOLUTION_BWD_FILTER_PREFER_FASTEST : ConvPref.CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT)
-						: ConvPref.CUDNN_CONVOLUTION_BWD_FILTER_NO_WORKSPACE, limit, algoArray));
+						(limit < 0? ConvolutionPreference.CUDNN_CONVOLUTION_BWD_FILTER_PREFER_FASTEST : ConvolutionPreference.CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT)
+						: ConvolutionPreference.CUDNN_CONVOLUTION_BWD_FILTER_NO_WORKSPACE, limit, algoArray));
 		backward_filter_algorithm =  algoArray[0]; // 1 is the best
 	}
 	

@@ -2,6 +2,7 @@ package deepdsl.cudnn;
 
 import static jcuda.jcudnn.JCudnn.cudnnActivationBackward;
 import static jcuda.jcudnn.JCudnn.cudnnActivationForward; 
+import deepdsl.cudnn.config.ActivationMode;
 import deepdsl.util.ArithStats;
 import jcuda.Pointer;
 import jcuda.jcudnn.JCudnn;
@@ -12,10 +13,10 @@ public class JCudnnActivation extends JCudaFunction {
 	cudnnActivationDescriptor activationDesc = new cudnnActivationDescriptor();
 	JCudnnDescriptor dptr;  
 	
-	public JCudnnActivation(int[] x_dims, int mode) {
+	public JCudnnActivation(int[] x_dims, ActivationMode mode) {
 		this.dptr = new JCudnnDescriptor(x_dims);
 		checkError(JCudnn.cudnnCreateActivationDescriptor(activationDesc));			 // 2nd argument: see ActivationMode class
-		checkError(JCudnn.cudnnSetActivationDescriptor(activationDesc, mode, 0, 7)); // 3rd argument: 0 means doesn not propagate NaN
+		checkError(JCudnn.cudnnSetActivationDescriptor(activationDesc, mode.value(), 0, 7)); // 3rd argument: 0 means doesn not propagate NaN
 																		 			 // 4th argument: the ceiling for clipped relu
 																		   			 //    7 works without gradient clipping
 	}

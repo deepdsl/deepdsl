@@ -27,7 +27,7 @@ class MemoryManager {
 			throw new RuntimeException("freeing unknown pointer");	
 		size_pointer_pairs.add(new Pair(pointerSizes.get(data), data));
 	} 
-
+	
 	Pointer alloc(int size) {
 		Pointer data;
 		Pair p = null;
@@ -179,7 +179,7 @@ public class JCudaTensor extends JCudaFunction {
 			memory.free(data);
 		}
 		ArithStats.cuda_timing("cuda free", begin);
-	}
+	} 
 	
 // NOT used
 	

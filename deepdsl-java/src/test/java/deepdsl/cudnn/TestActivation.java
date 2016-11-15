@@ -1,13 +1,10 @@
 package deepdsl.cudnn;
 
-import java.util.Arrays;
-
+import deepdsl.cudnn.config.ActivationMode;
+import deepdsl.tensor.JTensorFloat;
 import org.junit.Test;
 
-import deepdsl.cudnn.JCudaTensor;
-import deepdsl.cudnn.JCudnnActivation;
-import deepdsl.cudnn.config.activation.ActivationMode;
-import deepdsl.tensor.JTensorFloat;
+import java.util.Arrays;
 
 public class TestActivation {
 	@Test
@@ -17,7 +14,7 @@ public class TestActivation {
 		JTensorFloat t = new JTensorFloat(a, dims);
 		JCudaTensor x = new JCudaTensor(t);
 		
-		JCudnnActivation activation = new JCudnnActivation(dims, ActivationMode.RELU.mode());
+		JCudnnActivation activation = new JCudnnActivation(dims, ActivationMode.RELU);
 		
 		JCudaTensor y = activation.forward(x);
 		System.out.println(Arrays.toString(y.asArray()));
@@ -34,7 +31,7 @@ public class TestActivation {
 		JTensorFloat t = new JTensorFloat(a, dims);
 		JCudaTensor x = new JCudaTensor(t);
 		
-		JCudnnActivation activation = new JCudnnActivation(dims, ActivationMode.TANH.mode());
+		JCudnnActivation activation = new JCudnnActivation(dims, ActivationMode.TANH);
 		
 		JCudaTensor y = activation.forward(x);
 		System.out.println(Arrays.toString(y.asArray()));
@@ -53,9 +50,9 @@ public class TestActivation {
 		JTensorFloat t = new JTensorFloat(a, dims);
 		JCudaTensor x = new JCudaTensor(t);
 		
-		JCudnnActivation activation = new JCudnnActivation(dims, ActivationMode.TANH.mode());
+		JCudnnActivation activation = new JCudnnActivation(dims, ActivationMode.TANH);
 		
-		JCudaTensor y = activation.forward(x); 
+		JCudaTensor y = activation.forward(x);
 		JCudaTensor dy = new JCudaTensor(new JTensorFloat(new float[]{1, 1, 1, 1, 1, 1}, dims));
 		
 		JCudaTensor dx = activation.backward(dy, y, x);
