@@ -124,8 +124,8 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 [Lenet.java]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Lenet.java>
 [Alexnet.java]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Alexnet.java>
 
-[dataset/mnist]: <https://github.com/deepdsl/deepdsl/tree/master/dataset/mnist>
-[dataset/imagenet/]: <https://github.com/deepdsl/deepdsl/tree/master/dataset/imagenet/>
+[dataset/mnist]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/mnist>
+[dataset/imagenet/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/imagenet/>
 
 [Apache Maven]: <https://maven.apache.org/download.cgi>
 
