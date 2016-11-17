@@ -19,6 +19,30 @@ public class JMatFloat extends JMat {
 		}
 	}
 
+	public int[] maxIndex() { 
+		int col = columnSize();
+		int[] a = new int[col];
+		int row = array.length / col; 
+		
+		for(int i=0; i<col; i++) {
+			a[i] = maxIndex(array, i*row, row);
+		}
+		return a;
+	}
+	private static int maxIndex(float[] array, int start, int size) {
+		int ret = 0;
+		float max = array[start];
+		
+		for(int i=1; i<size; i++) {
+			int j = start + i;
+			if(max < array[j]) {
+				max = array[j];
+				ret = i;
+			}
+		} 
+		return ret;
+	}
+	
 	public JTensorFloat max() {
 		long begin = System.nanoTime();
 		int col = columnSize();

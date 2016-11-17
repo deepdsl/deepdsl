@@ -77,6 +77,42 @@ public class JTensorFloat extends JTensor {
 		return new JCudaTensor(this);
 	}
 	
+	public int[] prediction() { 
+		if(dim.length != 2) {
+			throw new RuntimeException(String.format("Error in calculating prediction. "
+					+ "This tensor dim: %s. is not 2 dimensional", Arrays.toString(dim)));
+		}
+		return new JMatFloat(array, new int[] {dim[0]}).maxIndex();
+	}
+	
+	// top "top" prediction accuracy 
+	public float precision(JTensorFloat y_label, int top) {
+		if(dim.length != 2 || y_label.dim.length != 1 || dim[0] != y_label.dim[0]) {
+			throw new RuntimeException(String.format("Error in calculating precision. "
+					+ "This tensor dim: %s. Y tensor dim: %s", Arrays.toString(dim), Arrays.toString(y_label.dim)));
+		}
+		
+		int batch = dim[0];
+		int k = dim[1]; 
+		float[] copy = new float[k];
+		float count = 0;
+		
+		for(int i=0; i<batch; i++) {
+			float truth = array[(int) y_label.array[i]];
+			
+			System.arraycopy(array, i*k, copy, 0, k);
+			Arrays.sort(copy);
+			
+			for(int j=0; j<top; j++) { 
+				if(copy[k - j - 1] == truth) {
+					count = count + 1;
+					break;
+				}
+			}
+		}
+		return count/batch;
+	} 
+	
 	// for debugging 
 	String print(int i) {
 		i = i < array.length? i : array.length;
