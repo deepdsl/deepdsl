@@ -3,7 +3,7 @@
 DeepDSL is a domain specific language embedded in Scala for writing deep convolutional neural network applications.
 
 - DeepDSL program compiles into plain Java source program
-- The compiled Java source program run on Nvidia GPU by leveraging JCuda (http://jcuda.org/) to interact with the Nvidia CUDA library
+- The compiled Java source program run on Nvidia GPU by leveraging [JCuda] to interact with the Nvidia CUDA library
 
 ## Performance Benchmark
 
@@ -43,12 +43,13 @@ After the previous Maven Build step, you can cd to the deepdsl-java folder and r
   to force refreshing the dependencies, if you have updated from previous build
 
 ## Data handling utils
-There are two util Python scripts under the folder src/main/python.
+There are two util Python scripts under the folder src/main/python (both should be run from the deepdsl project root folder).
 
 - mnist_data_handler.py: download the mnist data and unzip to the `dataset/mnist` folder
      - to run: `python src/main/python/mnist_data_handler.py`, this will pull and extract the mnist dataset to `dataset/mnist`
 - imagenet_data_selector.py: to select given number of images of given number of categories from the original imagenet data
-     - to run: `python src/main/python/imagenet_data_selector.py` and then follow the on-screen instructions to add the desired parameters
+     - to run: `python src/main/python/imagenet_data_selector.py` and then follow the on-screen instructions to apply the desired parameters and run again
+        - For example, `python imagenet_data_selector.py ~/data/ILSVRC2012_img_train ~/data/temp 5 50 0.3 0.2`, which selects from 5 categories (50 images per catetory) from ~/data/ILSVRC2012_img_train folder and stores selected images to ~/data/temp folder, where 30% are stored as validation dataset and 20% are stored as test dataset
 
 ### Default location for training and testing data
 Each program assumes a location for the training and test data. 
@@ -122,6 +123,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 
 ```
 
+[JCuda]: <http://jcuda.org/>
 [DeepDSL]: <http://openreview.net/pdf?id=Bks8cPcxe>
 
 [TestNetwork.scala]: <https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/test/java/deepdsl/TestNetwork.scala>
