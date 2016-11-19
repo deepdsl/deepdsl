@@ -3,11 +3,11 @@
 DeepDSL is a domain specific language embedded in Scala for writing deep convolutional neural network applications.
 
 - DeepDSL program compiles into plain Java source program
-- The compiled Java source program uses JCuda to run on Nvidia GPU
+- The compiled Java source program run on Nvidia GPU by leveraging JCuda (http://jcuda.org/) to interact with the Nvidia CUDA library
 
-### Performance Benchmark
+## Performance Benchmark
 
-Below is the runtime and memory performance comparsion between DeepDSL and Tensorflow / Caffe with a single NVIDIA Tesla K40c GPU. 
+Below we list the runtime and memory performance comparison between DeepDSL, Tensorflow, and Caffe with a single Nvidia Tesla K40c GPU. 
 
 <img src="benchmark/runtime_performance.png" width="600">
 
@@ -17,56 +17,62 @@ Please refer to our paper draft [DeepDSL] for full details.
 
 ## Run DeepDSL compiled programs
 - There are several compiled Java source program located at [src/main/java/deepdsl/gen/]. 
-- These programs train several well-known deep networks: Lenet, Alexnet, Overfeat, Googlenet, Vgg, and ResNet. 
+- These programs train and test on several well-known deep networks: Lenet, Alexnet, Overfeat, Googlenet, Vgg, and ResNet. 
 
 ### Maven Prerequisites:
 - To build the project using Maven: You just need to install the latest [Apache Maven]
-- To run test cases and different network programs, you also need to have a [Nvidia CUDA] enabled GPU machine and installed 8.X version of [CUDA Toolkit 8.0] and [cuDNN 5] libraries
+- To run test cases and compiled code for different networks, you also need to: 
+  - have a [Nvidia CUDA] enabled GPU machine  
+  - install 8.X version of [CUDA Toolkit 8.0] and [cuDNN 5] libraries
 
-### Maven Build (Please execute the below in the root folder of the project)
+### Maven Build (Need to be executed the below in the root folder of the project)
 - Windows build: mvn -Pwin64 clean install
 - Linux build: mvn -Plinux64 clean install
-- OSX build: mvn -Posx64 clean install
+- OSX build: mvn -Posx64 clean install (This will be for trial purpose only as there're no CUDA based GPU on Mac systems yet)
 
-### Maven Run program (the below uses Alexnet as example, executions with other networks are similar)
-After Maven Build step, you can cd to the deepdsl-java folder and run the following based on your operating system:
+### Maven Run (the below uses Alexnet as example, executions with other networks are similar)
+After the previous Maven Build step, you can cd to the deepdsl-java folder and run the following based on your operating system:
 
 - Windows build: mvn -Pwin64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"
 - Linux build: mvn -Plinux64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"
 - OSX build: mvn -Posx64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"
 
 ### IDE notes
-It appears IntelliJ can handle the dependencies correctly once you import the Maven project or simply pull the latest code. Eclipse, however, after importing Maven project, you may also need to right select deepdsl project -> Maven -> Update Project... -> Ok to force refreshing the dependencies, if you have updated from previous build. 
+- It appears IntelliJ can handle the dependencies correctly once you import the Maven project or simply pull the latest code
+- Eclipse, however, after importing Maven project, you may also need to right select deepdsl project -> Maven -> Update Project... -> Ok 
+  to force refreshing the dependencies, if you have updated from previous build
 
-## Adjust learning parameters
-- At the start of each file, there are some parameters you can adjust such as learn_rate and moment, as well as training iterations and test iterations. 
-- The batch size for Lenet is set at 500; for Alexnet, Overfeat, and Googlenet is 128; for Vgg and ResNet is set at 64.  
-- At this time, if you want to change batch size, you may want to regenerate the Java source file. Directly editing the Java source might easily miss a few places.
+## Data handling utils
+There are two util Python scripts under the folder src/main/python.
 
-### Default location for trained parameters
-Each program will save trained parameters (as serialized Java objects) into a default directory. 
-
-- It will try to load saved parameters (if exist) from the same directory as well. 
-- For example, [Lenet.java] will try to use the directory "[src/main/java/deepdsl/gen/]lenet" and [Alexnet.java] will try to use the directory "[src/main/java/deepdsl/gen/]alexnet" 
-- You can customize this in the source file directly.
-
-### Data handling utils
-There are a few util Python scripts under the folder src/main/python.
-
-- mnist_data_handler.py: download the mnist data and unzip to the dataset/mnist folder
-- imagenet_data_selector.py: to select given number of images of given number of categories from the oroginal imagenet data
-- proto_handler.py: generate the Google proto stub files using the provided proto file
+- mnist_data_handler.py: download the mnist data and unzip to the `dataset/mnist` folder
+     - to run: `python src/main/python/mnist_data_handler.py`, this will pull and extract the mnist dataset to `dataset/mnist`
+- imagenet_data_selector.py: to select given number of images of given number of categories from the original imagenet data
+     - to run: `python src/main/python/imagenet_data_selector.py` and then follow the on-screen instructions to add the desired parameters
 
 ### Default location for training and testing data
 Each program assumes a location for the training and test data. 
 
-- [Lenet.java] uses Mnist, which is assumed to be located at [dataset/mnist]
-- Programs such as [Alexnet.java] uses imagenet (as Lmdb database), which is assumed to be located at "[dataset/imagenet/]ilsvrc12_train_lmdb" for training data and "[dataset/imagenet/]ilsvrc12_val_lmdb" for testing data, where the image sizes are cropped to 224 x 224. Other image sizes should work since we would randomly cropped the training images to the right size while cropping the testing images at center. 
+- [Lenet.java] uses Mnist, which is assumed to be located at [dataset/mnist] (please use the script described in the previous section to prepare the dataset).
+- Other programs such as [Alexnet.java] use imagenet (as Lmdb database), which is assumed to be located at "[dataset/imagenet/]ilsvrc12_train_lmdb" for training data and "[dataset/imagenet/]ilsvrc12_val_lmdb" for testing data, where the image sizes are cropped to 224 x 224. Other image sizes should also work since we would randomly cropped the training images to the right size while cropping the testing images at center.
+     - Users currently may use tools like [Caffe's imagenet script] `examples/imagenet/create_imagenet.sh` to create the lmdb data from the original Imagenet dataset. Please hang tight, we are adding our scripts soon so you don't have to resort to outside reources.
 - For Lmdb data source, users may edit the call to [LmdbFactory].getFactory in the generated Java source to change the max number of training images and test images. The current default is 1000,000 and 10,000 respectively. 
 - The training and testing all use the same batch size. 
 
+## Adjust learning parameters
+- At the start of each file, there are some parameters you can adjust such as learn_rate and moment, as well as training iterations and test iterations
+- The batch size for Lenet is set at 500; for Alexnet, Overfeat, and Googlenet is 128; for Vgg and ResNet is set at 64
+- At this time, if you want to change batch size, you may want to regenerate the Java source file. Directly editing the Java source might easily miss a few places
+
+### Default location for trained parameters
+Each program will save the trained model, the set of trained parameters (as serialized Java objects), into a default directory. 
+
+- It will try to load saved parameters (if exist) from the same directory when you train the same program again next time
+- For example, [Alexnet.java] will try to use the directory "[src/main/java/deepdsl/gen/]alexnet" 
+- You can customize this in the source file directly.
+
 ## Generate Java source
-You can generate Java source for a particular network by running a Scala test program [TestNetwork.scala]. While this is a Scala program, you can run it as a JUnit test to generate Java source code, which will be written to [src/main/java/deepdsl/gen/]. 
+You can generate Java source for a particular network by running the Scala test program [TestNetwork.scala]. While this is a Scala program, you can run it as a JUnit test to generate Java source code, the generated code will be written to [src/main/java/deepdsl/gen/]. 
 You can run this directly from IDE, or cd to deepdsl-java folder and run from command line as the below after modifying the code and executing Maven build.
 
 - e.g. Overfeat cuda code generation: mvn -Plinux64 test -Dtest=TestNetwork#testOverfeat_cuda (this will generate a new Overfeat.java that overwrites the existing one in [src/main/java/deepdsl/gen/]).
@@ -74,6 +80,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 ### Example: generate Lenet
 
 ```scala
+    
     val K = 10 // # of classes 
     val N = 500; val C = 1; val N1 = 28; val N2 = 28 // batch size, channel, and x/y size
  
@@ -112,6 +119,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
     parameterMemory(loop)                           // print out the parameter memory use
     workspaceMemory(loop.train)                     // print out the GPU (convolution) workspace use (only if you has Nvidia GPU)
     cudnn_gen.print(loop)                           // generate Java source code
+
 ```
 
 [DeepDSL]: <http://openreview.net/pdf?id=Bks8cPcxe>
@@ -126,6 +134,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 
 [dataset/mnist]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/mnist>
 [dataset/imagenet/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/imagenet/>
+[Caffe's imagenet script]: <https://github.com/BVLC/caffe/tree/master/examples/imagenet>
 
 [Apache Maven]: <https://maven.apache.org/download.cgi>
 
