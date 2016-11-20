@@ -11,7 +11,7 @@ import deepdsl.tensor.JTensor;
 import deepdsl.tensor.JTensorFloat;
 import deepdsl.util.ArithStats;
 import jcuda.jcudnn.cudnnBatchNormMode; 
-import static jcuda.jcudnn.JCudnn.cudnnBatchNormalizationForwardInference;
+//import static jcuda.jcudnn.JCudnn.cudnnBatchNormalizationForwardInference;
 import static jcuda.jcudnn.JCudnn.cudnnBatchNormalizationForwardTraining;
 import static jcuda.jcudnn.JCudnn.cudnnBatchNormalizationBackward;
 
@@ -22,7 +22,7 @@ class RunningMeanVariance implements Serializable {
 	int dim;
 
 	public RunningMeanVariance(int dim) {
-		this(dim, 0, JTensor.constFloat(0, dim), JTensor.constFloat(0, dim));
+		this(dim, 0, JTensor.constFloat(0, dim), JTensor.constFloat(1, dim));
 	}
 	
 	public RunningMeanVariance(int dim, int forward_count, JTensorFloat mean, JTensorFloat variance) {
@@ -80,6 +80,8 @@ public class JCudnnBatchNorm extends JCudaFunction {
 	int[] x_dims, norm_dims; 
 	String path;
 	
+	boolean trained = false;
+	
 	public JCudnnBatchNorm(String path, int[] x_dims) {
 		this.x_dims = x_dims;
 		this.path = path;
@@ -91,17 +93,17 @@ public class JCudnnBatchNorm extends JCudaFunction {
 		running_mean = running.mean.asJCudaTensor();
 		running_variance = running.variance.asJCudaTensor();
 		forward_count = running.forward_count;
-		
-//		running_mean = new JCudaTensor(norm_dims);
-//		running_variance = new JCudaTensor(norm_dims);
+		 
 		saved_mean = new JCudaTensor(norm_dims);
 		saved_inv_variance = new JCudaTensor(norm_dims);
 	}
 
 	public void free() {
-		new RunningMeanVariance(x_dims[1], forward_count, running_mean.asJTensor(), running_variance.asJTensor())
-		.save(path);
-		
+		if (trained) {
+			new RunningMeanVariance(x_dims[1], forward_count, 
+					running_mean.asJTensor(), running_variance.asJTensor())
+			.save(path);
+		}
 		this.x_dptr.free();
 		this.norm_dptr.free();
 		this.running_mean.free();
@@ -113,11 +115,22 @@ public class JCudnnBatchNorm extends JCudaFunction {
 	public JCudaTensor forward_inference(JCudaTensor x, JCudaTensor scale, JCudaTensor bias) {
 		JCudaTensor y = new JCudaTensor(x_dims);
 
-		int ret = cudnnBatchNormalizationForwardInference(cudnnHandle, mode, one, zero,
-				x_dptr.descriptor, x.getData(), x_dptr.descriptor, y.getData(),
-				norm_dptr.descriptor, scale.getData(), bias.getData(),
-				running_mean.getData(), running_variance.getData(), epsilon);
-
+		// FIXME: batch norm forward inference is incorrect! Don't know whether it is due to JCudnn or CUDNN itself.
+		
+//		int ret = cudnnBatchNormalizationForwardInference(cudnnHandle, mode, one, zero,
+//				x_dptr.descriptor, x.getData(), x_dptr.descriptor, y.getData(),
+//				norm_dptr.descriptor, scale.getData(), bias.getData(),
+//				running_mean.getData(), running_variance.getData(), epsilon);
+		
+		double factor = 0; // don't change running mean or variance
+				
+		// Use forward training. A little slower but works. 
+		int ret = cudnnBatchNormalizationForwardTraining(cudnnHandle, mode, one, zero, 
+				x_dptr.descriptor, x.getData(), x_dptr.descriptor, y.getData(), 
+				norm_dptr.descriptor, scale.getData(), bias.getData(), 
+				factor, running_mean.getData(), running_variance.getData(), 
+				epsilon, saved_mean.getData(), saved_inv_variance.getData());
+		
 		checkError(ret);
 
 		return y;
@@ -139,6 +152,8 @@ public class JCudnnBatchNorm extends JCudaFunction {
 		checkError(ret);
 
 		ArithStats.cuda_timing("batch norm forward", begin);
+		
+		trained = true;
 
 		return y;
 	}

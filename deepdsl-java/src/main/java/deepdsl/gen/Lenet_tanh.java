@@ -44,8 +44,8 @@ public class Lenet_tanh {
 	static JCudaTensor x27 = JTensor.constFloat(0.0f, 50).load(network_dir + "/B2").asJCudaTensor();
 	// B3
 	static JCudaTensor x58 = JTensor.constFloat(0.0f, 10).load(network_dir + "/B3").asJCudaTensor();
-	// Precision((Sum(X605) / |500|))
-	static float x238;
+	// Precision(Accuracy(1))
+	static float x221;
 	// Theta
 	static JCudaTensor x54 = JTensor.constFloat(0.0f, 10, 500).load(network_dir + "/Theta").asJCudaTensor();
 	// W
@@ -97,13 +97,13 @@ public class Lenet_tanh {
 			x3 = x6.image;
 			x4 = x6.label;
 
-			// val X8 = Cuda(X)
+			// val X172 = Cuda(X)
 			JCudaTensor x7;
 			JTensorFloat x8;
 			x8 = x3;
 			x7 = x8.asJCudaTensor();
 
-			// val X9 = Convolv(1,0)(X8,W1,B1)
+			// val X173 = Convolv(1,0)(X172,W1,B1)
 			JCudaTensor x9;
 			JCudaTensor x10, x11, x12;
 			x10 = x7;
@@ -111,20 +111,20 @@ public class Lenet_tanh {
 			x12 = x14;
 			x9 = x15.forward(x10, x11, x12);
 
-			// val X10 = Pooling(2,2,0,true)(X9)
+			// val X174 = Pooling(2,2,0,true)(X173)
 			JCudaTensor x16;
 			JCudaTensor x17;
 			x17 = x9;
 			x16 = x18.forward(x17);
 
-			// val X11 = Tanh()(X10.copy)
+			// val X175 = Tanh()(X174.copy)
 			JCudaTensor x19;
 			JCudaTensor x20;
 			x20 = x16;
 			x20 = x20.clone();
 			x19 = x21.forward(x20);
 
-			// val X12 = Convolv(1,0)(X11,W2,B2)
+			// val X176 = Convolv(1,0)(X175,W2,B2)
 			JCudaTensor x22;
 			JCudaTensor x23, x24, x25;
 			x23 = x19;
@@ -132,20 +132,20 @@ public class Lenet_tanh {
 			x25 = x27;
 			x22 = x28.forward(x23, x24, x25);
 
-			// val X13 = Pooling(2,2,0,true)(X12)
+			// val X177 = Pooling(2,2,0,true)(X176)
 			JCudaTensor x29;
 			JCudaTensor x30;
 			x30 = x22;
 			x29 = x31.forward(x30);
 
-			// val X14 = Tanh()(X13.copy)
+			// val X178 = Tanh()(X177.copy)
 			JCudaTensor x32;
 			JCudaTensor x33;
 			x33 = x29;
 			x33 = x33.clone();
 			x32 = x34.forward(x33);
 
-			// val X15 = (X14[1><3])(i | @) * (W)(j | @)
+			// val X179 = (X178[1><3])(i | @) * (W)(j | @)
 			JCudaTensor x35;
 			JCudaMatrix x36;
 			JCudaMatrix x37;
@@ -159,20 +159,20 @@ public class Lenet_tanh {
 			x37 = x40.asMatrix(1, true);
 			x35 = x36.times(x37);
 
-			// val X17 = (X15 + (i) => B)
+			// val X181 = (X179 + (i) => B)
 			JCudaTensor x42;
 			JCudaTensor x43, x44;
 			x43 = x35;
 			x44 = x45;
 			x42 = x44.copy(500, x43);
 
-			// val X18 = Tanh()(X17)
+			// val X182 = Tanh()(X181)
 			JCudaTensor x46;
 			JCudaTensor x47;
 			x47 = x42;
 			x46 = x48.forward(x47);
 
-			// val X19 = (X18)(i | @) * (Theta)(j | @)
+			// val X183 = (X182)(i | @) * (Theta)(j | @)
 			JCudaTensor x49;
 			JCudaMatrix x50;
 			JCudaMatrix x51;
@@ -184,38 +184,38 @@ public class Lenet_tanh {
 			x51 = x53.asMatrix(1, true);
 			x49 = x50.times(x51);
 
-			// val X21 = (X19 + (i) => B3)
+			// val X185 = (X183 + (i) => B3)
 			JCudaTensor x55;
 			JCudaTensor x56, x57;
 			x56 = x49;
 			x57 = x58;
 			x55 = x57.copy(500, x56);
 
-			// val X22 = Softmax()(X21)
+			// val X186 = Softmax()(X185)
 			JCudaTensor x59;
 			JCudaTensor x60;
 			x60 = x55;
 			x59 = x61.forward(x60);
 
-			// Dealloc(X21)
+			// Dealloc(X185)
 			JCudaTensor x62;
 			x62 = x55;
 			x62.free();
 
-			// val X23 = Cuda(Indicator(Y, 10))
+			// val X187 = Cuda(Indicator(Y, 10))
 			JCudaTensor x63;
 			JTensorFloat x64;
 			x64 = x4.asIndicator(10);
 			x63 = x64.asJCudaTensor();
 
-			// val X24 = Log X22.copy
+			// val X188 = Log X186.copy
 			JCudaTensor x65;
 			JCudaTensor x66;
 			x66 = x59;
 			x66 = x66.clone();
 			x65 = x66.log();
 
-			// val X54 = 1/(X22.copy)
+			// val X94 = 1/(X186.copy)
 			JCudaTensor x67;
 			JCudaTensor x68;
 			float x69;
@@ -224,7 +224,7 @@ public class Lenet_tanh {
 			x69 = -1;
 			x67 = x68.pow(x69);
 
-			// Cost(((0 - (X23 . X24)) / |500|))
+			// Cost(((0 - (X187 . X188)) / |500|))
 			float x70;
 			float x71;
 			float x72;
@@ -239,12 +239,12 @@ public class Lenet_tanh {
 			System.out.println(x5 + " " + x70);
 			if (Float.isNaN(x70)) { System.exit(-1); }
 
-			// Dealloc(X24)
+			// Dealloc(X188)
 			JCudaTensor x76;
 			x76 = x65;
 			x76.free();
 
-			// val X55 = X23.copy .* X54
+			// val X95 = X187.copy .* X94
 			JCudaTensor x77;
 			JCudaTensor x78, x79;
 			x78 = x63;
@@ -252,17 +252,17 @@ public class Lenet_tanh {
 			x79 = x67;
 			x77 = x78.times_i(x79);
 
-			// Dealloc(X54)
+			// Dealloc(X94)
 			JCudaTensor x80;
 			x80 = x67;
 			x80.free();
 
-			// Dealloc(X23)
+			// Dealloc(X187)
 			JCudaTensor x81;
 			x81 = x63;
 			x81.free();
 
-			// val X56 = - X55
+			// val X96 = - X95
 			JCudaTensor x82;
 			JCudaTensor x83;
 			float x84;
@@ -270,7 +270,7 @@ public class Lenet_tanh {
 			x84 = -1;
 			x82 = x83.times_i(x84);
 
-			// val X57 = (X56 / |500|)
+			// val X97 = (X96 / |500|)
 			JCudaTensor x85;
 			JCudaTensor x86;
 			float x87;
@@ -280,99 +280,99 @@ public class Lenet_tanh {
 			x87 = 1 / x88;
 			x85 = x86.times_i(x87);
 
-			// val X73 = X57 * d_Softmax()(X22)/d_X21
+			// val X113 = X97 * d_Softmax()(X186)/d_X185
 			JCudaTensor x89;
 			JCudaTensor x90, x91;
 			x90 = x85;
 			x91 = x59;
 			x89 = x61.backward(x90, x91);
 
-			// Dealloc(X57)
+			// Dealloc(X97)
 			JCudaTensor x92;
 			x92 = x85;
 			x92.free();
 
-			// Dealloc(X22)
+			// Dealloc(X186)
 			JCudaTensor x93;
 			x93 = x59;
 			x93.free();
 
-			// val m3 = (i30) => Theta[@, i30]
+			// val m1 = (i115) => Theta[@, i115]
 			JCudaMatrix x94;
 			JCudaTensor x95;
 			x95 = x54;
 			x94 = x95.asMatrix(1, false);
 
-			// val X153 = (X73)(i29 | @) * m3
-			JCudaTensor x96;
-			JCudaMatrix x97;
-			JCudaMatrix x98;
-			JCudaTensor x99;
-			x99 = x89;
-			x97 = x99.asMatrix(1, true);
-			x98 = x94;
-			x96 = x97.times(x98);
+			// val m6 = (i16) => X113[@, i16]
+			JCudaMatrix x96;
+			JCudaTensor x97;
+			x97 = x89;
+			x96 = x97.asMatrix(1, false);
 
-			// val m1 = (i19) => X73[@, i19]
+			// val X124 = (X113)(i114 | @) * m1
+			JCudaTensor x98;
+			JCudaMatrix x99;
 			JCudaMatrix x100;
 			JCudaTensor x101;
 			x101 = x89;
-			x100 = x101.asMatrix(1, false);
+			x99 = x101.asMatrix(1, true);
+			x100 = x94;
+			x98 = x99.times(x100);
 
-			// val m2 = (i20) => X18[@, i20]
+			// val m7 = (i17) => X182[@, i17]
 			JCudaMatrix x102;
 			JCudaTensor x103;
 			x103 = x46;
 			x102 = x103.asMatrix(1, false);
 
-			// Theta <~~ m1 * m2
+			// B3 <~~ Sum(m6)
 			float x104, x105;
 			x104 = lrn_rate_1;
 			x105 = 1;
 			JCudaMatrix x106;
-			JCudaMatrix x107;
-			x106 = x100;
-			x107 = x102;
-			x106.times(x107, x54, x104, x105);
+			x106 = x96;
+			x106.sum(x58, x104, x105);
 
-			// B3 <~~ Sum(m1)
-			float x108, x109;
-			x108 = lrn_rate_1;
-			x109 = 1;
+			// Theta <~~ m6 * m7
+			float x107, x108;
+			x107 = lrn_rate_1;
+			x108 = 1;
+			JCudaMatrix x109;
 			JCudaMatrix x110;
-			x110 = x100;
-			x110.sum(x58, x108, x109);
+			x109 = x96;
+			x110 = x102;
+			x109.times(x110, x54, x107, x108);
 
-			// Dealloc(X73)
+			// Dealloc(X113)
 			JCudaTensor x111;
 			x111 = x89;
 			x111.free();
 
-			// val X155 = X153 * d_Tanh()(X18)/d_X17
+			// val X126 = X124 * d_Tanh()(X182)/d_X181
 			JCudaTensor x112;
 			JCudaTensor x113, x114;
-			x113 = x96;
+			x113 = x98;
 			x114 = x46;
 			x112 = x48.backward(x113, x114);
 
-			// Dealloc(X18)
+			// Dealloc(X182)
 			JCudaTensor x115;
 			x115 = x46;
 			x115.free();
 
-			// val m4 = (i34) => W[@, i34]
+			// val m2 = (i119) => W[@, i119]
 			JCudaMatrix x116;
 			JCudaTensor x117;
 			x117 = x41;
 			x116 = x117.asMatrix(1, false);
 
-			// val m12 = (i137) => X155[@, i137]
+			// val m8 = (i25) => X126[@, i25]
 			JCudaMatrix x118;
 			JCudaTensor x119;
 			x119 = x112;
 			x118 = x119.asMatrix(1, false);
 
-			// val m13 = (i138) => X14[1><3][@, i138]
+			// val m9 = (i26) => X178[1><3][@, i26]
 			JCudaMatrix x120;
 			JCudaTensor x121;
 			JCudaTensor x122;
@@ -380,7 +380,7 @@ public class Lenet_tanh {
 			x121 = x122.flatten(1, new int[]{50, 4, 4});
 			x120 = x121.asMatrix(1, false);
 
-			// val X156 = (X155)(i33 | @) * m4
+			// val X127 = (X126)(i118 | @) * m2
 			JCudaTensor x123;
 			JCudaMatrix x124;
 			JCudaMatrix x125;
@@ -390,7 +390,7 @@ public class Lenet_tanh {
 			x125 = x116;
 			x123 = x124.times(x125);
 
-			// W <~~ m12 * m13
+			// W <~~ m8 * m9
 			float x127, x128;
 			x127 = lrn_rate_1;
 			x128 = 1;
@@ -400,7 +400,7 @@ public class Lenet_tanh {
 			x130 = x120;
 			x129.times(x130, x41, x127, x128);
 
-			// B <~~ Sum(m12)
+			// B <~~ Sum(m8)
 			float x131, x132;
 			x131 = lrn_rate_1;
 			x132 = 1;
@@ -408,12 +408,12 @@ public class Lenet_tanh {
 			x133 = x118;
 			x133.sum(x45, x131, x132);
 
-			// Dealloc(X155)
+			// Dealloc(X126)
 			JCudaTensor x134;
 			x134 = x112;
 			x134.free();
 
-			// val X158 = X156[1<>3] * d_Tanh()(X14)/d_X13
+			// val X129 = X127[1<>3] * d_Tanh()(X178)/d_X177
 			JCudaTensor x135;
 			JCudaTensor x136, x137;
 			JCudaTensor x138;
@@ -422,12 +422,12 @@ public class Lenet_tanh {
 			x137 = x32;
 			x135 = x34.backward(x136, x137);
 
-			// Dealloc(X14)
+			// Dealloc(X178)
 			JCudaTensor x139;
 			x139 = x32;
 			x139.free();
 
-			// val X160 = X158 * d_Pooling(2,2,0,true)(X13,X12)/d_X12
+			// val X131 = X129 * d_Pooling(2,2,0,true)(X177,X176)/d_X176
 			JCudaTensor x140;
 			JCudaTensor x141, x142, x143;
 			x141 = x135;
@@ -435,22 +435,22 @@ public class Lenet_tanh {
 			x143 = x22;
 			x140 = x31.backward(x141, x142, x143);
 
-			// Dealloc(X158)
+			// Dealloc(X129)
 			JCudaTensor x144;
 			x144 = x135;
 			x144.free();
 
-			// Dealloc(X13)
+			// Dealloc(X177)
 			JCudaTensor x145;
 			x145 = x29;
 			x145.free();
 
-			// Dealloc(X12)
+			// Dealloc(X176)
 			JCudaTensor x146;
 			x146 = x22;
 			x146.free();
 
-			// B2 <~~ X160 * d_Convolv(1,0)()/d_B2
+			// B2 <~~ X131 * d_Convolv(1,0)()/d_B2
 			float x147, x148;
 			x147 = lrn_rate_1;
 			x148 = 1;
@@ -458,14 +458,14 @@ public class Lenet_tanh {
 			x149 = x140;
 			x28.backward_bias(x149, x27, x147, x148);
 
-			// val X161 = X160 * d_Convolv(1,0)(W2)/d_X11
+			// val X132 = X131 * d_Convolv(1,0)(W2)/d_X175
 			JCudaTensor x150;
 			JCudaTensor x151, x152;
 			x151 = x140;
 			x152 = x26;
 			x150 = x28.backward_data(x151, x152);
 
-			// W2 <~~ X160 * d_Convolv(1,0)(X11)/d_W2
+			// W2 <~~ X131 * d_Convolv(1,0)(X175)/d_W2
 			float x153, x154;
 			x153 = lrn_rate_1;
 			x154 = 1;
@@ -474,24 +474,24 @@ public class Lenet_tanh {
 			x156 = x19;
 			x28.backward_filter(x155, x156, x26, x153, x154);
 
-			// Dealloc(X160)
+			// Dealloc(X131)
 			JCudaTensor x157;
 			x157 = x140;
 			x157.free();
 
-			// val X163 = X161 * d_Tanh()(X11)/d_X10
+			// val X134 = X132 * d_Tanh()(X175)/d_X174
 			JCudaTensor x158;
 			JCudaTensor x159, x160;
 			x159 = x150;
 			x160 = x19;
 			x158 = x21.backward(x159, x160);
 
-			// Dealloc(X11)
+			// Dealloc(X175)
 			JCudaTensor x161;
 			x161 = x19;
 			x161.free();
 
-			// val X165 = X163 * d_Pooling(2,2,0,true)(X10,X9)/d_X9
+			// val X136 = X134 * d_Pooling(2,2,0,true)(X174,X173)/d_X173
 			JCudaTensor x162;
 			JCudaTensor x163, x164, x165;
 			x163 = x158;
@@ -499,22 +499,22 @@ public class Lenet_tanh {
 			x165 = x9;
 			x162 = x18.backward(x163, x164, x165);
 
-			// Dealloc(X163)
+			// Dealloc(X134)
 			JCudaTensor x166;
 			x166 = x158;
 			x166.free();
 
-			// Dealloc(X10)
+			// Dealloc(X174)
 			JCudaTensor x167;
 			x167 = x16;
 			x167.free();
 
-			// Dealloc(X9)
+			// Dealloc(X173)
 			JCudaTensor x168;
 			x168 = x9;
 			x168.free();
 
-			// W1 <~~ X165 * d_Convolv(1,0)(X8)/d_W1
+			// W1 <~~ X136 * d_Convolv(1,0)(X172)/d_W1
 			float x169, x170;
 			x169 = lrn_rate_1;
 			x170 = 1;
@@ -523,12 +523,12 @@ public class Lenet_tanh {
 			x172 = x7;
 			x15.backward_filter(x171, x172, x13, x169, x170);
 
-			// Dealloc(X8)
+			// Dealloc(X172)
 			JCudaTensor x173;
 			x173 = x7;
 			x173.free();
 
-			// B1 <~~ X165 * d_Convolv(1,0)()/d_B1
+			// B1 <~~ X136 * d_Convolv(1,0)()/d_B1
 			float x174, x175;
 			x174 = lrn_rate_1;
 			x175 = 1;
@@ -536,7 +536,7 @@ public class Lenet_tanh {
 			x176 = x162;
 			x15.backward_bias(x176, x14, x174, x175);
 
-			// Dealloc(X165)
+			// Dealloc(X136)
 			JCudaTensor x177;
 			x177 = x162;
 			x177.free();
@@ -551,13 +551,13 @@ public class Lenet_tanh {
 			x3 = x6.image;
 			x4 = x6.label;
 
-			// val X587 = Cuda(X)
+			// val X189 = Cuda(X)
 			JCudaTensor x178;
 			JTensorFloat x179;
 			x179 = x3;
 			x178 = x179.asJCudaTensor();
 
-			// val X588 = Convolv(1,0)(X587,W1,B1)
+			// val X190 = Convolv(1,0)(X189,W1,B1)
 			JCudaTensor x180;
 			JCudaTensor x181, x182, x183;
 			x181 = x178;
@@ -565,29 +565,29 @@ public class Lenet_tanh {
 			x183 = x14;
 			x180 = x15.forward(x181, x182, x183);
 
-			// Dealloc(X587)
+			// Dealloc(X189)
 			JCudaTensor x184;
 			x184 = x178;
 			x184.free();
 
-			// val X589 = Pooling(2,2,0,true)(X588)
+			// val X191 = Pooling(2,2,0,true)(X190)
 			JCudaTensor x185;
 			JCudaTensor x186;
 			x186 = x180;
 			x185 = x18.forward(x186);
 
-			// Dealloc(X588)
+			// Dealloc(X190)
 			JCudaTensor x187;
 			x187 = x180;
 			x187.free();
 
-			// val X590 = Tanh()(X589)
+			// val X192 = Tanh()(X191)
 			JCudaTensor x188;
 			JCudaTensor x189;
 			x189 = x185;
 			x188 = x21.forward(x189);
 
-			// val X591 = Convolv(1,0)(X590,W2,B2)
+			// val X193 = Convolv(1,0)(X192,W2,B2)
 			JCudaTensor x190;
 			JCudaTensor x191, x192, x193;
 			x191 = x188;
@@ -595,29 +595,29 @@ public class Lenet_tanh {
 			x193 = x27;
 			x190 = x28.forward(x191, x192, x193);
 
-			// Dealloc(X590)
+			// Dealloc(X192)
 			JCudaTensor x194;
 			x194 = x188;
 			x194.free();
 
-			// val X592 = Pooling(2,2,0,true)(X591)
+			// val X194 = Pooling(2,2,0,true)(X193)
 			JCudaTensor x195;
 			JCudaTensor x196;
 			x196 = x190;
 			x195 = x31.forward(x196);
 
-			// Dealloc(X591)
+			// Dealloc(X193)
 			JCudaTensor x197;
 			x197 = x190;
 			x197.free();
 
-			// val X593 = Tanh()(X592)
+			// val X195 = Tanh()(X194)
 			JCudaTensor x198;
 			JCudaTensor x199;
 			x199 = x195;
 			x198 = x34.forward(x199);
 
-			// val X594 = (X593[1><3])(i | @) * (W)(j | @)
+			// val X196 = (X195[1><3])(i | @) * (W)(j | @)
 			JCudaTensor x200;
 			JCudaMatrix x201;
 			JCudaMatrix x202;
@@ -631,25 +631,25 @@ public class Lenet_tanh {
 			x202 = x205.asMatrix(1, true);
 			x200 = x201.times(x202);
 
-			// Dealloc(X593)
+			// Dealloc(X195)
 			JCudaTensor x206;
 			x206 = x198;
 			x206.free();
 
-			// val X596 = (X594 + (i) => B)
+			// val X198 = (X196 + (i) => B)
 			JCudaTensor x207;
 			JCudaTensor x208, x209;
 			x208 = x200;
 			x209 = x45;
 			x207 = x209.copy(500, x208);
 
-			// val X597 = Tanh()(X596)
+			// val X199 = Tanh()(X198)
 			JCudaTensor x210;
 			JCudaTensor x211;
 			x211 = x207;
 			x210 = x48.forward(x211);
 
-			// val X598 = (X597)(i | @) * (Theta)(j | @)
+			// val X200 = (X199)(i | @) * (Theta)(j | @)
 			JCudaTensor x212;
 			JCudaMatrix x213;
 			JCudaMatrix x214;
@@ -661,89 +661,36 @@ public class Lenet_tanh {
 			x214 = x216.asMatrix(1, true);
 			x212 = x213.times(x214);
 
-			// Dealloc(X597)
+			// Dealloc(X199)
 			JCudaTensor x217;
 			x217 = x210;
 			x217.free();
 
-			// val X600 = (X598 + (i) => B3)
+			// val X202 = (X200 + (i) => B3)
 			JCudaTensor x218;
 			JCudaTensor x219, x220;
 			x219 = x212;
 			x220 = x58;
 			x218 = x220.copy(500, x219);
 
-			// val X601 = Cuda(Indicator(Y, 10))
-			JCudaTensor x221;
-			JTensorFloat x222;
-			x222 = x4.asIndicator(10);
-			x221 = x222.asJCudaTensor();
-
-			// val X602 = X601 .* X600
+			// Precision(Accuracy(1))
+			float x222;
 			JCudaTensor x223;
-			JCudaTensor x224, x225;
-			x224 = x221;
+			JTensorFloat x224;
+			x223 = x218;
+			x224 = x4;
+			x222 = x223.accuracy(x224, 1);
+			System.out.println(x5 + " test precision "  + x222);
+			x221 += x222;
+
+			// Dealloc(X202)
+			JCudaTensor x225;
 			x225 = x218;
-			x223 = x224.times_i(x225);
-
-			// val X603 = Sum((X602)(i14 | @))
-			JCudaTensor x226;
-			JCudaMatrix x227;
-			JCudaTensor x228;
-			x228 = x223;
-			x227 = x228.asMatrix(1, true);
-			x226 = x227.sum();
-
-			// Dealloc(X602)
-			JCudaTensor x229;
-			x229 = x223;
-			x229.free();
-
-			// val X604 = Max((X600)(i14 | @))
-			JCudaTensor x230;
-			JCudaMatrix x231;
-			JCudaTensor x232;
-			x232 = x218;
-			x231 = x232.asMatrix(1, true);
-			x230 = x231.max();
-
-			// Dealloc(X600)
-			JCudaTensor x233;
-			x233 = x218;
-			x233.free();
-
-			// val X605 = 1{X603 == X604}
-			JCudaTensor x234;
-			JCudaTensor x235, x236;
-			x235 = x226;
-			x236 = x230;
-			x234 = x235.eq(x236);
-
-			// Dealloc(X604)
-			JCudaTensor x237;
-			x237 = x230;
-			x237.free();
-
-			// Precision((Sum(X605) / |500|))
-			float x239;
-			float x240;
-			float x241;
-			JCudaTensor x242;
-			x242 = x234;
-			x240 = x242.sum();
-			x241 = 500;
-			x239 = x240 / x241;
-			System.out.println(x5 + " test precision "  + x239);
-			x238 += x239;
-
-			// Dealloc(X605)
-			JCudaTensor x243;
-			x243 = x234;
-			x243.free();
+			x225.free();
 
 		}
 		System.out.println();
-		System.out.println("average precision: " + x238/10);
+		System.out.println("average precision: " + x221/10);
 		System.out.println(); 
 	}
 

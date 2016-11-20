@@ -86,7 +86,7 @@ public class JTensorFloat extends JTensor {
 	}
 	
 	// top "top" prediction accuracy 
-	public float precision(JTensorFloat y_label, int top) {
+	public float accuracy(JTensorFloat y_label, int top) {
 		if(dim.length != 2 || y_label.dim.length != 1 || dim[0] != y_label.dim[0]) {
 			throw new RuntimeException(String.format("Error in calculating precision. "
 					+ "This tensor dim: %s. Y tensor dim: %s", Arrays.toString(dim), Arrays.toString(y_label.dim)));
@@ -98,9 +98,10 @@ public class JTensorFloat extends JTensor {
 		float count = 0;
 		
 		for(int i=0; i<batch; i++) {
-			float truth = array[(int) y_label.array[i]];
-			
+
 			System.arraycopy(array, i*k, copy, 0, k);
+			float truth = copy[(int) y_label.array[i]];
+			
 			Arrays.sort(copy);
 			
 			for(int j=0; j<top; j++) { 

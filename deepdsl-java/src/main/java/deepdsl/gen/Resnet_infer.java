@@ -22,9 +22,9 @@ public class Resnet_infer {
 	// (BatchNorm(1_bn),List(List(64, 64, 112, 112), List(1, 64, 1, 1), List(1, 64, 1, 1)))
 	static JCudnnBatchNorm x21 = new JCudnnBatchNorm(network_dir + "/1_bn", new int[]{64,64,112,112});
 	// (BatchNorm(2a1_bn),List(List(64, 256, 55, 55), List(1, 256, 1, 1), List(1, 256, 1, 1)))
-	static JCudnnBatchNorm x51 = new JCudnnBatchNorm(network_dir + "/2a1_bn", new int[]{64,256,55,55});
+	static JCudnnBatchNorm x59 = new JCudnnBatchNorm(network_dir + "/2a1_bn", new int[]{64,256,55,55});
 	// (BatchNorm(2a2_a_bn),List(List(64, 64, 55, 55), List(1, 64, 1, 1), List(1, 64, 1, 1)))
-	static JCudnnBatchNorm x59 = new JCudnnBatchNorm(network_dir + "/2a2_a_bn", new int[]{64,64,55,55});
+	static JCudnnBatchNorm x51 = new JCudnnBatchNorm(network_dir + "/2a2_a_bn", new int[]{64,64,55,55});
 	// (BatchNorm(2a2_b_bn),List(List(64, 64, 55, 55), List(1, 64, 1, 1), List(1, 64, 1, 1)))
 	static JCudnnBatchNorm x78 = new JCudnnBatchNorm(network_dir + "/2a2_b_bn", new int[]{64,64,55,55});
 	// (BatchNorm(2a2_c_bn),List(List(64, 256, 55, 55), List(1, 256, 1, 1), List(1, 256, 1, 1)))
@@ -68,9 +68,9 @@ public class Resnet_infer {
 	// (BatchNorm(3d_c_bn),List(List(64, 512, 28, 28), List(1, 512, 1, 1), List(1, 512, 1, 1)))
 	static JCudnnBatchNorm x459 = new JCudnnBatchNorm(network_dir + "/3d_c_bn", new int[]{64,512,28,28});
 	// (BatchNorm(4a1_bn),List(List(64, 1024, 14, 14), List(1, 1024, 1, 1), List(1, 1024, 1, 1)))
-	static JCudnnBatchNorm x490 = new JCudnnBatchNorm(network_dir + "/4a1_bn", new int[]{64,1024,14,14});
+	static JCudnnBatchNorm x498 = new JCudnnBatchNorm(network_dir + "/4a1_bn", new int[]{64,1024,14,14});
 	// (BatchNorm(4a2_a_bn),List(List(64, 256, 14, 14), List(1, 256, 1, 1), List(1, 256, 1, 1)))
-	static JCudnnBatchNorm x498 = new JCudnnBatchNorm(network_dir + "/4a2_a_bn", new int[]{64,256,14,14});
+	static JCudnnBatchNorm x490 = new JCudnnBatchNorm(network_dir + "/4a2_a_bn", new int[]{64,256,14,14});
 	// (BatchNorm(4a2_b_bn),List(List(64, 256, 14, 14), List(1, 256, 1, 1), List(1, 256, 1, 1)))
 	static JCudnnBatchNorm x517 = new JCudnnBatchNorm(network_dir + "/4a2_b_bn", new int[]{64,256,14,14});
 	// (BatchNorm(4a2_c_bn),List(List(64, 1024, 14, 14), List(1, 1024, 1, 1), List(1, 1024, 1, 1)))
@@ -152,13 +152,13 @@ public class Resnet_infer {
 	// (Convolv(1,1),List(List(64, 64, 55, 55), List(64, 64, 3, 3), List(64)))
 	static JCudnnConvolution x70 = new JCudnnConvolution(new int[]{64,64,55,55},new int[]{64,64,3,3},new int[]{64}, 1, 1);
 	// (Convolv(2,0),List(List(64, 1024, 14, 14), List(2048, 1024, 1, 1), List(2048)))
-	static JCudnnConvolution x835 = new JCudnnConvolution(new int[]{64,1024,14,14},new int[]{2048,1024,1,1},new int[]{2048}, 2, 0);
+	static JCudnnConvolution x842 = new JCudnnConvolution(new int[]{64,1024,14,14},new int[]{2048,1024,1,1},new int[]{2048}, 2, 0);
 	// (Convolv(2,0),List(List(64, 1024, 14, 14), List(512, 1024, 1, 1), List(512)))
-	static JCudnnConvolution x842 = new JCudnnConvolution(new int[]{64,1024,14,14},new int[]{512,1024,1,1},new int[]{512}, 2, 0);
+	static JCudnnConvolution x835 = new JCudnnConvolution(new int[]{64,1024,14,14},new int[]{512,1024,1,1},new int[]{512}, 2, 0);
 	// (Convolv(2,0),List(List(64, 256, 55, 55), List(128, 256, 1, 1), List(128)))
-	static JCudnnConvolution x227 = new JCudnnConvolution(new int[]{64,256,55,55},new int[]{128,256,1,1},new int[]{128}, 2, 0);
+	static JCudnnConvolution x234 = new JCudnnConvolution(new int[]{64,256,55,55},new int[]{128,256,1,1},new int[]{128}, 2, 0);
 	// (Convolv(2,0),List(List(64, 256, 55, 55), List(512, 256, 1, 1), List(512)))
-	static JCudnnConvolution x234 = new JCudnnConvolution(new int[]{64,256,55,55},new int[]{512,256,1,1},new int[]{512}, 2, 0);
+	static JCudnnConvolution x227 = new JCudnnConvolution(new int[]{64,256,55,55},new int[]{512,256,1,1},new int[]{512}, 2, 0);
 	// (Convolv(2,0),List(List(64, 512, 28, 28), List(1024, 512, 1, 1), List(1024)))
 	static JCudnnConvolution x482 = new JCudnnConvolution(new int[]{64,512,28,28},new int[]{1024,512,1,1},new int[]{1024}, 2, 0);
 	// (Convolv(2,0),List(List(64, 512, 28, 28), List(256, 512, 1, 1), List(256)))
@@ -198,17 +198,17 @@ public class Resnet_infer {
 	// 1_cv_W
 	static JCudaTensor x11 = JTensor.randomFloat(-0.11664237f, 0.11664237f, 64, 3, 7, 7).load(network_dir + "/1_cv_W").asJCudaTensor();
 	// 2a1_bn_bias
-	static JCudaTensor x50 = JTensor.constFloat(0.0f, 1, 256, 1, 1).load(network_dir + "/2a1_bn_bias").asJCudaTensor();
+	static JCudaTensor x58 = JTensor.constFloat(0.0f, 1, 256, 1, 1).load(network_dir + "/2a1_bn_bias").asJCudaTensor();
 	// 2a1_bn_scale
-	static JCudaTensor x49 = JTensor.constFloat(1.0f, 1, 256, 1, 1).load(network_dir + "/2a1_bn_scale").asJCudaTensor();
+	static JCudaTensor x57 = JTensor.constFloat(1.0f, 1, 256, 1, 1).load(network_dir + "/2a1_bn_scale").asJCudaTensor();
 	// 2a1_cv_B
 	static JCudaTensor x35 = JTensor.constFloat(0.0f, 256).asJCudaTensor();
 	// 2a1_cv_W
 	static JCudaTensor x34 = JTensor.randomFloat(-0.17677669f, 0.17677669f, 256, 64, 1, 1).load(network_dir + "/2a1_cv_W").asJCudaTensor();
 	// 2a2_a_bn_bias
-	static JCudaTensor x58 = JTensor.constFloat(0.0f, 1, 64, 1, 1).load(network_dir + "/2a2_a_bn_bias").asJCudaTensor();
+	static JCudaTensor x50 = JTensor.constFloat(0.0f, 1, 64, 1, 1).load(network_dir + "/2a2_a_bn_bias").asJCudaTensor();
 	// 2a2_a_bn_scale
-	static JCudaTensor x57 = JTensor.constFloat(1.0f, 1, 64, 1, 1).load(network_dir + "/2a2_a_bn_scale").asJCudaTensor();
+	static JCudaTensor x49 = JTensor.constFloat(1.0f, 1, 64, 1, 1).load(network_dir + "/2a2_a_bn_scale").asJCudaTensor();
 	// 2a2_a_cv_B
 	static JCudaTensor x42 = JTensor.constFloat(0.0f, 64).asJCudaTensor();
 	// 2a2_a_cv_W
@@ -282,17 +282,17 @@ public class Resnet_infer {
 	// 3a1_bn_scale
 	static JCudaTensor x248 = JTensor.constFloat(1.0f, 1, 512, 1, 1).load(network_dir + "/3a1_bn_scale").asJCudaTensor();
 	// 3a1_cv_B
-	static JCudaTensor x233 = JTensor.constFloat(0.0f, 512).asJCudaTensor();
+	static JCudaTensor x226 = JTensor.constFloat(0.0f, 512).asJCudaTensor();
 	// 3a1_cv_W
-	static JCudaTensor x232 = JTensor.randomFloat(-0.088388346f, 0.088388346f, 512, 256, 1, 1).load(network_dir + "/3a1_cv_W").asJCudaTensor();
+	static JCudaTensor x225 = JTensor.randomFloat(-0.088388346f, 0.088388346f, 512, 256, 1, 1).load(network_dir + "/3a1_cv_W").asJCudaTensor();
 	// 3a2_a_bn_bias
 	static JCudaTensor x241 = JTensor.constFloat(0.0f, 1, 128, 1, 1).load(network_dir + "/3a2_a_bn_bias").asJCudaTensor();
 	// 3a2_a_bn_scale
 	static JCudaTensor x240 = JTensor.constFloat(1.0f, 1, 128, 1, 1).load(network_dir + "/3a2_a_bn_scale").asJCudaTensor();
 	// 3a2_a_cv_B
-	static JCudaTensor x226 = JTensor.constFloat(0.0f, 128).asJCudaTensor();
+	static JCudaTensor x233 = JTensor.constFloat(0.0f, 128).asJCudaTensor();
 	// 3a2_a_cv_W
-	static JCudaTensor x225 = JTensor.randomFloat(-0.088388346f, 0.088388346f, 128, 256, 1, 1).load(network_dir + "/3a2_a_cv_W").asJCudaTensor();
+	static JCudaTensor x232 = JTensor.randomFloat(-0.088388346f, 0.088388346f, 128, 256, 1, 1).load(network_dir + "/3a2_a_cv_W").asJCudaTensor();
 	// 3a2_b_bn_bias
 	static JCudaTensor x268 = JTensor.constFloat(0.0f, 1, 128, 1, 1).load(network_dir + "/3a2_b_bn_bias").asJCudaTensor();
 	// 3a2_b_bn_scale
@@ -382,17 +382,17 @@ public class Resnet_infer {
 	// 3d_c_cv_W
 	static JCudaTensor x450 = JTensor.randomFloat(-0.125f, 0.125f, 512, 128, 1, 1).load(network_dir + "/3d_c_cv_W").asJCudaTensor();
 	// 4a1_bn_bias
-	static JCudaTensor x489 = JTensor.constFloat(0.0f, 1, 1024, 1, 1).load(network_dir + "/4a1_bn_bias").asJCudaTensor();
+	static JCudaTensor x497 = JTensor.constFloat(0.0f, 1, 1024, 1, 1).load(network_dir + "/4a1_bn_bias").asJCudaTensor();
 	// 4a1_bn_scale
-	static JCudaTensor x488 = JTensor.constFloat(1.0f, 1, 1024, 1, 1).load(network_dir + "/4a1_bn_scale").asJCudaTensor();
+	static JCudaTensor x496 = JTensor.constFloat(1.0f, 1, 1024, 1, 1).load(network_dir + "/4a1_bn_scale").asJCudaTensor();
 	// 4a1_cv_B
 	static JCudaTensor x481 = JTensor.constFloat(0.0f, 1024).asJCudaTensor();
 	// 4a1_cv_W
 	static JCudaTensor x480 = JTensor.randomFloat(-0.0625f, 0.0625f, 1024, 512, 1, 1).load(network_dir + "/4a1_cv_W").asJCudaTensor();
 	// 4a2_a_bn_bias
-	static JCudaTensor x497 = JTensor.constFloat(0.0f, 1, 256, 1, 1).load(network_dir + "/4a2_a_bn_bias").asJCudaTensor();
+	static JCudaTensor x489 = JTensor.constFloat(0.0f, 1, 256, 1, 1).load(network_dir + "/4a2_a_bn_bias").asJCudaTensor();
 	// 4a2_a_bn_scale
-	static JCudaTensor x496 = JTensor.constFloat(1.0f, 1, 256, 1, 1).load(network_dir + "/4a2_a_bn_scale").asJCudaTensor();
+	static JCudaTensor x488 = JTensor.constFloat(1.0f, 1, 256, 1, 1).load(network_dir + "/4a2_a_bn_scale").asJCudaTensor();
 	// 4a2_a_cv_B
 	static JCudaTensor x474 = JTensor.constFloat(0.0f, 256).asJCudaTensor();
 	// 4a2_a_cv_W
@@ -538,17 +538,17 @@ public class Resnet_infer {
 	// 5a1_bn_scale
 	static JCudaTensor x848 = JTensor.constFloat(1.0f, 1, 2048, 1, 1).load(network_dir + "/5a1_bn_scale").asJCudaTensor();
 	// 5a1_cv_B
-	static JCudaTensor x834 = JTensor.constFloat(0.0f, 2048).asJCudaTensor();
+	static JCudaTensor x841 = JTensor.constFloat(0.0f, 2048).asJCudaTensor();
 	// 5a1_cv_W
-	static JCudaTensor x833 = JTensor.randomFloat(-0.044194173f, 0.044194173f, 2048, 1024, 1, 1).load(network_dir + "/5a1_cv_W").asJCudaTensor();
+	static JCudaTensor x840 = JTensor.randomFloat(-0.044194173f, 0.044194173f, 2048, 1024, 1, 1).load(network_dir + "/5a1_cv_W").asJCudaTensor();
 	// 5a2_a_bn_bias
 	static JCudaTensor x857 = JTensor.constFloat(0.0f, 1, 512, 1, 1).load(network_dir + "/5a2_a_bn_bias").asJCudaTensor();
 	// 5a2_a_bn_scale
 	static JCudaTensor x856 = JTensor.constFloat(1.0f, 1, 512, 1, 1).load(network_dir + "/5a2_a_bn_scale").asJCudaTensor();
 	// 5a2_a_cv_B
-	static JCudaTensor x841 = JTensor.constFloat(0.0f, 512).asJCudaTensor();
+	static JCudaTensor x834 = JTensor.constFloat(0.0f, 512).asJCudaTensor();
 	// 5a2_a_cv_W
-	static JCudaTensor x840 = JTensor.randomFloat(-0.044194173f, 0.044194173f, 512, 1024, 1, 1).load(network_dir + "/5a2_a_cv_W").asJCudaTensor();
+	static JCudaTensor x833 = JTensor.randomFloat(-0.044194173f, 0.044194173f, 512, 1024, 1, 1).load(network_dir + "/5a2_a_cv_W").asJCudaTensor();
 	// 5a2_b_bn_bias
 	static JCudaTensor x876 = JTensor.constFloat(0.0f, 1, 512, 1, 1).load(network_dir + "/5a2_b_bn_bias").asJCudaTensor();
 	// 5a2_b_bn_scale
@@ -928,13 +928,13 @@ public class Resnet_infer {
 			JTensorFloatTuple x4 =  x1.nextFloat();
 			x2 = x4.image;
 
-			// val X197 = Cuda(X)
+			// val X9010 = Cuda(X)
 			JCudaTensor x5;
 			JTensorFloat x6;
 			x6 = x2;
 			x5 = x6.asJCudaTensor();
 
-			// val X198 = Convolv(2,3)(X197,1_cv_W,1_cv_B)
+			// val X9011 = Convolv(2,3)(X9010,1_cv_W,1_cv_B)
 			JCudaTensor x7;
 			JCudaTensor x8, x9, x10;
 			x8 = x5;
@@ -942,12 +942,12 @@ public class Resnet_infer {
 			x10 = x12;
 			x7 = x13.forward(x8, x9, x10);
 
-			// Dealloc(X197)
+			// Dealloc(X9010)
 			JCudaTensor x14;
 			x14 = x5;
 			x14.free();
 
-			// val X199 = BatchNorm(1_bn)(X198,1_bn_scale,1_bn_bias)
+			// val X9012 = BatchNorm(1_bn)(X9011,1_bn_scale,1_bn_bias)
 			JCudaTensor x15;
 			JCudaTensor x16, x17, x18;
 			x16 = x7;
@@ -955,29 +955,29 @@ public class Resnet_infer {
 			x18 = x20;
 			x15 = x21.forward_inference(x16, x17, x18);
 
-			// Dealloc(X198)
+			// Dealloc(X9011)
 			JCudaTensor x22;
 			x22 = x7;
 			x22.free();
 
-			// val X200 = ReLU()(X199)
+			// val X9013 = ReLU()(X9012)
 			JCudaTensor x23;
 			JCudaTensor x24;
 			x24 = x15;
 			x23 = x25.forward(x24);
 
-			// val X201 = Pooling(3,2,0,true)(X200)
+			// val X9014 = Pooling(3,2,0,true)(X9013)
 			JCudaTensor x26;
 			JCudaTensor x27;
 			x27 = x23;
 			x26 = x28.forward(x27);
 
-			// Dealloc(X200)
+			// Dealloc(X9013)
 			JCudaTensor x29;
 			x29 = x23;
 			x29.free();
 
-			// val X202 = Convolv(1,0)(X201,2a1_cv_W,2a1_cv_B)
+			// val X9015 = Convolv(1,0)(X9014,2a1_cv_W,2a1_cv_B)
 			JCudaTensor x30;
 			JCudaTensor x31, x32, x33;
 			x31 = x26;
@@ -985,7 +985,7 @@ public class Resnet_infer {
 			x33 = x35;
 			x30 = x36.forward(x31, x32, x33);
 
-			// val X205 = Convolv(1,0)(X201,2a2_a_cv_W,2a2_a_cv_B)
+			// val X9018 = Convolv(1,0)(X9014,2a2_a_cv_W,2a2_a_cv_B)
 			JCudaTensor x37;
 			JCudaTensor x38, x39, x40;
 			x38 = x26;
@@ -993,44 +993,44 @@ public class Resnet_infer {
 			x40 = x42;
 			x37 = x43.forward(x38, x39, x40);
 
-			// Dealloc(X201)
+			// Dealloc(X9014)
 			JCudaTensor x44;
 			x44 = x26;
 			x44.free();
 
-			// val X203 = BatchNorm(2a1_bn)(X202,2a1_bn_scale,2a1_bn_bias)
+			// val X9019 = BatchNorm(2a2_a_bn)(X9018,2a2_a_bn_scale,2a2_a_bn_bias)
 			JCudaTensor x45;
 			JCudaTensor x46, x47, x48;
-			x46 = x30;
+			x46 = x37;
 			x47 = x49;
 			x48 = x50;
 			x45 = x51.forward_inference(x46, x47, x48);
 
-			// Dealloc(X202)
+			// Dealloc(X9018)
 			JCudaTensor x52;
-			x52 = x30;
+			x52 = x37;
 			x52.free();
 
-			// val X206 = BatchNorm(2a2_a_bn)(X205,2a2_a_bn_scale,2a2_a_bn_bias)
+			// val X9016 = BatchNorm(2a1_bn)(X9015,2a1_bn_scale,2a1_bn_bias)
 			JCudaTensor x53;
 			JCudaTensor x54, x55, x56;
-			x54 = x37;
+			x54 = x30;
 			x55 = x57;
 			x56 = x58;
 			x53 = x59.forward_inference(x54, x55, x56);
 
-			// Dealloc(X205)
+			// Dealloc(X9015)
 			JCudaTensor x60;
-			x60 = x37;
+			x60 = x30;
 			x60.free();
 
-			// val X207 = ReLU()(X206)
+			// val X9020 = ReLU()(X9019)
 			JCudaTensor x61;
 			JCudaTensor x62;
-			x62 = x53;
+			x62 = x45;
 			x61 = x63.forward(x62);
 
-			// val X208 = Convolv(1,1)(X207,2a2_b_cv_W,2a2_b_cv_B)
+			// val X9021 = Convolv(1,1)(X9020,2a2_b_cv_W,2a2_b_cv_B)
 			JCudaTensor x64;
 			JCudaTensor x65, x66, x67;
 			x65 = x61;
@@ -1038,12 +1038,12 @@ public class Resnet_infer {
 			x67 = x69;
 			x64 = x70.forward(x65, x66, x67);
 
-			// Dealloc(X207)
+			// Dealloc(X9020)
 			JCudaTensor x71;
 			x71 = x61;
 			x71.free();
 
-			// val X209 = BatchNorm(2a2_b_bn)(X208,2a2_b_bn_scale,2a2_b_bn_bias)
+			// val X9022 = BatchNorm(2a2_b_bn)(X9021,2a2_b_bn_scale,2a2_b_bn_bias)
 			JCudaTensor x72;
 			JCudaTensor x73, x74, x75;
 			x73 = x64;
@@ -1051,18 +1051,18 @@ public class Resnet_infer {
 			x75 = x77;
 			x72 = x78.forward_inference(x73, x74, x75);
 
-			// Dealloc(X208)
+			// Dealloc(X9021)
 			JCudaTensor x79;
 			x79 = x64;
 			x79.free();
 
-			// val X210 = ReLU()(X209)
+			// val X9023 = ReLU()(X9022)
 			JCudaTensor x80;
 			JCudaTensor x81;
 			x81 = x72;
 			x80 = x63.forward(x81);
 
-			// val X211 = Convolv(1,0)(X210,2a2_c_cv_W,2a2_c_cv_B)
+			// val X9024 = Convolv(1,0)(X9023,2a2_c_cv_W,2a2_c_cv_B)
 			JCudaTensor x82;
 			JCudaTensor x83, x84, x85;
 			x83 = x80;
@@ -1070,12 +1070,12 @@ public class Resnet_infer {
 			x85 = x87;
 			x82 = x36.forward(x83, x84, x85);
 
-			// Dealloc(X210)
+			// Dealloc(X9023)
 			JCudaTensor x88;
 			x88 = x80;
 			x88.free();
 
-			// val X212 = BatchNorm(2a2_c_bn)(X211,2a2_c_bn_scale,2a2_c_bn_bias)
+			// val X9025 = BatchNorm(2a2_c_bn)(X9024,2a2_c_bn_scale,2a2_c_bn_bias)
 			JCudaTensor x89;
 			JCudaTensor x90, x91, x92;
 			x90 = x82;
@@ -1083,42 +1083,42 @@ public class Resnet_infer {
 			x92 = x94;
 			x89 = x95.forward_inference(x90, x91, x92);
 
-			// Dealloc(X211)
+			// Dealloc(X9024)
 			JCudaTensor x96;
 			x96 = x82;
 			x96.free();
 
-			// val X204 = ReLU()(X203)
+			// val X9017 = ReLU()(X9016)
 			JCudaTensor x97;
 			JCudaTensor x98;
-			x98 = x45;
+			x98 = x53;
 			x97 = x99.forward(x98);
 
-			// val X213 = ReLU()(X212)
+			// val X9026 = ReLU()(X9025)
 			JCudaTensor x100;
 			JCudaTensor x101;
 			x101 = x89;
 			x100 = x99.forward(x101);
 
-			// val X214 = (X204 + X213)
+			// val X9027 = (X9017 + X9026)
 			JCudaTensor x102;
 			JCudaTensor x103, x104;
 			x103 = x97;
 			x104 = x100;
 			x102 = x103.plus_i(x104);
 
-			// Dealloc(X213)
+			// Dealloc(X9026)
 			JCudaTensor x105;
 			x105 = x100;
 			x105.free();
 
-			// val X215 = ReLU()(X214)
+			// val X9028 = ReLU()(X9027)
 			JCudaTensor x106;
 			JCudaTensor x107;
 			x107 = x102;
 			x106 = x99.forward(x107);
 
-			// val X216 = Convolv(1,0)(X215,2b_a_cv_W,2b_a_cv_B)
+			// val X9029 = Convolv(1,0)(X9028,2b_a_cv_W,2b_a_cv_B)
 			JCudaTensor x108;
 			JCudaTensor x109, x110, x111;
 			x109 = x106;
@@ -1126,7 +1126,7 @@ public class Resnet_infer {
 			x111 = x113;
 			x108 = x114.forward(x109, x110, x111);
 
-			// val X217 = BatchNorm(2b_a_bn)(X216,2b_a_bn_scale,2b_a_bn_bias)
+			// val X9030 = BatchNorm(2b_a_bn)(X9029,2b_a_bn_scale,2b_a_bn_bias)
 			JCudaTensor x115;
 			JCudaTensor x116, x117, x118;
 			x116 = x108;
@@ -1134,18 +1134,18 @@ public class Resnet_infer {
 			x118 = x120;
 			x115 = x121.forward_inference(x116, x117, x118);
 
-			// Dealloc(X216)
+			// Dealloc(X9029)
 			JCudaTensor x122;
 			x122 = x108;
 			x122.free();
 
-			// val X218 = ReLU()(X217)
+			// val X9031 = ReLU()(X9030)
 			JCudaTensor x123;
 			JCudaTensor x124;
 			x124 = x115;
 			x123 = x63.forward(x124);
 
-			// val X219 = Convolv(1,1)(X218,2b_b_cv_W,2b_b_cv_B)
+			// val X9032 = Convolv(1,1)(X9031,2b_b_cv_W,2b_b_cv_B)
 			JCudaTensor x125;
 			JCudaTensor x126, x127, x128;
 			x126 = x123;
@@ -1153,12 +1153,12 @@ public class Resnet_infer {
 			x128 = x130;
 			x125 = x70.forward(x126, x127, x128);
 
-			// Dealloc(X218)
+			// Dealloc(X9031)
 			JCudaTensor x131;
 			x131 = x123;
 			x131.free();
 
-			// val X220 = BatchNorm(2b_b_bn)(X219,2b_b_bn_scale,2b_b_bn_bias)
+			// val X9033 = BatchNorm(2b_b_bn)(X9032,2b_b_bn_scale,2b_b_bn_bias)
 			JCudaTensor x132;
 			JCudaTensor x133, x134, x135;
 			x133 = x125;
@@ -1166,18 +1166,18 @@ public class Resnet_infer {
 			x135 = x137;
 			x132 = x138.forward_inference(x133, x134, x135);
 
-			// Dealloc(X219)
+			// Dealloc(X9032)
 			JCudaTensor x139;
 			x139 = x125;
 			x139.free();
 
-			// val X221 = ReLU()(X220)
+			// val X9034 = ReLU()(X9033)
 			JCudaTensor x140;
 			JCudaTensor x141;
 			x141 = x132;
 			x140 = x63.forward(x141);
 
-			// val X222 = Convolv(1,0)(X221,2b_c_cv_W,2b_c_cv_B)
+			// val X9035 = Convolv(1,0)(X9034,2b_c_cv_W,2b_c_cv_B)
 			JCudaTensor x142;
 			JCudaTensor x143, x144, x145;
 			x143 = x140;
@@ -1185,12 +1185,12 @@ public class Resnet_infer {
 			x145 = x147;
 			x142 = x36.forward(x143, x144, x145);
 
-			// Dealloc(X221)
+			// Dealloc(X9034)
 			JCudaTensor x148;
 			x148 = x140;
 			x148.free();
 
-			// val X223 = BatchNorm(2b_c_bn)(X222,2b_c_bn_scale,2b_c_bn_bias)
+			// val X9036 = BatchNorm(2b_c_bn)(X9035,2b_c_bn_scale,2b_c_bn_bias)
 			JCudaTensor x149;
 			JCudaTensor x150, x151, x152;
 			x150 = x142;
@@ -1198,36 +1198,36 @@ public class Resnet_infer {
 			x152 = x154;
 			x149 = x155.forward_inference(x150, x151, x152);
 
-			// Dealloc(X222)
+			// Dealloc(X9035)
 			JCudaTensor x156;
 			x156 = x142;
 			x156.free();
 
-			// val X224 = ReLU()(X223)
+			// val X9037 = ReLU()(X9036)
 			JCudaTensor x157;
 			JCudaTensor x158;
 			x158 = x149;
 			x157 = x99.forward(x158);
 
-			// val X225 = (X224 + X215)
+			// val X9038 = (X9037 + X9028)
 			JCudaTensor x159;
 			JCudaTensor x160, x161;
 			x160 = x157;
 			x161 = x106;
 			x159 = x160.plus_i(x161);
 
-			// Dealloc(X215)
+			// Dealloc(X9028)
 			JCudaTensor x162;
 			x162 = x106;
 			x162.free();
 
-			// val X226 = ReLU()(X225)
+			// val X9039 = ReLU()(X9038)
 			JCudaTensor x163;
 			JCudaTensor x164;
 			x164 = x159;
 			x163 = x99.forward(x164);
 
-			// val X227 = Convolv(1,0)(X226,2c_a_cv_W,2c_a_cv_B)
+			// val X9040 = Convolv(1,0)(X9039,2c_a_cv_W,2c_a_cv_B)
 			JCudaTensor x165;
 			JCudaTensor x166, x167, x168;
 			x166 = x163;
@@ -1235,7 +1235,7 @@ public class Resnet_infer {
 			x168 = x170;
 			x165 = x114.forward(x166, x167, x168);
 
-			// val X228 = BatchNorm(2c_a_bn)(X227,2c_a_bn_scale,2c_a_bn_bias)
+			// val X9041 = BatchNorm(2c_a_bn)(X9040,2c_a_bn_scale,2c_a_bn_bias)
 			JCudaTensor x171;
 			JCudaTensor x172, x173, x174;
 			x172 = x165;
@@ -1243,18 +1243,18 @@ public class Resnet_infer {
 			x174 = x176;
 			x171 = x177.forward_inference(x172, x173, x174);
 
-			// Dealloc(X227)
+			// Dealloc(X9040)
 			JCudaTensor x178;
 			x178 = x165;
 			x178.free();
 
-			// val X229 = ReLU()(X228)
+			// val X9042 = ReLU()(X9041)
 			JCudaTensor x179;
 			JCudaTensor x180;
 			x180 = x171;
 			x179 = x63.forward(x180);
 
-			// val X230 = Convolv(1,1)(X229,2c_b_cv_W,2c_b_cv_B)
+			// val X9043 = Convolv(1,1)(X9042,2c_b_cv_W,2c_b_cv_B)
 			JCudaTensor x181;
 			JCudaTensor x182, x183, x184;
 			x182 = x179;
@@ -1262,12 +1262,12 @@ public class Resnet_infer {
 			x184 = x186;
 			x181 = x70.forward(x182, x183, x184);
 
-			// Dealloc(X229)
+			// Dealloc(X9042)
 			JCudaTensor x187;
 			x187 = x179;
 			x187.free();
 
-			// val X231 = BatchNorm(2c_b_bn)(X230,2c_b_bn_scale,2c_b_bn_bias)
+			// val X9044 = BatchNorm(2c_b_bn)(X9043,2c_b_bn_scale,2c_b_bn_bias)
 			JCudaTensor x188;
 			JCudaTensor x189, x190, x191;
 			x189 = x181;
@@ -1275,18 +1275,18 @@ public class Resnet_infer {
 			x191 = x193;
 			x188 = x194.forward_inference(x189, x190, x191);
 
-			// Dealloc(X230)
+			// Dealloc(X9043)
 			JCudaTensor x195;
 			x195 = x181;
 			x195.free();
 
-			// val X232 = ReLU()(X231)
+			// val X9045 = ReLU()(X9044)
 			JCudaTensor x196;
 			JCudaTensor x197;
 			x197 = x188;
 			x196 = x63.forward(x197);
 
-			// val X233 = Convolv(1,0)(X232,2c_c_cv_W,2c_c_cv_B)
+			// val X9046 = Convolv(1,0)(X9045,2c_c_cv_W,2c_c_cv_B)
 			JCudaTensor x198;
 			JCudaTensor x199, x200, x201;
 			x199 = x196;
@@ -1294,12 +1294,12 @@ public class Resnet_infer {
 			x201 = x203;
 			x198 = x36.forward(x199, x200, x201);
 
-			// Dealloc(X232)
+			// Dealloc(X9045)
 			JCudaTensor x204;
 			x204 = x196;
 			x204.free();
 
-			// val X234 = BatchNorm(2c_c_bn)(X233,2c_c_bn_scale,2c_c_bn_bias)
+			// val X9047 = BatchNorm(2c_c_bn)(X9046,2c_c_bn_scale,2c_c_bn_bias)
 			JCudaTensor x205;
 			JCudaTensor x206, x207, x208;
 			x206 = x198;
@@ -1307,36 +1307,36 @@ public class Resnet_infer {
 			x208 = x210;
 			x205 = x211.forward_inference(x206, x207, x208);
 
-			// Dealloc(X233)
+			// Dealloc(X9046)
 			JCudaTensor x212;
 			x212 = x198;
 			x212.free();
 
-			// val X235 = ReLU()(X234)
+			// val X9048 = ReLU()(X9047)
 			JCudaTensor x213;
 			JCudaTensor x214;
 			x214 = x205;
 			x213 = x99.forward(x214);
 
-			// val X236 = (X235 + X226)
+			// val X9049 = (X9048 + X9039)
 			JCudaTensor x215;
 			JCudaTensor x216, x217;
 			x216 = x213;
 			x217 = x163;
 			x215 = x216.plus_i(x217);
 
-			// Dealloc(X226)
+			// Dealloc(X9039)
 			JCudaTensor x218;
 			x218 = x163;
 			x218.free();
 
-			// val X237 = ReLU()(X236)
+			// val X9050 = ReLU()(X9049)
 			JCudaTensor x219;
 			JCudaTensor x220;
 			x220 = x215;
 			x219 = x99.forward(x220);
 
-			// val X241 = Convolv(2,0)(X237,3a2_a_cv_W,3a2_a_cv_B)
+			// val X9051 = Convolv(2,0)(X9050,3a1_cv_W,3a1_cv_B)
 			JCudaTensor x221;
 			JCudaTensor x222, x223, x224;
 			x222 = x219;
@@ -1344,7 +1344,7 @@ public class Resnet_infer {
 			x224 = x226;
 			x221 = x227.forward(x222, x223, x224);
 
-			// val X238 = Convolv(2,0)(X237,3a1_cv_W,3a1_cv_B)
+			// val X9054 = Convolv(2,0)(X9050,3a2_a_cv_W,3a2_a_cv_B)
 			JCudaTensor x228;
 			JCudaTensor x229, x230, x231;
 			x229 = x219;
@@ -1352,44 +1352,44 @@ public class Resnet_infer {
 			x231 = x233;
 			x228 = x234.forward(x229, x230, x231);
 
-			// Dealloc(X237)
+			// Dealloc(X9050)
 			JCudaTensor x235;
 			x235 = x219;
 			x235.free();
 
-			// val X242 = BatchNorm(3a2_a_bn)(X241,3a2_a_bn_scale,3a2_a_bn_bias)
+			// val X9055 = BatchNorm(3a2_a_bn)(X9054,3a2_a_bn_scale,3a2_a_bn_bias)
 			JCudaTensor x236;
 			JCudaTensor x237, x238, x239;
-			x237 = x221;
+			x237 = x228;
 			x238 = x240;
 			x239 = x241;
 			x236 = x242.forward_inference(x237, x238, x239);
 
-			// Dealloc(X241)
+			// Dealloc(X9054)
 			JCudaTensor x243;
-			x243 = x221;
+			x243 = x228;
 			x243.free();
 
-			// val X239 = BatchNorm(3a1_bn)(X238,3a1_bn_scale,3a1_bn_bias)
+			// val X9052 = BatchNorm(3a1_bn)(X9051,3a1_bn_scale,3a1_bn_bias)
 			JCudaTensor x244;
 			JCudaTensor x245, x246, x247;
-			x245 = x228;
+			x245 = x221;
 			x246 = x248;
 			x247 = x249;
 			x244 = x250.forward_inference(x245, x246, x247);
 
-			// Dealloc(X238)
+			// Dealloc(X9051)
 			JCudaTensor x251;
-			x251 = x228;
+			x251 = x221;
 			x251.free();
 
-			// val X243 = ReLU()(X242)
+			// val X9056 = ReLU()(X9055)
 			JCudaTensor x252;
 			JCudaTensor x253;
 			x253 = x236;
 			x252 = x254.forward(x253);
 
-			// val X244 = Convolv(1,1)(X243,3a2_b_cv_W,3a2_b_cv_B)
+			// val X9057 = Convolv(1,1)(X9056,3a2_b_cv_W,3a2_b_cv_B)
 			JCudaTensor x255;
 			JCudaTensor x256, x257, x258;
 			x256 = x252;
@@ -1397,12 +1397,12 @@ public class Resnet_infer {
 			x258 = x260;
 			x255 = x261.forward(x256, x257, x258);
 
-			// Dealloc(X243)
+			// Dealloc(X9056)
 			JCudaTensor x262;
 			x262 = x252;
 			x262.free();
 
-			// val X245 = BatchNorm(3a2_b_bn)(X244,3a2_b_bn_scale,3a2_b_bn_bias)
+			// val X9058 = BatchNorm(3a2_b_bn)(X9057,3a2_b_bn_scale,3a2_b_bn_bias)
 			JCudaTensor x263;
 			JCudaTensor x264, x265, x266;
 			x264 = x255;
@@ -1410,18 +1410,18 @@ public class Resnet_infer {
 			x266 = x268;
 			x263 = x269.forward_inference(x264, x265, x266);
 
-			// Dealloc(X244)
+			// Dealloc(X9057)
 			JCudaTensor x270;
 			x270 = x255;
 			x270.free();
 
-			// val X246 = ReLU()(X245)
+			// val X9059 = ReLU()(X9058)
 			JCudaTensor x271;
 			JCudaTensor x272;
 			x272 = x263;
 			x271 = x254.forward(x272);
 
-			// val X247 = Convolv(1,0)(X246,3a2_c_cv_W,3a2_c_cv_B)
+			// val X9060 = Convolv(1,0)(X9059,3a2_c_cv_W,3a2_c_cv_B)
 			JCudaTensor x273;
 			JCudaTensor x274, x275, x276;
 			x274 = x271;
@@ -1429,12 +1429,12 @@ public class Resnet_infer {
 			x276 = x278;
 			x273 = x279.forward(x274, x275, x276);
 
-			// Dealloc(X246)
+			// Dealloc(X9059)
 			JCudaTensor x280;
 			x280 = x271;
 			x280.free();
 
-			// val X248 = BatchNorm(3a2_c_bn)(X247,3a2_c_bn_scale,3a2_c_bn_bias)
+			// val X9061 = BatchNorm(3a2_c_bn)(X9060,3a2_c_bn_scale,3a2_c_bn_bias)
 			JCudaTensor x281;
 			JCudaTensor x282, x283, x284;
 			x282 = x273;
@@ -1442,42 +1442,42 @@ public class Resnet_infer {
 			x284 = x286;
 			x281 = x287.forward_inference(x282, x283, x284);
 
-			// Dealloc(X247)
+			// Dealloc(X9060)
 			JCudaTensor x288;
 			x288 = x273;
 			x288.free();
 
-			// val X240 = ReLU()(X239)
+			// val X9053 = ReLU()(X9052)
 			JCudaTensor x289;
 			JCudaTensor x290;
 			x290 = x244;
 			x289 = x291.forward(x290);
 
-			// val X249 = ReLU()(X248)
+			// val X9062 = ReLU()(X9061)
 			JCudaTensor x292;
 			JCudaTensor x293;
 			x293 = x281;
 			x292 = x291.forward(x293);
 
-			// val X250 = (X240 + X249)
+			// val X9063 = (X9053 + X9062)
 			JCudaTensor x294;
 			JCudaTensor x295, x296;
 			x295 = x289;
 			x296 = x292;
 			x294 = x295.plus_i(x296);
 
-			// Dealloc(X249)
+			// Dealloc(X9062)
 			JCudaTensor x297;
 			x297 = x292;
 			x297.free();
 
-			// val X251 = ReLU()(X250)
+			// val X9064 = ReLU()(X9063)
 			JCudaTensor x298;
 			JCudaTensor x299;
 			x299 = x294;
 			x298 = x291.forward(x299);
 
-			// val X252 = Convolv(1,0)(X251,3b_a_cv_W,3b_a_cv_B)
+			// val X9065 = Convolv(1,0)(X9064,3b_a_cv_W,3b_a_cv_B)
 			JCudaTensor x300;
 			JCudaTensor x301, x302, x303;
 			x301 = x298;
@@ -1485,7 +1485,7 @@ public class Resnet_infer {
 			x303 = x305;
 			x300 = x306.forward(x301, x302, x303);
 
-			// val X253 = BatchNorm(3b_a_bn)(X252,3b_a_bn_scale,3b_a_bn_bias)
+			// val X9066 = BatchNorm(3b_a_bn)(X9065,3b_a_bn_scale,3b_a_bn_bias)
 			JCudaTensor x307;
 			JCudaTensor x308, x309, x310;
 			x308 = x300;
@@ -1493,18 +1493,18 @@ public class Resnet_infer {
 			x310 = x312;
 			x307 = x313.forward_inference(x308, x309, x310);
 
-			// Dealloc(X252)
+			// Dealloc(X9065)
 			JCudaTensor x314;
 			x314 = x300;
 			x314.free();
 
-			// val X254 = ReLU()(X253)
+			// val X9067 = ReLU()(X9066)
 			JCudaTensor x315;
 			JCudaTensor x316;
 			x316 = x307;
 			x315 = x254.forward(x316);
 
-			// val X255 = Convolv(1,1)(X254,3b_b_cv_W,3b_b_cv_B)
+			// val X9068 = Convolv(1,1)(X9067,3b_b_cv_W,3b_b_cv_B)
 			JCudaTensor x317;
 			JCudaTensor x318, x319, x320;
 			x318 = x315;
@@ -1512,12 +1512,12 @@ public class Resnet_infer {
 			x320 = x322;
 			x317 = x261.forward(x318, x319, x320);
 
-			// Dealloc(X254)
+			// Dealloc(X9067)
 			JCudaTensor x323;
 			x323 = x315;
 			x323.free();
 
-			// val X256 = BatchNorm(3b_b_bn)(X255,3b_b_bn_scale,3b_b_bn_bias)
+			// val X9069 = BatchNorm(3b_b_bn)(X9068,3b_b_bn_scale,3b_b_bn_bias)
 			JCudaTensor x324;
 			JCudaTensor x325, x326, x327;
 			x325 = x317;
@@ -1525,18 +1525,18 @@ public class Resnet_infer {
 			x327 = x329;
 			x324 = x330.forward_inference(x325, x326, x327);
 
-			// Dealloc(X255)
+			// Dealloc(X9068)
 			JCudaTensor x331;
 			x331 = x317;
 			x331.free();
 
-			// val X257 = ReLU()(X256)
+			// val X9070 = ReLU()(X9069)
 			JCudaTensor x332;
 			JCudaTensor x333;
 			x333 = x324;
 			x332 = x254.forward(x333);
 
-			// val X258 = Convolv(1,0)(X257,3b_c_cv_W,3b_c_cv_B)
+			// val X9071 = Convolv(1,0)(X9070,3b_c_cv_W,3b_c_cv_B)
 			JCudaTensor x334;
 			JCudaTensor x335, x336, x337;
 			x335 = x332;
@@ -1544,12 +1544,12 @@ public class Resnet_infer {
 			x337 = x339;
 			x334 = x279.forward(x335, x336, x337);
 
-			// Dealloc(X257)
+			// Dealloc(X9070)
 			JCudaTensor x340;
 			x340 = x332;
 			x340.free();
 
-			// val X259 = BatchNorm(3b_c_bn)(X258,3b_c_bn_scale,3b_c_bn_bias)
+			// val X9072 = BatchNorm(3b_c_bn)(X9071,3b_c_bn_scale,3b_c_bn_bias)
 			JCudaTensor x341;
 			JCudaTensor x342, x343, x344;
 			x342 = x334;
@@ -1557,36 +1557,36 @@ public class Resnet_infer {
 			x344 = x346;
 			x341 = x347.forward_inference(x342, x343, x344);
 
-			// Dealloc(X258)
+			// Dealloc(X9071)
 			JCudaTensor x348;
 			x348 = x334;
 			x348.free();
 
-			// val X260 = ReLU()(X259)
+			// val X9073 = ReLU()(X9072)
 			JCudaTensor x349;
 			JCudaTensor x350;
 			x350 = x341;
 			x349 = x291.forward(x350);
 
-			// val X261 = (X260 + X251)
+			// val X9074 = (X9073 + X9064)
 			JCudaTensor x351;
 			JCudaTensor x352, x353;
 			x352 = x349;
 			x353 = x298;
 			x351 = x352.plus_i(x353);
 
-			// Dealloc(X251)
+			// Dealloc(X9064)
 			JCudaTensor x354;
 			x354 = x298;
 			x354.free();
 
-			// val X262 = ReLU()(X261)
+			// val X9075 = ReLU()(X9074)
 			JCudaTensor x355;
 			JCudaTensor x356;
 			x356 = x351;
 			x355 = x291.forward(x356);
 
-			// val X263 = Convolv(1,0)(X262,3c_a_cv_W,3c_a_cv_B)
+			// val X9076 = Convolv(1,0)(X9075,3c_a_cv_W,3c_a_cv_B)
 			JCudaTensor x357;
 			JCudaTensor x358, x359, x360;
 			x358 = x355;
@@ -1594,7 +1594,7 @@ public class Resnet_infer {
 			x360 = x362;
 			x357 = x306.forward(x358, x359, x360);
 
-			// val X264 = BatchNorm(3c_a_bn)(X263,3c_a_bn_scale,3c_a_bn_bias)
+			// val X9077 = BatchNorm(3c_a_bn)(X9076,3c_a_bn_scale,3c_a_bn_bias)
 			JCudaTensor x363;
 			JCudaTensor x364, x365, x366;
 			x364 = x357;
@@ -1602,18 +1602,18 @@ public class Resnet_infer {
 			x366 = x368;
 			x363 = x369.forward_inference(x364, x365, x366);
 
-			// Dealloc(X263)
+			// Dealloc(X9076)
 			JCudaTensor x370;
 			x370 = x357;
 			x370.free();
 
-			// val X265 = ReLU()(X264)
+			// val X9078 = ReLU()(X9077)
 			JCudaTensor x371;
 			JCudaTensor x372;
 			x372 = x363;
 			x371 = x254.forward(x372);
 
-			// val X266 = Convolv(1,1)(X265,3c_b_cv_W,3c_b_cv_B)
+			// val X9079 = Convolv(1,1)(X9078,3c_b_cv_W,3c_b_cv_B)
 			JCudaTensor x373;
 			JCudaTensor x374, x375, x376;
 			x374 = x371;
@@ -1621,12 +1621,12 @@ public class Resnet_infer {
 			x376 = x378;
 			x373 = x261.forward(x374, x375, x376);
 
-			// Dealloc(X265)
+			// Dealloc(X9078)
 			JCudaTensor x379;
 			x379 = x371;
 			x379.free();
 
-			// val X267 = BatchNorm(3c_b_bn)(X266,3c_b_bn_scale,3c_b_bn_bias)
+			// val X9080 = BatchNorm(3c_b_bn)(X9079,3c_b_bn_scale,3c_b_bn_bias)
 			JCudaTensor x380;
 			JCudaTensor x381, x382, x383;
 			x381 = x373;
@@ -1634,18 +1634,18 @@ public class Resnet_infer {
 			x383 = x385;
 			x380 = x386.forward_inference(x381, x382, x383);
 
-			// Dealloc(X266)
+			// Dealloc(X9079)
 			JCudaTensor x387;
 			x387 = x373;
 			x387.free();
 
-			// val X268 = ReLU()(X267)
+			// val X9081 = ReLU()(X9080)
 			JCudaTensor x388;
 			JCudaTensor x389;
 			x389 = x380;
 			x388 = x254.forward(x389);
 
-			// val X269 = Convolv(1,0)(X268,3c_c_cv_W,3c_c_cv_B)
+			// val X9082 = Convolv(1,0)(X9081,3c_c_cv_W,3c_c_cv_B)
 			JCudaTensor x390;
 			JCudaTensor x391, x392, x393;
 			x391 = x388;
@@ -1653,12 +1653,12 @@ public class Resnet_infer {
 			x393 = x395;
 			x390 = x279.forward(x391, x392, x393);
 
-			// Dealloc(X268)
+			// Dealloc(X9081)
 			JCudaTensor x396;
 			x396 = x388;
 			x396.free();
 
-			// val X270 = BatchNorm(3c_c_bn)(X269,3c_c_bn_scale,3c_c_bn_bias)
+			// val X9083 = BatchNorm(3c_c_bn)(X9082,3c_c_bn_scale,3c_c_bn_bias)
 			JCudaTensor x397;
 			JCudaTensor x398, x399, x400;
 			x398 = x390;
@@ -1666,36 +1666,36 @@ public class Resnet_infer {
 			x400 = x402;
 			x397 = x403.forward_inference(x398, x399, x400);
 
-			// Dealloc(X269)
+			// Dealloc(X9082)
 			JCudaTensor x404;
 			x404 = x390;
 			x404.free();
 
-			// val X271 = ReLU()(X270)
+			// val X9084 = ReLU()(X9083)
 			JCudaTensor x405;
 			JCudaTensor x406;
 			x406 = x397;
 			x405 = x291.forward(x406);
 
-			// val X272 = (X271 + X262)
+			// val X9085 = (X9084 + X9075)
 			JCudaTensor x407;
 			JCudaTensor x408, x409;
 			x408 = x405;
 			x409 = x355;
 			x407 = x408.plus_i(x409);
 
-			// Dealloc(X262)
+			// Dealloc(X9075)
 			JCudaTensor x410;
 			x410 = x355;
 			x410.free();
 
-			// val X273 = ReLU()(X272)
+			// val X9086 = ReLU()(X9085)
 			JCudaTensor x411;
 			JCudaTensor x412;
 			x412 = x407;
 			x411 = x291.forward(x412);
 
-			// val X274 = Convolv(1,0)(X273,3d_a_cv_W,3d_a_cv_B)
+			// val X9087 = Convolv(1,0)(X9086,3d_a_cv_W,3d_a_cv_B)
 			JCudaTensor x413;
 			JCudaTensor x414, x415, x416;
 			x414 = x411;
@@ -1703,7 +1703,7 @@ public class Resnet_infer {
 			x416 = x418;
 			x413 = x306.forward(x414, x415, x416);
 
-			// val X275 = BatchNorm(3d_a_bn)(X274,3d_a_bn_scale,3d_a_bn_bias)
+			// val X9088 = BatchNorm(3d_a_bn)(X9087,3d_a_bn_scale,3d_a_bn_bias)
 			JCudaTensor x419;
 			JCudaTensor x420, x421, x422;
 			x420 = x413;
@@ -1711,18 +1711,18 @@ public class Resnet_infer {
 			x422 = x424;
 			x419 = x425.forward_inference(x420, x421, x422);
 
-			// Dealloc(X274)
+			// Dealloc(X9087)
 			JCudaTensor x426;
 			x426 = x413;
 			x426.free();
 
-			// val X276 = ReLU()(X275)
+			// val X9089 = ReLU()(X9088)
 			JCudaTensor x427;
 			JCudaTensor x428;
 			x428 = x419;
 			x427 = x254.forward(x428);
 
-			// val X277 = Convolv(1,1)(X276,3d_b_cv_W,3d_b_cv_B)
+			// val X9090 = Convolv(1,1)(X9089,3d_b_cv_W,3d_b_cv_B)
 			JCudaTensor x429;
 			JCudaTensor x430, x431, x432;
 			x430 = x427;
@@ -1730,12 +1730,12 @@ public class Resnet_infer {
 			x432 = x434;
 			x429 = x261.forward(x430, x431, x432);
 
-			// Dealloc(X276)
+			// Dealloc(X9089)
 			JCudaTensor x435;
 			x435 = x427;
 			x435.free();
 
-			// val X278 = BatchNorm(3d_b_bn)(X277,3d_b_bn_scale,3d_b_bn_bias)
+			// val X9091 = BatchNorm(3d_b_bn)(X9090,3d_b_bn_scale,3d_b_bn_bias)
 			JCudaTensor x436;
 			JCudaTensor x437, x438, x439;
 			x437 = x429;
@@ -1743,18 +1743,18 @@ public class Resnet_infer {
 			x439 = x441;
 			x436 = x442.forward_inference(x437, x438, x439);
 
-			// Dealloc(X277)
+			// Dealloc(X9090)
 			JCudaTensor x443;
 			x443 = x429;
 			x443.free();
 
-			// val X279 = ReLU()(X278)
+			// val X9092 = ReLU()(X9091)
 			JCudaTensor x444;
 			JCudaTensor x445;
 			x445 = x436;
 			x444 = x254.forward(x445);
 
-			// val X280 = Convolv(1,0)(X279,3d_c_cv_W,3d_c_cv_B)
+			// val X9093 = Convolv(1,0)(X9092,3d_c_cv_W,3d_c_cv_B)
 			JCudaTensor x446;
 			JCudaTensor x447, x448, x449;
 			x447 = x444;
@@ -1762,12 +1762,12 @@ public class Resnet_infer {
 			x449 = x451;
 			x446 = x279.forward(x447, x448, x449);
 
-			// Dealloc(X279)
+			// Dealloc(X9092)
 			JCudaTensor x452;
 			x452 = x444;
 			x452.free();
 
-			// val X281 = BatchNorm(3d_c_bn)(X280,3d_c_bn_scale,3d_c_bn_bias)
+			// val X9094 = BatchNorm(3d_c_bn)(X9093,3d_c_bn_scale,3d_c_bn_bias)
 			JCudaTensor x453;
 			JCudaTensor x454, x455, x456;
 			x454 = x446;
@@ -1775,36 +1775,36 @@ public class Resnet_infer {
 			x456 = x458;
 			x453 = x459.forward_inference(x454, x455, x456);
 
-			// Dealloc(X280)
+			// Dealloc(X9093)
 			JCudaTensor x460;
 			x460 = x446;
 			x460.free();
 
-			// val X282 = ReLU()(X281)
+			// val X9095 = ReLU()(X9094)
 			JCudaTensor x461;
 			JCudaTensor x462;
 			x462 = x453;
 			x461 = x291.forward(x462);
 
-			// val X283 = (X282 + X273)
+			// val X9096 = (X9095 + X9086)
 			JCudaTensor x463;
 			JCudaTensor x464, x465;
 			x464 = x461;
 			x465 = x411;
 			x463 = x464.plus_i(x465);
 
-			// Dealloc(X273)
+			// Dealloc(X9086)
 			JCudaTensor x466;
 			x466 = x411;
 			x466.free();
 
-			// val X284 = ReLU()(X283)
+			// val X9097 = ReLU()(X9096)
 			JCudaTensor x467;
 			JCudaTensor x468;
 			x468 = x463;
 			x467 = x291.forward(x468);
 
-			// val X288 = Convolv(2,0)(X284,4a2_a_cv_W,4a2_a_cv_B)
+			// val X9101 = Convolv(2,0)(X9097,4a2_a_cv_W,4a2_a_cv_B)
 			JCudaTensor x469;
 			JCudaTensor x470, x471, x472;
 			x470 = x467;
@@ -1812,7 +1812,7 @@ public class Resnet_infer {
 			x472 = x474;
 			x469 = x475.forward(x470, x471, x472);
 
-			// val X285 = Convolv(2,0)(X284,4a1_cv_W,4a1_cv_B)
+			// val X9098 = Convolv(2,0)(X9097,4a1_cv_W,4a1_cv_B)
 			JCudaTensor x476;
 			JCudaTensor x477, x478, x479;
 			x477 = x467;
@@ -1820,44 +1820,44 @@ public class Resnet_infer {
 			x479 = x481;
 			x476 = x482.forward(x477, x478, x479);
 
-			// Dealloc(X284)
+			// Dealloc(X9097)
 			JCudaTensor x483;
 			x483 = x467;
 			x483.free();
 
-			// val X286 = BatchNorm(4a1_bn)(X285,4a1_bn_scale,4a1_bn_bias)
+			// val X9102 = BatchNorm(4a2_a_bn)(X9101,4a2_a_bn_scale,4a2_a_bn_bias)
 			JCudaTensor x484;
 			JCudaTensor x485, x486, x487;
-			x485 = x476;
+			x485 = x469;
 			x486 = x488;
 			x487 = x489;
 			x484 = x490.forward_inference(x485, x486, x487);
 
-			// Dealloc(X285)
+			// Dealloc(X9101)
 			JCudaTensor x491;
-			x491 = x476;
+			x491 = x469;
 			x491.free();
 
-			// val X289 = BatchNorm(4a2_a_bn)(X288,4a2_a_bn_scale,4a2_a_bn_bias)
+			// val X9099 = BatchNorm(4a1_bn)(X9098,4a1_bn_scale,4a1_bn_bias)
 			JCudaTensor x492;
 			JCudaTensor x493, x494, x495;
-			x493 = x469;
+			x493 = x476;
 			x494 = x496;
 			x495 = x497;
 			x492 = x498.forward_inference(x493, x494, x495);
 
-			// Dealloc(X288)
+			// Dealloc(X9098)
 			JCudaTensor x499;
-			x499 = x469;
+			x499 = x476;
 			x499.free();
 
-			// val X290 = ReLU()(X289)
+			// val X9103 = ReLU()(X9102)
 			JCudaTensor x500;
 			JCudaTensor x501;
-			x501 = x492;
+			x501 = x484;
 			x500 = x502.forward(x501);
 
-			// val X291 = Convolv(1,1)(X290,4a2_b_cv_W,4a2_b_cv_B)
+			// val X9104 = Convolv(1,1)(X9103,4a2_b_cv_W,4a2_b_cv_B)
 			JCudaTensor x503;
 			JCudaTensor x504, x505, x506;
 			x504 = x500;
@@ -1865,12 +1865,12 @@ public class Resnet_infer {
 			x506 = x508;
 			x503 = x509.forward(x504, x505, x506);
 
-			// Dealloc(X290)
+			// Dealloc(X9103)
 			JCudaTensor x510;
 			x510 = x500;
 			x510.free();
 
-			// val X292 = BatchNorm(4a2_b_bn)(X291,4a2_b_bn_scale,4a2_b_bn_bias)
+			// val X9105 = BatchNorm(4a2_b_bn)(X9104,4a2_b_bn_scale,4a2_b_bn_bias)
 			JCudaTensor x511;
 			JCudaTensor x512, x513, x514;
 			x512 = x503;
@@ -1878,18 +1878,18 @@ public class Resnet_infer {
 			x514 = x516;
 			x511 = x517.forward_inference(x512, x513, x514);
 
-			// Dealloc(X291)
+			// Dealloc(X9104)
 			JCudaTensor x518;
 			x518 = x503;
 			x518.free();
 
-			// val X293 = ReLU()(X292)
+			// val X9106 = ReLU()(X9105)
 			JCudaTensor x519;
 			JCudaTensor x520;
 			x520 = x511;
 			x519 = x502.forward(x520);
 
-			// val X294 = Convolv(1,0)(X293,4a2_c_cv_W,4a2_c_cv_B)
+			// val X9107 = Convolv(1,0)(X9106,4a2_c_cv_W,4a2_c_cv_B)
 			JCudaTensor x521;
 			JCudaTensor x522, x523, x524;
 			x522 = x519;
@@ -1897,12 +1897,12 @@ public class Resnet_infer {
 			x524 = x526;
 			x521 = x527.forward(x522, x523, x524);
 
-			// Dealloc(X293)
+			// Dealloc(X9106)
 			JCudaTensor x528;
 			x528 = x519;
 			x528.free();
 
-			// val X295 = BatchNorm(4a2_c_bn)(X294,4a2_c_bn_scale,4a2_c_bn_bias)
+			// val X9108 = BatchNorm(4a2_c_bn)(X9107,4a2_c_bn_scale,4a2_c_bn_bias)
 			JCudaTensor x529;
 			JCudaTensor x530, x531, x532;
 			x530 = x521;
@@ -1910,42 +1910,42 @@ public class Resnet_infer {
 			x532 = x534;
 			x529 = x535.forward_inference(x530, x531, x532);
 
-			// Dealloc(X294)
+			// Dealloc(X9107)
 			JCudaTensor x536;
 			x536 = x521;
 			x536.free();
 
-			// val X287 = ReLU()(X286)
+			// val X9100 = ReLU()(X9099)
 			JCudaTensor x537;
 			JCudaTensor x538;
-			x538 = x484;
+			x538 = x492;
 			x537 = x539.forward(x538);
 
-			// val X296 = ReLU()(X295)
+			// val X9109 = ReLU()(X9108)
 			JCudaTensor x540;
 			JCudaTensor x541;
 			x541 = x529;
 			x540 = x539.forward(x541);
 
-			// val X297 = (X287 + X296)
+			// val X9110 = (X9100 + X9109)
 			JCudaTensor x542;
 			JCudaTensor x543, x544;
 			x543 = x537;
 			x544 = x540;
 			x542 = x543.plus_i(x544);
 
-			// Dealloc(X296)
+			// Dealloc(X9109)
 			JCudaTensor x545;
 			x545 = x540;
 			x545.free();
 
-			// val X298 = ReLU()(X297)
+			// val X9111 = ReLU()(X9110)
 			JCudaTensor x546;
 			JCudaTensor x547;
 			x547 = x542;
 			x546 = x539.forward(x547);
 
-			// val X299 = Convolv(1,0)(X298,4b_a_cv_W,4b_a_cv_B)
+			// val X9112 = Convolv(1,0)(X9111,4b_a_cv_W,4b_a_cv_B)
 			JCudaTensor x548;
 			JCudaTensor x549, x550, x551;
 			x549 = x546;
@@ -1953,7 +1953,7 @@ public class Resnet_infer {
 			x551 = x553;
 			x548 = x554.forward(x549, x550, x551);
 
-			// val X300 = BatchNorm(4b_a_bn)(X299,4b_a_bn_scale,4b_a_bn_bias)
+			// val X9113 = BatchNorm(4b_a_bn)(X9112,4b_a_bn_scale,4b_a_bn_bias)
 			JCudaTensor x555;
 			JCudaTensor x556, x557, x558;
 			x556 = x548;
@@ -1961,18 +1961,18 @@ public class Resnet_infer {
 			x558 = x560;
 			x555 = x561.forward_inference(x556, x557, x558);
 
-			// Dealloc(X299)
+			// Dealloc(X9112)
 			JCudaTensor x562;
 			x562 = x548;
 			x562.free();
 
-			// val X301 = ReLU()(X300)
+			// val X9114 = ReLU()(X9113)
 			JCudaTensor x563;
 			JCudaTensor x564;
 			x564 = x555;
 			x563 = x502.forward(x564);
 
-			// val X302 = Convolv(1,1)(X301,4b_b_cv_W,4b_b_cv_B)
+			// val X9115 = Convolv(1,1)(X9114,4b_b_cv_W,4b_b_cv_B)
 			JCudaTensor x565;
 			JCudaTensor x566, x567, x568;
 			x566 = x563;
@@ -1980,12 +1980,12 @@ public class Resnet_infer {
 			x568 = x570;
 			x565 = x509.forward(x566, x567, x568);
 
-			// Dealloc(X301)
+			// Dealloc(X9114)
 			JCudaTensor x571;
 			x571 = x563;
 			x571.free();
 
-			// val X303 = BatchNorm(4b_b_bn)(X302,4b_b_bn_scale,4b_b_bn_bias)
+			// val X9116 = BatchNorm(4b_b_bn)(X9115,4b_b_bn_scale,4b_b_bn_bias)
 			JCudaTensor x572;
 			JCudaTensor x573, x574, x575;
 			x573 = x565;
@@ -1993,18 +1993,18 @@ public class Resnet_infer {
 			x575 = x577;
 			x572 = x578.forward_inference(x573, x574, x575);
 
-			// Dealloc(X302)
+			// Dealloc(X9115)
 			JCudaTensor x579;
 			x579 = x565;
 			x579.free();
 
-			// val X304 = ReLU()(X303)
+			// val X9117 = ReLU()(X9116)
 			JCudaTensor x580;
 			JCudaTensor x581;
 			x581 = x572;
 			x580 = x502.forward(x581);
 
-			// val X305 = Convolv(1,0)(X304,4b_c_cv_W,4b_c_cv_B)
+			// val X9118 = Convolv(1,0)(X9117,4b_c_cv_W,4b_c_cv_B)
 			JCudaTensor x582;
 			JCudaTensor x583, x584, x585;
 			x583 = x580;
@@ -2012,12 +2012,12 @@ public class Resnet_infer {
 			x585 = x587;
 			x582 = x527.forward(x583, x584, x585);
 
-			// Dealloc(X304)
+			// Dealloc(X9117)
 			JCudaTensor x588;
 			x588 = x580;
 			x588.free();
 
-			// val X306 = BatchNorm(4b_c_bn)(X305,4b_c_bn_scale,4b_c_bn_bias)
+			// val X9119 = BatchNorm(4b_c_bn)(X9118,4b_c_bn_scale,4b_c_bn_bias)
 			JCudaTensor x589;
 			JCudaTensor x590, x591, x592;
 			x590 = x582;
@@ -2025,36 +2025,36 @@ public class Resnet_infer {
 			x592 = x594;
 			x589 = x595.forward_inference(x590, x591, x592);
 
-			// Dealloc(X305)
+			// Dealloc(X9118)
 			JCudaTensor x596;
 			x596 = x582;
 			x596.free();
 
-			// val X307 = ReLU()(X306)
+			// val X9120 = ReLU()(X9119)
 			JCudaTensor x597;
 			JCudaTensor x598;
 			x598 = x589;
 			x597 = x539.forward(x598);
 
-			// val X308 = (X307 + X298)
+			// val X9121 = (X9120 + X9111)
 			JCudaTensor x599;
 			JCudaTensor x600, x601;
 			x600 = x597;
 			x601 = x546;
 			x599 = x600.plus_i(x601);
 
-			// Dealloc(X298)
+			// Dealloc(X9111)
 			JCudaTensor x602;
 			x602 = x546;
 			x602.free();
 
-			// val X309 = ReLU()(X308)
+			// val X9122 = ReLU()(X9121)
 			JCudaTensor x603;
 			JCudaTensor x604;
 			x604 = x599;
 			x603 = x539.forward(x604);
 
-			// val X310 = Convolv(1,0)(X309,4c_a_cv_W,4c_a_cv_B)
+			// val X9123 = Convolv(1,0)(X9122,4c_a_cv_W,4c_a_cv_B)
 			JCudaTensor x605;
 			JCudaTensor x606, x607, x608;
 			x606 = x603;
@@ -2062,7 +2062,7 @@ public class Resnet_infer {
 			x608 = x610;
 			x605 = x554.forward(x606, x607, x608);
 
-			// val X311 = BatchNorm(4c_a_bn)(X310,4c_a_bn_scale,4c_a_bn_bias)
+			// val X9124 = BatchNorm(4c_a_bn)(X9123,4c_a_bn_scale,4c_a_bn_bias)
 			JCudaTensor x611;
 			JCudaTensor x612, x613, x614;
 			x612 = x605;
@@ -2070,18 +2070,18 @@ public class Resnet_infer {
 			x614 = x616;
 			x611 = x617.forward_inference(x612, x613, x614);
 
-			// Dealloc(X310)
+			// Dealloc(X9123)
 			JCudaTensor x618;
 			x618 = x605;
 			x618.free();
 
-			// val X312 = ReLU()(X311)
+			// val X9125 = ReLU()(X9124)
 			JCudaTensor x619;
 			JCudaTensor x620;
 			x620 = x611;
 			x619 = x502.forward(x620);
 
-			// val X313 = Convolv(1,1)(X312,4c_b_cv_W,4c_b_cv_B)
+			// val X9126 = Convolv(1,1)(X9125,4c_b_cv_W,4c_b_cv_B)
 			JCudaTensor x621;
 			JCudaTensor x622, x623, x624;
 			x622 = x619;
@@ -2089,12 +2089,12 @@ public class Resnet_infer {
 			x624 = x626;
 			x621 = x509.forward(x622, x623, x624);
 
-			// Dealloc(X312)
+			// Dealloc(X9125)
 			JCudaTensor x627;
 			x627 = x619;
 			x627.free();
 
-			// val X314 = BatchNorm(4c_b_bn)(X313,4c_b_bn_scale,4c_b_bn_bias)
+			// val X9127 = BatchNorm(4c_b_bn)(X9126,4c_b_bn_scale,4c_b_bn_bias)
 			JCudaTensor x628;
 			JCudaTensor x629, x630, x631;
 			x629 = x621;
@@ -2102,18 +2102,18 @@ public class Resnet_infer {
 			x631 = x633;
 			x628 = x634.forward_inference(x629, x630, x631);
 
-			// Dealloc(X313)
+			// Dealloc(X9126)
 			JCudaTensor x635;
 			x635 = x621;
 			x635.free();
 
-			// val X315 = ReLU()(X314)
+			// val X9128 = ReLU()(X9127)
 			JCudaTensor x636;
 			JCudaTensor x637;
 			x637 = x628;
 			x636 = x502.forward(x637);
 
-			// val X316 = Convolv(1,0)(X315,4c_c_cv_W,4c_c_cv_B)
+			// val X9129 = Convolv(1,0)(X9128,4c_c_cv_W,4c_c_cv_B)
 			JCudaTensor x638;
 			JCudaTensor x639, x640, x641;
 			x639 = x636;
@@ -2121,12 +2121,12 @@ public class Resnet_infer {
 			x641 = x643;
 			x638 = x527.forward(x639, x640, x641);
 
-			// Dealloc(X315)
+			// Dealloc(X9128)
 			JCudaTensor x644;
 			x644 = x636;
 			x644.free();
 
-			// val X317 = BatchNorm(4c_c_bn)(X316,4c_c_bn_scale,4c_c_bn_bias)
+			// val X9130 = BatchNorm(4c_c_bn)(X9129,4c_c_bn_scale,4c_c_bn_bias)
 			JCudaTensor x645;
 			JCudaTensor x646, x647, x648;
 			x646 = x638;
@@ -2134,36 +2134,36 @@ public class Resnet_infer {
 			x648 = x650;
 			x645 = x651.forward_inference(x646, x647, x648);
 
-			// Dealloc(X316)
+			// Dealloc(X9129)
 			JCudaTensor x652;
 			x652 = x638;
 			x652.free();
 
-			// val X318 = ReLU()(X317)
+			// val X9131 = ReLU()(X9130)
 			JCudaTensor x653;
 			JCudaTensor x654;
 			x654 = x645;
 			x653 = x539.forward(x654);
 
-			// val X319 = (X318 + X309)
+			// val X9132 = (X9131 + X9122)
 			JCudaTensor x655;
 			JCudaTensor x656, x657;
 			x656 = x653;
 			x657 = x603;
 			x655 = x656.plus_i(x657);
 
-			// Dealloc(X309)
+			// Dealloc(X9122)
 			JCudaTensor x658;
 			x658 = x603;
 			x658.free();
 
-			// val X320 = ReLU()(X319)
+			// val X9133 = ReLU()(X9132)
 			JCudaTensor x659;
 			JCudaTensor x660;
 			x660 = x655;
 			x659 = x539.forward(x660);
 
-			// val X321 = Convolv(1,0)(X320,4d_a_cv_W,4d_a_cv_B)
+			// val X9134 = Convolv(1,0)(X9133,4d_a_cv_W,4d_a_cv_B)
 			JCudaTensor x661;
 			JCudaTensor x662, x663, x664;
 			x662 = x659;
@@ -2171,7 +2171,7 @@ public class Resnet_infer {
 			x664 = x666;
 			x661 = x554.forward(x662, x663, x664);
 
-			// val X322 = BatchNorm(4d_a_bn)(X321,4d_a_bn_scale,4d_a_bn_bias)
+			// val X9135 = BatchNorm(4d_a_bn)(X9134,4d_a_bn_scale,4d_a_bn_bias)
 			JCudaTensor x667;
 			JCudaTensor x668, x669, x670;
 			x668 = x661;
@@ -2179,18 +2179,18 @@ public class Resnet_infer {
 			x670 = x672;
 			x667 = x673.forward_inference(x668, x669, x670);
 
-			// Dealloc(X321)
+			// Dealloc(X9134)
 			JCudaTensor x674;
 			x674 = x661;
 			x674.free();
 
-			// val X323 = ReLU()(X322)
+			// val X9136 = ReLU()(X9135)
 			JCudaTensor x675;
 			JCudaTensor x676;
 			x676 = x667;
 			x675 = x502.forward(x676);
 
-			// val X324 = Convolv(1,1)(X323,4d_b_cv_W,4d_b_cv_B)
+			// val X9137 = Convolv(1,1)(X9136,4d_b_cv_W,4d_b_cv_B)
 			JCudaTensor x677;
 			JCudaTensor x678, x679, x680;
 			x678 = x675;
@@ -2198,12 +2198,12 @@ public class Resnet_infer {
 			x680 = x682;
 			x677 = x509.forward(x678, x679, x680);
 
-			// Dealloc(X323)
+			// Dealloc(X9136)
 			JCudaTensor x683;
 			x683 = x675;
 			x683.free();
 
-			// val X325 = BatchNorm(4d_b_bn)(X324,4d_b_bn_scale,4d_b_bn_bias)
+			// val X9138 = BatchNorm(4d_b_bn)(X9137,4d_b_bn_scale,4d_b_bn_bias)
 			JCudaTensor x684;
 			JCudaTensor x685, x686, x687;
 			x685 = x677;
@@ -2211,18 +2211,18 @@ public class Resnet_infer {
 			x687 = x689;
 			x684 = x690.forward_inference(x685, x686, x687);
 
-			// Dealloc(X324)
+			// Dealloc(X9137)
 			JCudaTensor x691;
 			x691 = x677;
 			x691.free();
 
-			// val X326 = ReLU()(X325)
+			// val X9139 = ReLU()(X9138)
 			JCudaTensor x692;
 			JCudaTensor x693;
 			x693 = x684;
 			x692 = x502.forward(x693);
 
-			// val X327 = Convolv(1,0)(X326,4d_c_cv_W,4d_c_cv_B)
+			// val X9140 = Convolv(1,0)(X9139,4d_c_cv_W,4d_c_cv_B)
 			JCudaTensor x694;
 			JCudaTensor x695, x696, x697;
 			x695 = x692;
@@ -2230,12 +2230,12 @@ public class Resnet_infer {
 			x697 = x699;
 			x694 = x527.forward(x695, x696, x697);
 
-			// Dealloc(X326)
+			// Dealloc(X9139)
 			JCudaTensor x700;
 			x700 = x692;
 			x700.free();
 
-			// val X328 = BatchNorm(4d_c_bn)(X327,4d_c_bn_scale,4d_c_bn_bias)
+			// val X9141 = BatchNorm(4d_c_bn)(X9140,4d_c_bn_scale,4d_c_bn_bias)
 			JCudaTensor x701;
 			JCudaTensor x702, x703, x704;
 			x702 = x694;
@@ -2243,36 +2243,36 @@ public class Resnet_infer {
 			x704 = x706;
 			x701 = x707.forward_inference(x702, x703, x704);
 
-			// Dealloc(X327)
+			// Dealloc(X9140)
 			JCudaTensor x708;
 			x708 = x694;
 			x708.free();
 
-			// val X329 = ReLU()(X328)
+			// val X9142 = ReLU()(X9141)
 			JCudaTensor x709;
 			JCudaTensor x710;
 			x710 = x701;
 			x709 = x539.forward(x710);
 
-			// val X330 = (X329 + X320)
+			// val X9143 = (X9142 + X9133)
 			JCudaTensor x711;
 			JCudaTensor x712, x713;
 			x712 = x709;
 			x713 = x659;
 			x711 = x712.plus_i(x713);
 
-			// Dealloc(X320)
+			// Dealloc(X9133)
 			JCudaTensor x714;
 			x714 = x659;
 			x714.free();
 
-			// val X331 = ReLU()(X330)
+			// val X9144 = ReLU()(X9143)
 			JCudaTensor x715;
 			JCudaTensor x716;
 			x716 = x711;
 			x715 = x539.forward(x716);
 
-			// val X332 = Convolv(1,0)(X331,4e_a_cv_W,4e_a_cv_B)
+			// val X9145 = Convolv(1,0)(X9144,4e_a_cv_W,4e_a_cv_B)
 			JCudaTensor x717;
 			JCudaTensor x718, x719, x720;
 			x718 = x715;
@@ -2280,7 +2280,7 @@ public class Resnet_infer {
 			x720 = x722;
 			x717 = x554.forward(x718, x719, x720);
 
-			// val X333 = BatchNorm(4e_a_bn)(X332,4e_a_bn_scale,4e_a_bn_bias)
+			// val X9146 = BatchNorm(4e_a_bn)(X9145,4e_a_bn_scale,4e_a_bn_bias)
 			JCudaTensor x723;
 			JCudaTensor x724, x725, x726;
 			x724 = x717;
@@ -2288,18 +2288,18 @@ public class Resnet_infer {
 			x726 = x728;
 			x723 = x729.forward_inference(x724, x725, x726);
 
-			// Dealloc(X332)
+			// Dealloc(X9145)
 			JCudaTensor x730;
 			x730 = x717;
 			x730.free();
 
-			// val X334 = ReLU()(X333)
+			// val X9147 = ReLU()(X9146)
 			JCudaTensor x731;
 			JCudaTensor x732;
 			x732 = x723;
 			x731 = x502.forward(x732);
 
-			// val X335 = Convolv(1,1)(X334,4e_b_cv_W,4e_b_cv_B)
+			// val X9148 = Convolv(1,1)(X9147,4e_b_cv_W,4e_b_cv_B)
 			JCudaTensor x733;
 			JCudaTensor x734, x735, x736;
 			x734 = x731;
@@ -2307,12 +2307,12 @@ public class Resnet_infer {
 			x736 = x738;
 			x733 = x509.forward(x734, x735, x736);
 
-			// Dealloc(X334)
+			// Dealloc(X9147)
 			JCudaTensor x739;
 			x739 = x731;
 			x739.free();
 
-			// val X336 = BatchNorm(4e_b_bn)(X335,4e_b_bn_scale,4e_b_bn_bias)
+			// val X9149 = BatchNorm(4e_b_bn)(X9148,4e_b_bn_scale,4e_b_bn_bias)
 			JCudaTensor x740;
 			JCudaTensor x741, x742, x743;
 			x741 = x733;
@@ -2320,18 +2320,18 @@ public class Resnet_infer {
 			x743 = x745;
 			x740 = x746.forward_inference(x741, x742, x743);
 
-			// Dealloc(X335)
+			// Dealloc(X9148)
 			JCudaTensor x747;
 			x747 = x733;
 			x747.free();
 
-			// val X337 = ReLU()(X336)
+			// val X9150 = ReLU()(X9149)
 			JCudaTensor x748;
 			JCudaTensor x749;
 			x749 = x740;
 			x748 = x502.forward(x749);
 
-			// val X338 = Convolv(1,0)(X337,4e_c_cv_W,4e_c_cv_B)
+			// val X9151 = Convolv(1,0)(X9150,4e_c_cv_W,4e_c_cv_B)
 			JCudaTensor x750;
 			JCudaTensor x751, x752, x753;
 			x751 = x748;
@@ -2339,12 +2339,12 @@ public class Resnet_infer {
 			x753 = x755;
 			x750 = x527.forward(x751, x752, x753);
 
-			// Dealloc(X337)
+			// Dealloc(X9150)
 			JCudaTensor x756;
 			x756 = x748;
 			x756.free();
 
-			// val X339 = BatchNorm(4e_c_bn)(X338,4e_c_bn_scale,4e_c_bn_bias)
+			// val X9152 = BatchNorm(4e_c_bn)(X9151,4e_c_bn_scale,4e_c_bn_bias)
 			JCudaTensor x757;
 			JCudaTensor x758, x759, x760;
 			x758 = x750;
@@ -2352,36 +2352,36 @@ public class Resnet_infer {
 			x760 = x762;
 			x757 = x763.forward_inference(x758, x759, x760);
 
-			// Dealloc(X338)
+			// Dealloc(X9151)
 			JCudaTensor x764;
 			x764 = x750;
 			x764.free();
 
-			// val X340 = ReLU()(X339)
+			// val X9153 = ReLU()(X9152)
 			JCudaTensor x765;
 			JCudaTensor x766;
 			x766 = x757;
 			x765 = x539.forward(x766);
 
-			// val X341 = (X340 + X331)
+			// val X9154 = (X9153 + X9144)
 			JCudaTensor x767;
 			JCudaTensor x768, x769;
 			x768 = x765;
 			x769 = x715;
 			x767 = x768.plus_i(x769);
 
-			// Dealloc(X331)
+			// Dealloc(X9144)
 			JCudaTensor x770;
 			x770 = x715;
 			x770.free();
 
-			// val X342 = ReLU()(X341)
+			// val X9155 = ReLU()(X9154)
 			JCudaTensor x771;
 			JCudaTensor x772;
 			x772 = x767;
 			x771 = x539.forward(x772);
 
-			// val X343 = Convolv(1,0)(X342,4f_a_cv_W,4f_a_cv_B)
+			// val X9156 = Convolv(1,0)(X9155,4f_a_cv_W,4f_a_cv_B)
 			JCudaTensor x773;
 			JCudaTensor x774, x775, x776;
 			x774 = x771;
@@ -2389,7 +2389,7 @@ public class Resnet_infer {
 			x776 = x778;
 			x773 = x554.forward(x774, x775, x776);
 
-			// val X344 = BatchNorm(4f_a_bn)(X343,4f_a_bn_scale,4f_a_bn_bias)
+			// val X9157 = BatchNorm(4f_a_bn)(X9156,4f_a_bn_scale,4f_a_bn_bias)
 			JCudaTensor x779;
 			JCudaTensor x780, x781, x782;
 			x780 = x773;
@@ -2397,18 +2397,18 @@ public class Resnet_infer {
 			x782 = x784;
 			x779 = x785.forward_inference(x780, x781, x782);
 
-			// Dealloc(X343)
+			// Dealloc(X9156)
 			JCudaTensor x786;
 			x786 = x773;
 			x786.free();
 
-			// val X345 = ReLU()(X344)
+			// val X9158 = ReLU()(X9157)
 			JCudaTensor x787;
 			JCudaTensor x788;
 			x788 = x779;
 			x787 = x502.forward(x788);
 
-			// val X346 = Convolv(1,1)(X345,4f_b_cv_W,4f_b_cv_B)
+			// val X9159 = Convolv(1,1)(X9158,4f_b_cv_W,4f_b_cv_B)
 			JCudaTensor x789;
 			JCudaTensor x790, x791, x792;
 			x790 = x787;
@@ -2416,12 +2416,12 @@ public class Resnet_infer {
 			x792 = x794;
 			x789 = x509.forward(x790, x791, x792);
 
-			// Dealloc(X345)
+			// Dealloc(X9158)
 			JCudaTensor x795;
 			x795 = x787;
 			x795.free();
 
-			// val X347 = BatchNorm(4f_b_bn)(X346,4f_b_bn_scale,4f_b_bn_bias)
+			// val X9160 = BatchNorm(4f_b_bn)(X9159,4f_b_bn_scale,4f_b_bn_bias)
 			JCudaTensor x796;
 			JCudaTensor x797, x798, x799;
 			x797 = x789;
@@ -2429,18 +2429,18 @@ public class Resnet_infer {
 			x799 = x801;
 			x796 = x802.forward_inference(x797, x798, x799);
 
-			// Dealloc(X346)
+			// Dealloc(X9159)
 			JCudaTensor x803;
 			x803 = x789;
 			x803.free();
 
-			// val X348 = ReLU()(X347)
+			// val X9161 = ReLU()(X9160)
 			JCudaTensor x804;
 			JCudaTensor x805;
 			x805 = x796;
 			x804 = x502.forward(x805);
 
-			// val X349 = Convolv(1,0)(X348,4f_c_cv_W,4f_c_cv_B)
+			// val X9162 = Convolv(1,0)(X9161,4f_c_cv_W,4f_c_cv_B)
 			JCudaTensor x806;
 			JCudaTensor x807, x808, x809;
 			x807 = x804;
@@ -2448,12 +2448,12 @@ public class Resnet_infer {
 			x809 = x811;
 			x806 = x527.forward(x807, x808, x809);
 
-			// Dealloc(X348)
+			// Dealloc(X9161)
 			JCudaTensor x812;
 			x812 = x804;
 			x812.free();
 
-			// val X350 = BatchNorm(4f_c_bn)(X349,4f_c_bn_scale,4f_c_bn_bias)
+			// val X9163 = BatchNorm(4f_c_bn)(X9162,4f_c_bn_scale,4f_c_bn_bias)
 			JCudaTensor x813;
 			JCudaTensor x814, x815, x816;
 			x814 = x806;
@@ -2461,36 +2461,36 @@ public class Resnet_infer {
 			x816 = x818;
 			x813 = x819.forward_inference(x814, x815, x816);
 
-			// Dealloc(X349)
+			// Dealloc(X9162)
 			JCudaTensor x820;
 			x820 = x806;
 			x820.free();
 
-			// val X351 = ReLU()(X350)
+			// val X9164 = ReLU()(X9163)
 			JCudaTensor x821;
 			JCudaTensor x822;
 			x822 = x813;
 			x821 = x539.forward(x822);
 
-			// val X352 = (X351 + X342)
+			// val X9165 = (X9164 + X9155)
 			JCudaTensor x823;
 			JCudaTensor x824, x825;
 			x824 = x821;
 			x825 = x771;
 			x823 = x824.plus_i(x825);
 
-			// Dealloc(X342)
+			// Dealloc(X9155)
 			JCudaTensor x826;
 			x826 = x771;
 			x826.free();
 
-			// val X353 = ReLU()(X352)
+			// val X9166 = ReLU()(X9165)
 			JCudaTensor x827;
 			JCudaTensor x828;
 			x828 = x823;
 			x827 = x539.forward(x828);
 
-			// val X354 = Convolv(2,0)(X353,5a1_cv_W,5a1_cv_B)
+			// val X9170 = Convolv(2,0)(X9166,5a2_a_cv_W,5a2_a_cv_B)
 			JCudaTensor x829;
 			JCudaTensor x830, x831, x832;
 			x830 = x827;
@@ -2498,7 +2498,7 @@ public class Resnet_infer {
 			x832 = x834;
 			x829 = x835.forward(x830, x831, x832);
 
-			// val X357 = Convolv(2,0)(X353,5a2_a_cv_W,5a2_a_cv_B)
+			// val X9167 = Convolv(2,0)(X9166,5a1_cv_W,5a1_cv_B)
 			JCudaTensor x836;
 			JCudaTensor x837, x838, x839;
 			x837 = x827;
@@ -2506,44 +2506,44 @@ public class Resnet_infer {
 			x839 = x841;
 			x836 = x842.forward(x837, x838, x839);
 
-			// Dealloc(X353)
+			// Dealloc(X9166)
 			JCudaTensor x843;
 			x843 = x827;
 			x843.free();
 
-			// val X355 = BatchNorm(5a1_bn)(X354,5a1_bn_scale,5a1_bn_bias)
+			// val X9168 = BatchNorm(5a1_bn)(X9167,5a1_bn_scale,5a1_bn_bias)
 			JCudaTensor x844;
 			JCudaTensor x845, x846, x847;
-			x845 = x829;
+			x845 = x836;
 			x846 = x848;
 			x847 = x849;
 			x844 = x850.forward_inference(x845, x846, x847);
 
-			// Dealloc(X354)
+			// Dealloc(X9167)
 			JCudaTensor x851;
-			x851 = x829;
+			x851 = x836;
 			x851.free();
 
-			// val X358 = BatchNorm(5a2_a_bn)(X357,5a2_a_bn_scale,5a2_a_bn_bias)
+			// val X9171 = BatchNorm(5a2_a_bn)(X9170,5a2_a_bn_scale,5a2_a_bn_bias)
 			JCudaTensor x852;
 			JCudaTensor x853, x854, x855;
-			x853 = x836;
+			x853 = x829;
 			x854 = x856;
 			x855 = x857;
 			x852 = x858.forward_inference(x853, x854, x855);
 
-			// Dealloc(X357)
+			// Dealloc(X9170)
 			JCudaTensor x859;
-			x859 = x836;
+			x859 = x829;
 			x859.free();
 
-			// val X359 = ReLU()(X358)
+			// val X9172 = ReLU()(X9171)
 			JCudaTensor x860;
 			JCudaTensor x861;
 			x861 = x852;
 			x860 = x862.forward(x861);
 
-			// val X360 = Convolv(1,1)(X359,5a2_b_cv_W,5a2_b_cv_B)
+			// val X9173 = Convolv(1,1)(X9172,5a2_b_cv_W,5a2_b_cv_B)
 			JCudaTensor x863;
 			JCudaTensor x864, x865, x866;
 			x864 = x860;
@@ -2551,12 +2551,12 @@ public class Resnet_infer {
 			x866 = x868;
 			x863 = x869.forward(x864, x865, x866);
 
-			// Dealloc(X359)
+			// Dealloc(X9172)
 			JCudaTensor x870;
 			x870 = x860;
 			x870.free();
 
-			// val X361 = BatchNorm(5a2_b_bn)(X360,5a2_b_bn_scale,5a2_b_bn_bias)
+			// val X9174 = BatchNorm(5a2_b_bn)(X9173,5a2_b_bn_scale,5a2_b_bn_bias)
 			JCudaTensor x871;
 			JCudaTensor x872, x873, x874;
 			x872 = x863;
@@ -2564,18 +2564,18 @@ public class Resnet_infer {
 			x874 = x876;
 			x871 = x877.forward_inference(x872, x873, x874);
 
-			// Dealloc(X360)
+			// Dealloc(X9173)
 			JCudaTensor x878;
 			x878 = x863;
 			x878.free();
 
-			// val X362 = ReLU()(X361)
+			// val X9175 = ReLU()(X9174)
 			JCudaTensor x879;
 			JCudaTensor x880;
 			x880 = x871;
 			x879 = x862.forward(x880);
 
-			// val X363 = Convolv(1,0)(X362,5a2_c_cv_W,5a2_c_cv_B)
+			// val X9176 = Convolv(1,0)(X9175,5a2_c_cv_W,5a2_c_cv_B)
 			JCudaTensor x881;
 			JCudaTensor x882, x883, x884;
 			x882 = x879;
@@ -2583,12 +2583,12 @@ public class Resnet_infer {
 			x884 = x886;
 			x881 = x887.forward(x882, x883, x884);
 
-			// Dealloc(X362)
+			// Dealloc(X9175)
 			JCudaTensor x888;
 			x888 = x879;
 			x888.free();
 
-			// val X364 = BatchNorm(5a2_c_bn)(X363,5a2_c_bn_scale,5a2_c_bn_bias)
+			// val X9177 = BatchNorm(5a2_c_bn)(X9176,5a2_c_bn_scale,5a2_c_bn_bias)
 			JCudaTensor x889;
 			JCudaTensor x890, x891, x892;
 			x890 = x881;
@@ -2596,42 +2596,42 @@ public class Resnet_infer {
 			x892 = x894;
 			x889 = x895.forward_inference(x890, x891, x892);
 
-			// Dealloc(X363)
+			// Dealloc(X9176)
 			JCudaTensor x896;
 			x896 = x881;
 			x896.free();
 
-			// val X356 = ReLU()(X355)
+			// val X9169 = ReLU()(X9168)
 			JCudaTensor x897;
 			JCudaTensor x898;
 			x898 = x844;
 			x897 = x899.forward(x898);
 
-			// val X365 = ReLU()(X364)
+			// val X9178 = ReLU()(X9177)
 			JCudaTensor x900;
 			JCudaTensor x901;
 			x901 = x889;
 			x900 = x899.forward(x901);
 
-			// val X366 = (X356 + X365)
+			// val X9179 = (X9169 + X9178)
 			JCudaTensor x902;
 			JCudaTensor x903, x904;
 			x903 = x897;
 			x904 = x900;
 			x902 = x903.plus_i(x904);
 
-			// Dealloc(X365)
+			// Dealloc(X9178)
 			JCudaTensor x905;
 			x905 = x900;
 			x905.free();
 
-			// val X367 = ReLU()(X366)
+			// val X9180 = ReLU()(X9179)
 			JCudaTensor x906;
 			JCudaTensor x907;
 			x907 = x902;
 			x906 = x899.forward(x907);
 
-			// val X368 = Convolv(1,0)(X367,5b_a_cv_W,5b_a_cv_B)
+			// val X9181 = Convolv(1,0)(X9180,5b_a_cv_W,5b_a_cv_B)
 			JCudaTensor x908;
 			JCudaTensor x909, x910, x911;
 			x909 = x906;
@@ -2639,7 +2639,7 @@ public class Resnet_infer {
 			x911 = x913;
 			x908 = x914.forward(x909, x910, x911);
 
-			// val X369 = BatchNorm(5b_a_bn)(X368,5b_a_bn_scale,5b_a_bn_bias)
+			// val X9182 = BatchNorm(5b_a_bn)(X9181,5b_a_bn_scale,5b_a_bn_bias)
 			JCudaTensor x915;
 			JCudaTensor x916, x917, x918;
 			x916 = x908;
@@ -2647,18 +2647,18 @@ public class Resnet_infer {
 			x918 = x920;
 			x915 = x921.forward_inference(x916, x917, x918);
 
-			// Dealloc(X368)
+			// Dealloc(X9181)
 			JCudaTensor x922;
 			x922 = x908;
 			x922.free();
 
-			// val X370 = ReLU()(X369)
+			// val X9183 = ReLU()(X9182)
 			JCudaTensor x923;
 			JCudaTensor x924;
 			x924 = x915;
 			x923 = x862.forward(x924);
 
-			// val X371 = Convolv(1,1)(X370,5b_b_cv_W,5b_b_cv_B)
+			// val X9184 = Convolv(1,1)(X9183,5b_b_cv_W,5b_b_cv_B)
 			JCudaTensor x925;
 			JCudaTensor x926, x927, x928;
 			x926 = x923;
@@ -2666,12 +2666,12 @@ public class Resnet_infer {
 			x928 = x930;
 			x925 = x869.forward(x926, x927, x928);
 
-			// Dealloc(X370)
+			// Dealloc(X9183)
 			JCudaTensor x931;
 			x931 = x923;
 			x931.free();
 
-			// val X372 = BatchNorm(5b_b_bn)(X371,5b_b_bn_scale,5b_b_bn_bias)
+			// val X9185 = BatchNorm(5b_b_bn)(X9184,5b_b_bn_scale,5b_b_bn_bias)
 			JCudaTensor x932;
 			JCudaTensor x933, x934, x935;
 			x933 = x925;
@@ -2679,18 +2679,18 @@ public class Resnet_infer {
 			x935 = x937;
 			x932 = x938.forward_inference(x933, x934, x935);
 
-			// Dealloc(X371)
+			// Dealloc(X9184)
 			JCudaTensor x939;
 			x939 = x925;
 			x939.free();
 
-			// val X373 = ReLU()(X372)
+			// val X9186 = ReLU()(X9185)
 			JCudaTensor x940;
 			JCudaTensor x941;
 			x941 = x932;
 			x940 = x862.forward(x941);
 
-			// val X374 = Convolv(1,0)(X373,5b_c_cv_W,5b_c_cv_B)
+			// val X9187 = Convolv(1,0)(X9186,5b_c_cv_W,5b_c_cv_B)
 			JCudaTensor x942;
 			JCudaTensor x943, x944, x945;
 			x943 = x940;
@@ -2698,12 +2698,12 @@ public class Resnet_infer {
 			x945 = x947;
 			x942 = x887.forward(x943, x944, x945);
 
-			// Dealloc(X373)
+			// Dealloc(X9186)
 			JCudaTensor x948;
 			x948 = x940;
 			x948.free();
 
-			// val X375 = BatchNorm(5b_c_bn)(X374,5b_c_bn_scale,5b_c_bn_bias)
+			// val X9188 = BatchNorm(5b_c_bn)(X9187,5b_c_bn_scale,5b_c_bn_bias)
 			JCudaTensor x949;
 			JCudaTensor x950, x951, x952;
 			x950 = x942;
@@ -2711,36 +2711,36 @@ public class Resnet_infer {
 			x952 = x954;
 			x949 = x955.forward_inference(x950, x951, x952);
 
-			// Dealloc(X374)
+			// Dealloc(X9187)
 			JCudaTensor x956;
 			x956 = x942;
 			x956.free();
 
-			// val X376 = ReLU()(X375)
+			// val X9189 = ReLU()(X9188)
 			JCudaTensor x957;
 			JCudaTensor x958;
 			x958 = x949;
 			x957 = x899.forward(x958);
 
-			// val X377 = (X376 + X367)
+			// val X9190 = (X9189 + X9180)
 			JCudaTensor x959;
 			JCudaTensor x960, x961;
 			x960 = x957;
 			x961 = x906;
 			x959 = x960.plus_i(x961);
 
-			// Dealloc(X367)
+			// Dealloc(X9180)
 			JCudaTensor x962;
 			x962 = x906;
 			x962.free();
 
-			// val X378 = ReLU()(X377)
+			// val X9191 = ReLU()(X9190)
 			JCudaTensor x963;
 			JCudaTensor x964;
 			x964 = x959;
 			x963 = x899.forward(x964);
 
-			// val X379 = Convolv(1,0)(X378,5c_a_cv_W,5c_a_cv_B)
+			// val X9192 = Convolv(1,0)(X9191,5c_a_cv_W,5c_a_cv_B)
 			JCudaTensor x965;
 			JCudaTensor x966, x967, x968;
 			x966 = x963;
@@ -2748,7 +2748,7 @@ public class Resnet_infer {
 			x968 = x970;
 			x965 = x914.forward(x966, x967, x968);
 
-			// val X380 = BatchNorm(5c_a_bn)(X379,5c_a_bn_scale,5c_a_bn_bias)
+			// val X9193 = BatchNorm(5c_a_bn)(X9192,5c_a_bn_scale,5c_a_bn_bias)
 			JCudaTensor x971;
 			JCudaTensor x972, x973, x974;
 			x972 = x965;
@@ -2756,18 +2756,18 @@ public class Resnet_infer {
 			x974 = x976;
 			x971 = x977.forward_inference(x972, x973, x974);
 
-			// Dealloc(X379)
+			// Dealloc(X9192)
 			JCudaTensor x978;
 			x978 = x965;
 			x978.free();
 
-			// val X381 = ReLU()(X380)
+			// val X9194 = ReLU()(X9193)
 			JCudaTensor x979;
 			JCudaTensor x980;
 			x980 = x971;
 			x979 = x862.forward(x980);
 
-			// val X382 = Convolv(1,1)(X381,5c_b_cv_W,5c_b_cv_B)
+			// val X9195 = Convolv(1,1)(X9194,5c_b_cv_W,5c_b_cv_B)
 			JCudaTensor x981;
 			JCudaTensor x982, x983, x984;
 			x982 = x979;
@@ -2775,12 +2775,12 @@ public class Resnet_infer {
 			x984 = x986;
 			x981 = x869.forward(x982, x983, x984);
 
-			// Dealloc(X381)
+			// Dealloc(X9194)
 			JCudaTensor x987;
 			x987 = x979;
 			x987.free();
 
-			// val X383 = BatchNorm(5c_b_bn)(X382,5c_b_bn_scale,5c_b_bn_bias)
+			// val X9196 = BatchNorm(5c_b_bn)(X9195,5c_b_bn_scale,5c_b_bn_bias)
 			JCudaTensor x988;
 			JCudaTensor x989, x990, x991;
 			x989 = x981;
@@ -2788,18 +2788,18 @@ public class Resnet_infer {
 			x991 = x993;
 			x988 = x994.forward_inference(x989, x990, x991);
 
-			// Dealloc(X382)
+			// Dealloc(X9195)
 			JCudaTensor x995;
 			x995 = x981;
 			x995.free();
 
-			// val X384 = ReLU()(X383)
+			// val X9197 = ReLU()(X9196)
 			JCudaTensor x996;
 			JCudaTensor x997;
 			x997 = x988;
 			x996 = x862.forward(x997);
 
-			// val X385 = Convolv(1,0)(X384,5c_c_cv_W,5c_c_cv_B)
+			// val X9198 = Convolv(1,0)(X9197,5c_c_cv_W,5c_c_cv_B)
 			JCudaTensor x998;
 			JCudaTensor x999, x1000, x1001;
 			x999 = x996;
@@ -2807,12 +2807,12 @@ public class Resnet_infer {
 			x1001 = x1003;
 			x998 = x887.forward(x999, x1000, x1001);
 
-			// Dealloc(X384)
+			// Dealloc(X9197)
 			JCudaTensor x1004;
 			x1004 = x996;
 			x1004.free();
 
-			// val X386 = BatchNorm(5c_c_bn)(X385,5c_c_bn_scale,5c_c_bn_bias)
+			// val X9199 = BatchNorm(5c_c_bn)(X9198,5c_c_bn_scale,5c_c_bn_bias)
 			JCudaTensor x1005;
 			JCudaTensor x1006, x1007, x1008;
 			x1006 = x998;
@@ -2820,47 +2820,47 @@ public class Resnet_infer {
 			x1008 = x1010;
 			x1005 = x1011.forward_inference(x1006, x1007, x1008);
 
-			// Dealloc(X385)
+			// Dealloc(X9198)
 			JCudaTensor x1012;
 			x1012 = x998;
 			x1012.free();
 
-			// val X387 = ReLU()(X386)
+			// val X9200 = ReLU()(X9199)
 			JCudaTensor x1013;
 			JCudaTensor x1014;
 			x1014 = x1005;
 			x1013 = x899.forward(x1014);
 
-			// val X388 = (X387 + X378)
+			// val X9201 = (X9200 + X9191)
 			JCudaTensor x1015;
 			JCudaTensor x1016, x1017;
 			x1016 = x1013;
 			x1017 = x963;
 			x1015 = x1016.plus_i(x1017);
 
-			// Dealloc(X378)
+			// Dealloc(X9191)
 			JCudaTensor x1018;
 			x1018 = x963;
 			x1018.free();
 
-			// val X389 = ReLU()(X388)
+			// val X9202 = ReLU()(X9201)
 			JCudaTensor x1019;
 			JCudaTensor x1020;
 			x1020 = x1015;
 			x1019 = x899.forward(x1020);
 
-			// val X390 = Pooling(7,1,0,false)(X389)
+			// val X9203 = Pooling(7,1,0,false)(X9202)
 			JCudaTensor x1021;
 			JCudaTensor x1022;
 			x1022 = x1019;
 			x1021 = x1023.forward(x1022);
 
-			// Dealloc(X389)
+			// Dealloc(X9202)
 			JCudaTensor x1024;
 			x1024 = x1019;
 			x1024.free();
 
-			// val X391 = (X390[1><3])(i | @) * (fc_W)(j | @)
+			// val X9204 = (X9203[1><3])(i | @) * (fc_W)(j | @)
 			JCudaTensor x1025;
 			JCudaMatrix x1026;
 			JCudaMatrix x1027;
@@ -2874,24 +2874,24 @@ public class Resnet_infer {
 			x1027 = x1030.asMatrix(1, true);
 			x1025 = x1026.times(x1027);
 
-			// Dealloc(X390)
+			// Dealloc(X9203)
 			JCudaTensor x1032;
 			x1032 = x1021;
 			x1032.free();
 
-			// val X393 = (X391 + (i) => fc_B)
+			// val X9206 = (X9204 + (i) => fc_B)
 			JCudaTensor x1033;
 			JCudaTensor x1034, x1035;
 			x1034 = x1025;
 			x1035 = x1036;
 			x1033 = x1035.copy(64, x1034);
 
-			// Prediction(X393)
+			// Prediction(X9206)
 			JCudaTensor x1037;
 			x1037 = x1033;
-			System.out.println(x3 + " inference " + java.util.Arrays.toString(x1037.asJTensor().prediction()));
+			System.out.println(x3 + " inference " + java.util.Arrays.toString(x1037.prediction()));
 
-			// Dealloc(X393)
+			// Dealloc(X9206)
 			JCudaTensor x1038;
 			x1038 = x1033;
 			x1038.free();

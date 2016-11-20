@@ -118,13 +118,13 @@ public class Overfeat_infer {
 			JTensorFloatTuple x4 =  x1.nextFloat();
 			x2 = x4.image;
 
-			// val X1795 = Cuda(X)
+			// val X460 = Cuda(X)
 			JCudaTensor x5;
 			JTensorFloat x6;
 			x6 = x2;
 			x5 = x6.asJCudaTensor();
 
-			// val X1796 = Convolv(4,0)(X1795,cv1_W,cv1_B)
+			// val X461 = Convolv(4,0)(X460,cv1_W,cv1_B)
 			JCudaTensor x7;
 			JCudaTensor x8, x9, x10;
 			x8 = x5;
@@ -132,29 +132,29 @@ public class Overfeat_infer {
 			x10 = x12;
 			x7 = x13.forward(x8, x9, x10);
 
-			// Dealloc(X1795)
+			// Dealloc(X460)
 			JCudaTensor x14;
 			x14 = x5;
 			x14.free();
 
-			// val X1797 = ReLU()(X1796)
+			// val X462 = ReLU()(X461)
 			JCudaTensor x15;
 			JCudaTensor x16;
 			x16 = x7;
 			x15 = x17.forward(x16);
 
-			// val X1798 = Pooling(2,2,0,true)(X1797)
+			// val X463 = Pooling(2,2,0,true)(X462)
 			JCudaTensor x18;
 			JCudaTensor x19;
 			x19 = x15;
 			x18 = x20.forward(x19);
 
-			// Dealloc(X1797)
+			// Dealloc(X462)
 			JCudaTensor x21;
 			x21 = x15;
 			x21.free();
 
-			// val X1799 = Convolv(1,2)(X1798,cv2_W,cv2_B)
+			// val X464 = Convolv(1,2)(X463,cv2_W,cv2_B)
 			JCudaTensor x22;
 			JCudaTensor x23, x24, x25;
 			x23 = x18;
@@ -162,29 +162,29 @@ public class Overfeat_infer {
 			x25 = x27;
 			x22 = x28.forward(x23, x24, x25);
 
-			// Dealloc(X1798)
+			// Dealloc(X463)
 			JCudaTensor x29;
 			x29 = x18;
 			x29.free();
 
-			// val X1800 = ReLU()(X1799)
+			// val X465 = ReLU()(X464)
 			JCudaTensor x30;
 			JCudaTensor x31;
 			x31 = x22;
 			x30 = x32.forward(x31);
 
-			// val X1801 = Pooling(2,2,0,true)(X1800)
+			// val X466 = Pooling(2,2,0,true)(X465)
 			JCudaTensor x33;
 			JCudaTensor x34;
 			x34 = x30;
 			x33 = x35.forward(x34);
 
-			// Dealloc(X1800)
+			// Dealloc(X465)
 			JCudaTensor x36;
 			x36 = x30;
 			x36.free();
 
-			// val X1802 = Convolv(1,1)(X1801,cv3_W,cv3_B)
+			// val X467 = Convolv(1,1)(X466,cv3_W,cv3_B)
 			JCudaTensor x37;
 			JCudaTensor x38, x39, x40;
 			x38 = x33;
@@ -192,18 +192,18 @@ public class Overfeat_infer {
 			x40 = x42;
 			x37 = x43.forward(x38, x39, x40);
 
-			// Dealloc(X1801)
+			// Dealloc(X466)
 			JCudaTensor x44;
 			x44 = x33;
 			x44.free();
 
-			// val X1803 = ReLU()(X1802)
+			// val X468 = ReLU()(X467)
 			JCudaTensor x45;
 			JCudaTensor x46;
 			x46 = x37;
 			x45 = x47.forward(x46);
 
-			// val X1804 = Convolv(1,1)(X1803,cv4_W,cv4_B)
+			// val X469 = Convolv(1,1)(X468,cv4_W,cv4_B)
 			JCudaTensor x48;
 			JCudaTensor x49, x50, x51;
 			x49 = x45;
@@ -211,18 +211,18 @@ public class Overfeat_infer {
 			x51 = x53;
 			x48 = x54.forward(x49, x50, x51);
 
-			// Dealloc(X1803)
+			// Dealloc(X468)
 			JCudaTensor x55;
 			x55 = x45;
 			x55.free();
 
-			// val X1805 = ReLU()(X1804)
+			// val X470 = ReLU()(X469)
 			JCudaTensor x56;
 			JCudaTensor x57;
 			x57 = x48;
 			x56 = x58.forward(x57);
 
-			// val X1806 = Convolv(1,1)(X1805,cv5_W,cv5_B)
+			// val X471 = Convolv(1,1)(X470,cv5_W,cv5_B)
 			JCudaTensor x59;
 			JCudaTensor x60, x61, x62;
 			x60 = x56;
@@ -230,29 +230,29 @@ public class Overfeat_infer {
 			x62 = x64;
 			x59 = x65.forward(x60, x61, x62);
 
-			// Dealloc(X1805)
+			// Dealloc(X470)
 			JCudaTensor x66;
 			x66 = x56;
 			x66.free();
 
-			// val X1807 = ReLU()(X1806)
+			// val X472 = ReLU()(X471)
 			JCudaTensor x67;
 			JCudaTensor x68;
 			x68 = x59;
 			x67 = x58.forward(x68);
 
-			// val X1808 = Pooling(2,2,0,true)(X1807)
+			// val X473 = Pooling(2,2,0,true)(X472)
 			JCudaTensor x69;
 			JCudaTensor x70;
 			x70 = x67;
 			x69 = x71.forward(x70);
 
-			// Dealloc(X1807)
+			// Dealloc(X472)
 			JCudaTensor x72;
 			x72 = x67;
 			x72.free();
 
-			// val X1809 = (X1808[1><3])(i | @) * (fc6_W)(j | @)
+			// val X474 = (X473[1><3])(i | @) * (fc6_W)(j | @)
 			JCudaTensor x73;
 			JCudaMatrix x74;
 			JCudaMatrix x75;
@@ -266,19 +266,19 @@ public class Overfeat_infer {
 			x75 = x78.asMatrix(1, true);
 			x73 = x74.times(x75);
 
-			// Dealloc(X1808)
+			// Dealloc(X473)
 			JCudaTensor x80;
 			x80 = x69;
 			x80.free();
 
-			// val X1811 = (X1809 + (i) => fc6_B)
+			// val X476 = (X474 + (i) => fc6_B)
 			JCudaTensor x81;
 			JCudaTensor x82, x83;
 			x82 = x73;
 			x83 = x84;
 			x81 = x83.copy(128, x82);
 
-			// val X1812 = (X1811)(i | @) * (fc7_W)(j | @)
+			// val X477 = (X476)(i | @) * (fc7_W)(j | @)
 			JCudaTensor x85;
 			JCudaMatrix x86;
 			JCudaMatrix x87;
@@ -290,19 +290,19 @@ public class Overfeat_infer {
 			x87 = x89.asMatrix(1, true);
 			x85 = x86.times(x87);
 
-			// Dealloc(X1811)
+			// Dealloc(X476)
 			JCudaTensor x91;
 			x91 = x81;
 			x91.free();
 
-			// val X1814 = (X1812 + (i) => fc7_B)
+			// val X479 = (X477 + (i) => fc7_B)
 			JCudaTensor x92;
 			JCudaTensor x93, x94;
 			x93 = x85;
 			x94 = x95;
 			x92 = x94.copy(128, x93);
 
-			// val X1815 = (X1814)(i | @) * (fc8_W)(j | @)
+			// val X480 = (X479)(i | @) * (fc8_W)(j | @)
 			JCudaTensor x96;
 			JCudaMatrix x97;
 			JCudaMatrix x98;
@@ -314,24 +314,24 @@ public class Overfeat_infer {
 			x98 = x100.asMatrix(1, true);
 			x96 = x97.times(x98);
 
-			// Dealloc(X1814)
+			// Dealloc(X479)
 			JCudaTensor x102;
 			x102 = x92;
 			x102.free();
 
-			// val X1817 = (X1815 + (i) => fc8_B)
+			// val X482 = (X480 + (i) => fc8_B)
 			JCudaTensor x103;
 			JCudaTensor x104, x105;
 			x104 = x96;
 			x105 = x106;
 			x103 = x105.copy(128, x104);
 
-			// Prediction(X1817)
+			// Prediction(X482)
 			JCudaTensor x107;
 			x107 = x103;
-			System.out.println(x3 + " inference " + java.util.Arrays.toString(x107.asJTensor().prediction()));
+			System.out.println(x3 + " inference " + java.util.Arrays.toString(x107.prediction()));
 
-			// Dealloc(X1817)
+			// Dealloc(X482)
 			JCudaTensor x108;
 			x108 = x103;
 			x108.free();

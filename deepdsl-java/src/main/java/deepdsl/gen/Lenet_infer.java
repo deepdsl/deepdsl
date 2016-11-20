@@ -66,13 +66,13 @@ public class Lenet_infer {
 			JTensorFloatTuple x4 =  x1.nextFloat();
 			x2 = x4.image;
 
-			// val X407 = Cuda(X)
+			// val X153 = Cuda(X)
 			JCudaTensor x5;
 			JTensorFloat x6;
 			x6 = x2;
 			x5 = x6.asJCudaTensor();
 
-			// val X408 = Convolv(1,0)(X407,cv1_W,cv1_B)
+			// val X154 = Convolv(1,0)(X153,cv1_W,cv1_B)
 			JCudaTensor x7;
 			JCudaTensor x8, x9, x10;
 			x8 = x5;
@@ -80,23 +80,23 @@ public class Lenet_infer {
 			x10 = x12;
 			x7 = x13.forward(x8, x9, x10);
 
-			// Dealloc(X407)
+			// Dealloc(X153)
 			JCudaTensor x14;
 			x14 = x5;
 			x14.free();
 
-			// val X409 = Pooling(2,2,0,true)(X408)
+			// val X155 = Pooling(2,2,0,true)(X154)
 			JCudaTensor x15;
 			JCudaTensor x16;
 			x16 = x7;
 			x15 = x17.forward(x16);
 
-			// Dealloc(X408)
+			// Dealloc(X154)
 			JCudaTensor x18;
 			x18 = x7;
 			x18.free();
 
-			// val X410 = Convolv(1,0)(X409,cv2_W,cv2_B)
+			// val X156 = Convolv(1,0)(X155,cv2_W,cv2_B)
 			JCudaTensor x19;
 			JCudaTensor x20, x21, x22;
 			x20 = x15;
@@ -104,23 +104,23 @@ public class Lenet_infer {
 			x22 = x24;
 			x19 = x25.forward(x20, x21, x22);
 
-			// Dealloc(X409)
+			// Dealloc(X155)
 			JCudaTensor x26;
 			x26 = x15;
 			x26.free();
 
-			// val X411 = Pooling(2,2,0,true)(X410)
+			// val X157 = Pooling(2,2,0,true)(X156)
 			JCudaTensor x27;
 			JCudaTensor x28;
 			x28 = x19;
 			x27 = x29.forward(x28);
 
-			// Dealloc(X410)
+			// Dealloc(X156)
 			JCudaTensor x30;
 			x30 = x19;
 			x30.free();
 
-			// val X412 = (X411[1><3])(i | @) * (fc1_W)(j | @)
+			// val X158 = (X157[1><3])(i | @) * (fc1_W)(j | @)
 			JCudaTensor x31;
 			JCudaMatrix x32;
 			JCudaMatrix x33;
@@ -134,25 +134,25 @@ public class Lenet_infer {
 			x33 = x36.asMatrix(1, true);
 			x31 = x32.times(x33);
 
-			// Dealloc(X411)
+			// Dealloc(X157)
 			JCudaTensor x38;
 			x38 = x27;
 			x38.free();
 
-			// val X414 = (X412 + (i) => fc1_B)
+			// val X160 = (X158 + (i) => fc1_B)
 			JCudaTensor x39;
 			JCudaTensor x40, x41;
 			x40 = x31;
 			x41 = x42;
 			x39 = x41.copy(500, x40);
 
-			// val X415 = ReLU()(X414)
+			// val X161 = ReLU()(X160)
 			JCudaTensor x43;
 			JCudaTensor x44;
 			x44 = x39;
 			x43 = x45.forward(x44);
 
-			// val X416 = (X415)(i | @) * (fc2_W)(j | @)
+			// val X162 = (X161)(i | @) * (fc2_W)(j | @)
 			JCudaTensor x46;
 			JCudaMatrix x47;
 			JCudaMatrix x48;
@@ -164,24 +164,24 @@ public class Lenet_infer {
 			x48 = x50.asMatrix(1, true);
 			x46 = x47.times(x48);
 
-			// Dealloc(X415)
+			// Dealloc(X161)
 			JCudaTensor x52;
 			x52 = x43;
 			x52.free();
 
-			// val X418 = (X416 + (i) => fc2_B)
+			// val X164 = (X162 + (i) => fc2_B)
 			JCudaTensor x53;
 			JCudaTensor x54, x55;
 			x54 = x46;
 			x55 = x56;
 			x53 = x55.copy(500, x54);
 
-			// Prediction(X418)
+			// Prediction(X164)
 			JCudaTensor x57;
 			x57 = x53;
-			System.out.println(x3 + " inference " + java.util.Arrays.toString(x57.asJTensor().prediction()));
+			System.out.println(x3 + " inference " + java.util.Arrays.toString(x57.prediction()));
 
-			// Dealloc(X418)
+			// Dealloc(X164)
 			JCudaTensor x58;
 			x58 = x53;
 			x58.free();

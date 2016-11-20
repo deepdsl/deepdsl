@@ -193,13 +193,13 @@ public class Vgg_infer {
 			JTensorFloatTuple x4 =  x1.nextFloat();
 			x2 = x4.image;
 
-			// val X7435 = Cuda(X)
+			// val X1910 = Cuda(X)
 			JCudaTensor x5;
 			JTensorFloat x6;
 			x6 = x2;
 			x5 = x6.asJCudaTensor();
 
-			// val X7436 = Convolv(1,1)(X7435,cv11_W,cv11_B)
+			// val X1911 = Convolv(1,1)(X1910,cv11_W,cv11_B)
 			JCudaTensor x7;
 			JCudaTensor x8, x9, x10;
 			x8 = x5;
@@ -207,18 +207,18 @@ public class Vgg_infer {
 			x10 = x12;
 			x7 = x13.forward(x8, x9, x10);
 
-			// Dealloc(X7435)
+			// Dealloc(X1910)
 			JCudaTensor x14;
 			x14 = x5;
 			x14.free();
 
-			// val X7437 = ReLU()(X7436)
+			// val X1912 = ReLU()(X1911)
 			JCudaTensor x15;
 			JCudaTensor x16;
 			x16 = x7;
 			x15 = x17.forward(x16);
 
-			// val X7438 = Convolv(1,1)(X7437,cv12_W,cv12_B)
+			// val X1913 = Convolv(1,1)(X1912,cv12_W,cv12_B)
 			JCudaTensor x18;
 			JCudaTensor x19, x20, x21;
 			x19 = x15;
@@ -226,29 +226,29 @@ public class Vgg_infer {
 			x21 = x23;
 			x18 = x24.forward(x19, x20, x21);
 
-			// Dealloc(X7437)
+			// Dealloc(X1912)
 			JCudaTensor x25;
 			x25 = x15;
 			x25.free();
 
-			// val X7439 = ReLU()(X7438)
+			// val X1914 = ReLU()(X1913)
 			JCudaTensor x26;
 			JCudaTensor x27;
 			x27 = x18;
 			x26 = x17.forward(x27);
 
-			// val X7440 = Pooling(2,2,0,true)(X7439)
+			// val X1915 = Pooling(2,2,0,true)(X1914)
 			JCudaTensor x28;
 			JCudaTensor x29;
 			x29 = x26;
 			x28 = x30.forward(x29);
 
-			// Dealloc(X7439)
+			// Dealloc(X1914)
 			JCudaTensor x31;
 			x31 = x26;
 			x31.free();
 
-			// val X7441 = Convolv(1,1)(X7440,cv21_W,cv21_B)
+			// val X1916 = Convolv(1,1)(X1915,cv21_W,cv21_B)
 			JCudaTensor x32;
 			JCudaTensor x33, x34, x35;
 			x33 = x28;
@@ -256,18 +256,18 @@ public class Vgg_infer {
 			x35 = x37;
 			x32 = x38.forward(x33, x34, x35);
 
-			// Dealloc(X7440)
+			// Dealloc(X1915)
 			JCudaTensor x39;
 			x39 = x28;
 			x39.free();
 
-			// val X7442 = ReLU()(X7441)
+			// val X1917 = ReLU()(X1916)
 			JCudaTensor x40;
 			JCudaTensor x41;
 			x41 = x32;
 			x40 = x42.forward(x41);
 
-			// val X7443 = Convolv(1,1)(X7442,cv22_W,cv22_B)
+			// val X1918 = Convolv(1,1)(X1917,cv22_W,cv22_B)
 			JCudaTensor x43;
 			JCudaTensor x44, x45, x46;
 			x44 = x40;
@@ -275,29 +275,29 @@ public class Vgg_infer {
 			x46 = x48;
 			x43 = x49.forward(x44, x45, x46);
 
-			// Dealloc(X7442)
+			// Dealloc(X1917)
 			JCudaTensor x50;
 			x50 = x40;
 			x50.free();
 
-			// val X7444 = ReLU()(X7443)
+			// val X1919 = ReLU()(X1918)
 			JCudaTensor x51;
 			JCudaTensor x52;
 			x52 = x43;
 			x51 = x42.forward(x52);
 
-			// val X7445 = Pooling(2,2,0,true)(X7444)
+			// val X1920 = Pooling(2,2,0,true)(X1919)
 			JCudaTensor x53;
 			JCudaTensor x54;
 			x54 = x51;
 			x53 = x55.forward(x54);
 
-			// Dealloc(X7444)
+			// Dealloc(X1919)
 			JCudaTensor x56;
 			x56 = x51;
 			x56.free();
 
-			// val X7446 = Convolv(1,1)(X7445,cv31_W,cv31_B)
+			// val X1921 = Convolv(1,1)(X1920,cv31_W,cv31_B)
 			JCudaTensor x57;
 			JCudaTensor x58, x59, x60;
 			x58 = x53;
@@ -305,18 +305,18 @@ public class Vgg_infer {
 			x60 = x62;
 			x57 = x63.forward(x58, x59, x60);
 
-			// Dealloc(X7445)
+			// Dealloc(X1920)
 			JCudaTensor x64;
 			x64 = x53;
 			x64.free();
 
-			// val X7447 = ReLU()(X7446)
+			// val X1922 = ReLU()(X1921)
 			JCudaTensor x65;
 			JCudaTensor x66;
 			x66 = x57;
 			x65 = x67.forward(x66);
 
-			// val X7448 = Convolv(1,1)(X7447,cv32_W,cv32_B)
+			// val X1923 = Convolv(1,1)(X1922,cv32_W,cv32_B)
 			JCudaTensor x68;
 			JCudaTensor x69, x70, x71;
 			x69 = x65;
@@ -324,18 +324,18 @@ public class Vgg_infer {
 			x71 = x73;
 			x68 = x74.forward(x69, x70, x71);
 
-			// Dealloc(X7447)
+			// Dealloc(X1922)
 			JCudaTensor x75;
 			x75 = x65;
 			x75.free();
 
-			// val X7449 = ReLU()(X7448)
+			// val X1924 = ReLU()(X1923)
 			JCudaTensor x76;
 			JCudaTensor x77;
 			x77 = x68;
 			x76 = x67.forward(x77);
 
-			// val X7450 = Convolv(1,1)(X7449,cv33_W,cv33_B)
+			// val X1925 = Convolv(1,1)(X1924,cv33_W,cv33_B)
 			JCudaTensor x78;
 			JCudaTensor x79, x80, x81;
 			x79 = x76;
@@ -343,29 +343,29 @@ public class Vgg_infer {
 			x81 = x83;
 			x78 = x74.forward(x79, x80, x81);
 
-			// Dealloc(X7449)
+			// Dealloc(X1924)
 			JCudaTensor x84;
 			x84 = x76;
 			x84.free();
 
-			// val X7451 = ReLU()(X7450)
+			// val X1926 = ReLU()(X1925)
 			JCudaTensor x85;
 			JCudaTensor x86;
 			x86 = x78;
 			x85 = x67.forward(x86);
 
-			// val X7452 = Pooling(2,2,0,true)(X7451)
+			// val X1927 = Pooling(2,2,0,true)(X1926)
 			JCudaTensor x87;
 			JCudaTensor x88;
 			x88 = x85;
 			x87 = x89.forward(x88);
 
-			// Dealloc(X7451)
+			// Dealloc(X1926)
 			JCudaTensor x90;
 			x90 = x85;
 			x90.free();
 
-			// val X7453 = Convolv(1,1)(X7452,cv41_W,cv41_B)
+			// val X1928 = Convolv(1,1)(X1927,cv41_W,cv41_B)
 			JCudaTensor x91;
 			JCudaTensor x92, x93, x94;
 			x92 = x87;
@@ -373,18 +373,18 @@ public class Vgg_infer {
 			x94 = x96;
 			x91 = x97.forward(x92, x93, x94);
 
-			// Dealloc(X7452)
+			// Dealloc(X1927)
 			JCudaTensor x98;
 			x98 = x87;
 			x98.free();
 
-			// val X7454 = ReLU()(X7453)
+			// val X1929 = ReLU()(X1928)
 			JCudaTensor x99;
 			JCudaTensor x100;
 			x100 = x91;
 			x99 = x101.forward(x100);
 
-			// val X7455 = Convolv(1,1)(X7454,cv42_W,cv42_B)
+			// val X1930 = Convolv(1,1)(X1929,cv42_W,cv42_B)
 			JCudaTensor x102;
 			JCudaTensor x103, x104, x105;
 			x103 = x99;
@@ -392,18 +392,18 @@ public class Vgg_infer {
 			x105 = x107;
 			x102 = x108.forward(x103, x104, x105);
 
-			// Dealloc(X7454)
+			// Dealloc(X1929)
 			JCudaTensor x109;
 			x109 = x99;
 			x109.free();
 
-			// val X7456 = ReLU()(X7455)
+			// val X1931 = ReLU()(X1930)
 			JCudaTensor x110;
 			JCudaTensor x111;
 			x111 = x102;
 			x110 = x101.forward(x111);
 
-			// val X7457 = Convolv(1,1)(X7456,cv43_W,cv43_B)
+			// val X1932 = Convolv(1,1)(X1931,cv43_W,cv43_B)
 			JCudaTensor x112;
 			JCudaTensor x113, x114, x115;
 			x113 = x110;
@@ -411,29 +411,29 @@ public class Vgg_infer {
 			x115 = x117;
 			x112 = x108.forward(x113, x114, x115);
 
-			// Dealloc(X7456)
+			// Dealloc(X1931)
 			JCudaTensor x118;
 			x118 = x110;
 			x118.free();
 
-			// val X7458 = ReLU()(X7457)
+			// val X1933 = ReLU()(X1932)
 			JCudaTensor x119;
 			JCudaTensor x120;
 			x120 = x112;
 			x119 = x101.forward(x120);
 
-			// val X7459 = Pooling(2,2,0,true)(X7458)
+			// val X1934 = Pooling(2,2,0,true)(X1933)
 			JCudaTensor x121;
 			JCudaTensor x122;
 			x122 = x119;
 			x121 = x123.forward(x122);
 
-			// Dealloc(X7458)
+			// Dealloc(X1933)
 			JCudaTensor x124;
 			x124 = x119;
 			x124.free();
 
-			// val X7460 = Convolv(1,1)(X7459,cv51_W,cv51_B)
+			// val X1935 = Convolv(1,1)(X1934,cv51_W,cv51_B)
 			JCudaTensor x125;
 			JCudaTensor x126, x127, x128;
 			x126 = x121;
@@ -441,18 +441,18 @@ public class Vgg_infer {
 			x128 = x130;
 			x125 = x131.forward(x126, x127, x128);
 
-			// Dealloc(X7459)
+			// Dealloc(X1934)
 			JCudaTensor x132;
 			x132 = x121;
 			x132.free();
 
-			// val X7461 = ReLU()(X7460)
+			// val X1936 = ReLU()(X1935)
 			JCudaTensor x133;
 			JCudaTensor x134;
 			x134 = x125;
 			x133 = x135.forward(x134);
 
-			// val X7462 = Convolv(1,1)(X7461,cv52_W,cv52_B)
+			// val X1937 = Convolv(1,1)(X1936,cv52_W,cv52_B)
 			JCudaTensor x136;
 			JCudaTensor x137, x138, x139;
 			x137 = x133;
@@ -460,18 +460,18 @@ public class Vgg_infer {
 			x139 = x141;
 			x136 = x131.forward(x137, x138, x139);
 
-			// Dealloc(X7461)
+			// Dealloc(X1936)
 			JCudaTensor x142;
 			x142 = x133;
 			x142.free();
 
-			// val X7463 = ReLU()(X7462)
+			// val X1938 = ReLU()(X1937)
 			JCudaTensor x143;
 			JCudaTensor x144;
 			x144 = x136;
 			x143 = x135.forward(x144);
 
-			// val X7464 = Convolv(1,1)(X7463,cv53_W,cv53_B)
+			// val X1939 = Convolv(1,1)(X1938,cv53_W,cv53_B)
 			JCudaTensor x145;
 			JCudaTensor x146, x147, x148;
 			x146 = x143;
@@ -479,29 +479,29 @@ public class Vgg_infer {
 			x148 = x150;
 			x145 = x131.forward(x146, x147, x148);
 
-			// Dealloc(X7463)
+			// Dealloc(X1938)
 			JCudaTensor x151;
 			x151 = x143;
 			x151.free();
 
-			// val X7465 = ReLU()(X7464)
+			// val X1940 = ReLU()(X1939)
 			JCudaTensor x152;
 			JCudaTensor x153;
 			x153 = x145;
 			x152 = x135.forward(x153);
 
-			// val X7466 = Pooling(2,2,0,true)(X7465)
+			// val X1941 = Pooling(2,2,0,true)(X1940)
 			JCudaTensor x154;
 			JCudaTensor x155;
 			x155 = x152;
 			x154 = x156.forward(x155);
 
-			// Dealloc(X7465)
+			// Dealloc(X1940)
 			JCudaTensor x157;
 			x157 = x152;
 			x157.free();
 
-			// val X7467 = (X7466[1><3])(i | @) * (fc6_W)(j | @)
+			// val X1942 = (X1941[1><3])(i | @) * (fc6_W)(j | @)
 			JCudaTensor x158;
 			JCudaMatrix x159;
 			JCudaMatrix x160;
@@ -515,36 +515,36 @@ public class Vgg_infer {
 			x160 = x163.asMatrix(1, true);
 			x158 = x159.times(x160);
 
-			// Dealloc(X7466)
+			// Dealloc(X1941)
 			JCudaTensor x165;
 			x165 = x154;
 			x165.free();
 
-			// val X7469 = (X7467 + (i) => fc6_B)
+			// val X1944 = (X1942 + (i) => fc6_B)
 			JCudaTensor x166;
 			JCudaTensor x167, x168;
 			x167 = x158;
 			x168 = x169;
 			x166 = x168.copy(64, x167);
 
-			// val X7470 = ReLU()(X7469)
+			// val X1945 = ReLU()(X1944)
 			JCudaTensor x170;
 			JCudaTensor x171;
 			x171 = x166;
 			x170 = x172.forward(x171);
 
-			// val X7471 = Dropout(0.5)(X7470)
+			// val X1946 = Dropout(0.5)(X1945)
 			JCudaTensor x173;
 			JCudaTensor x174;
 			x174 = x170;
 			x173 = x175.forward(x174);
 
-			// Dealloc(X7470)
+			// Dealloc(X1945)
 			JCudaTensor x176;
 			x176 = x170;
 			x176.free();
 
-			// val X7472 = (X7471)(i | @) * (fc7_W)(j | @)
+			// val X1947 = (X1946)(i | @) * (fc7_W)(j | @)
 			JCudaTensor x177;
 			JCudaMatrix x178;
 			JCudaMatrix x179;
@@ -556,36 +556,36 @@ public class Vgg_infer {
 			x179 = x181.asMatrix(1, true);
 			x177 = x178.times(x179);
 
-			// Dealloc(X7471)
+			// Dealloc(X1946)
 			JCudaTensor x183;
 			x183 = x173;
 			x183.free();
 
-			// val X7474 = (X7472 + (i) => fc7_B)
+			// val X1949 = (X1947 + (i) => fc7_B)
 			JCudaTensor x184;
 			JCudaTensor x185, x186;
 			x185 = x177;
 			x186 = x187;
 			x184 = x186.copy(64, x185);
 
-			// val X7475 = ReLU()(X7474)
+			// val X1950 = ReLU()(X1949)
 			JCudaTensor x188;
 			JCudaTensor x189;
 			x189 = x184;
 			x188 = x172.forward(x189);
 
-			// val X7476 = Dropout(0.5)(X7475)
+			// val X1951 = Dropout(0.5)(X1950)
 			JCudaTensor x190;
 			JCudaTensor x191;
 			x191 = x188;
 			x190 = x175.forward(x191);
 
-			// Dealloc(X7475)
+			// Dealloc(X1950)
 			JCudaTensor x192;
 			x192 = x188;
 			x192.free();
 
-			// val X7477 = (X7476)(i | @) * (fc8_W)(j | @)
+			// val X1952 = (X1951)(i | @) * (fc8_W)(j | @)
 			JCudaTensor x193;
 			JCudaMatrix x194;
 			JCudaMatrix x195;
@@ -597,24 +597,24 @@ public class Vgg_infer {
 			x195 = x197.asMatrix(1, true);
 			x193 = x194.times(x195);
 
-			// Dealloc(X7476)
+			// Dealloc(X1951)
 			JCudaTensor x199;
 			x199 = x190;
 			x199.free();
 
-			// val X7479 = (X7477 + (i) => fc8_B)
+			// val X1954 = (X1952 + (i) => fc8_B)
 			JCudaTensor x200;
 			JCudaTensor x201, x202;
 			x201 = x193;
 			x202 = x203;
 			x200 = x202.copy(64, x201);
 
-			// Prediction(X7479)
+			// Prediction(X1954)
 			JCudaTensor x204;
 			x204 = x200;
-			System.out.println(x3 + " inference " + java.util.Arrays.toString(x204.asJTensor().prediction()));
+			System.out.println(x3 + " inference " + java.util.Arrays.toString(x204.prediction()));
 
-			// Dealloc(X7479)
+			// Dealloc(X1954)
 			JCudaTensor x205;
 			x205 = x200;
 			x205.free();

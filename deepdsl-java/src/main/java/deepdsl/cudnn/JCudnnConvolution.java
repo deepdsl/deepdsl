@@ -1,21 +1,20 @@
 package deepdsl.cudnn;
 
+import static jcuda.jcudnn.JCudnn.*; 
+import jcuda.Pointer;
+import jcuda.jcudnn.cudnnConvolutionDescriptor;
+import jcuda.jcudnn.cudnnFilterDescriptor; 
 import deepdsl.cudnn.config.ConvolutionMode;
 import deepdsl.cudnn.config.ConvolutionPreference;
 import deepdsl.cudnn.config.ConvolutionType;
 import deepdsl.cudnn.config.TensorFormat;
-import deepdsl.util.ArithStats;
-import jcuda.Pointer;
-import jcuda.jcudnn.cudnnConvolutionDescriptor;
-import jcuda.jcudnn.cudnnFilterDescriptor;
-
-import static jcuda.jcudnn.JCudnn.*;
+import deepdsl.util.ArithStats; 
 
 public class JCudnnConvolution extends JCudaFunction {
 	// limit = -1 unlimited workspace
 	// limit = 0 no workspace
 	// otherwise limited workspace
-	long limit = -1; // 3 * 1000_000_000; // 3000 MB
+	long limit = 500_000_000; // 3 * 1000_000_000; // 3000 MB
 	
 	private cudnnFilterDescriptor filter_dptr;
 	private cudnnConvolutionDescriptor convolv_dptr; 

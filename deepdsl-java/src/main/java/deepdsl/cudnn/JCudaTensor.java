@@ -106,6 +106,12 @@ public class JCudaTensor extends JCudaFunction {
 	public void save(String name) {
 		this.asJTensor().save(name);
 	}
+	public int[] prediction() { 
+		return asJTensor().prediction();
+	}
+	public float accuracy(JTensorFloat y_label, int top) {
+		return asJTensor().accuracy(y_label, top);
+	}
 	
 	public JCudaTensor clone() {
 		JCudaTensor ret = new JCudaTensor(this.dims);

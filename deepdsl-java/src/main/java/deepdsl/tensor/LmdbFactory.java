@@ -109,8 +109,7 @@ public class LmdbFactory extends JTensorFactory {
 					}
 				}
 			} 
-			else { 
-				// TODO: center the cropping for testing
+			else {  
 				int height_index = centerCropping ? (image_dims[1] - height)/2 : new Random().nextInt(image_dims[1] - height + 1);
 				int width_index = centerCropping? (image_dims[2] - width)/2 : new Random().nextInt(image_dims[2] - width + 1); 
  

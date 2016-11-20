@@ -130,13 +130,13 @@ public class Alexnet_infer {
 			JTensorFloatTuple x4 =  x1.nextFloat();
 			x2 = x4.image;
 
-			// val X2342 = Cuda(X)
+			// val X696 = Cuda(X)
 			JCudaTensor x5;
 			JTensorFloat x6;
 			x6 = x2;
 			x5 = x6.asJCudaTensor();
 
-			// val X2343 = Convolv(4,2)(X2342,cv1_W,cv1_B)
+			// val X697 = Convolv(4,2)(X696,cv1_W,cv1_B)
 			JCudaTensor x7;
 			JCudaTensor x8, x9, x10;
 			x8 = x5;
@@ -144,40 +144,40 @@ public class Alexnet_infer {
 			x10 = x12;
 			x7 = x13.forward(x8, x9, x10);
 
-			// Dealloc(X2342)
+			// Dealloc(X696)
 			JCudaTensor x14;
 			x14 = x5;
 			x14.free();
 
-			// val X2344 = ReLU()(X2343)
+			// val X698 = ReLU()(X697)
 			JCudaTensor x15;
 			JCudaTensor x16;
 			x16 = x7;
 			x15 = x17.forward(x16);
 
-			// val X2345 = LRN(5,1.0E-4,0.75)(X2344)
+			// val X699 = LRN(5,1.0E-4,0.75)(X698)
 			JCudaTensor x18;
 			JCudaTensor x19;
 			x19 = x15;
 			x18 = x20.forward(x19);
 
-			// Dealloc(X2344)
+			// Dealloc(X698)
 			JCudaTensor x21;
 			x21 = x15;
 			x21.free();
 
-			// val X2346 = Pooling(3,2,0,true)(X2345)
+			// val X700 = Pooling(3,2,0,true)(X699)
 			JCudaTensor x22;
 			JCudaTensor x23;
 			x23 = x18;
 			x22 = x24.forward(x23);
 
-			// Dealloc(X2345)
+			// Dealloc(X699)
 			JCudaTensor x25;
 			x25 = x18;
 			x25.free();
 
-			// val X2347 = Convolv(1,2)(X2346,cv2_W,cv2_B)
+			// val X701 = Convolv(1,2)(X700,cv2_W,cv2_B)
 			JCudaTensor x26;
 			JCudaTensor x27, x28, x29;
 			x27 = x22;
@@ -185,40 +185,40 @@ public class Alexnet_infer {
 			x29 = x31;
 			x26 = x32.forward(x27, x28, x29);
 
-			// Dealloc(X2346)
+			// Dealloc(X700)
 			JCudaTensor x33;
 			x33 = x22;
 			x33.free();
 
-			// val X2348 = ReLU()(X2347)
+			// val X702 = ReLU()(X701)
 			JCudaTensor x34;
 			JCudaTensor x35;
 			x35 = x26;
 			x34 = x36.forward(x35);
 
-			// val X2349 = LRN(5,1.0E-4,0.75)(X2348)
+			// val X703 = LRN(5,1.0E-4,0.75)(X702)
 			JCudaTensor x37;
 			JCudaTensor x38;
 			x38 = x34;
 			x37 = x39.forward(x38);
 
-			// Dealloc(X2348)
+			// Dealloc(X702)
 			JCudaTensor x40;
 			x40 = x34;
 			x40.free();
 
-			// val X2350 = Pooling(3,2,0,true)(X2349)
+			// val X704 = Pooling(3,2,0,true)(X703)
 			JCudaTensor x41;
 			JCudaTensor x42;
 			x42 = x37;
 			x41 = x43.forward(x42);
 
-			// Dealloc(X2349)
+			// Dealloc(X703)
 			JCudaTensor x44;
 			x44 = x37;
 			x44.free();
 
-			// val X2351 = Convolv(1,1)(X2350,cv3_W,cv3_B)
+			// val X705 = Convolv(1,1)(X704,cv3_W,cv3_B)
 			JCudaTensor x45;
 			JCudaTensor x46, x47, x48;
 			x46 = x41;
@@ -226,18 +226,18 @@ public class Alexnet_infer {
 			x48 = x50;
 			x45 = x51.forward(x46, x47, x48);
 
-			// Dealloc(X2350)
+			// Dealloc(X704)
 			JCudaTensor x52;
 			x52 = x41;
 			x52.free();
 
-			// val X2352 = ReLU()(X2351)
+			// val X706 = ReLU()(X705)
 			JCudaTensor x53;
 			JCudaTensor x54;
 			x54 = x45;
 			x53 = x55.forward(x54);
 
-			// val X2353 = Convolv(1,1)(X2352,cv4_W,cv4_B)
+			// val X707 = Convolv(1,1)(X706,cv4_W,cv4_B)
 			JCudaTensor x56;
 			JCudaTensor x57, x58, x59;
 			x57 = x53;
@@ -245,18 +245,18 @@ public class Alexnet_infer {
 			x59 = x61;
 			x56 = x62.forward(x57, x58, x59);
 
-			// Dealloc(X2352)
+			// Dealloc(X706)
 			JCudaTensor x63;
 			x63 = x53;
 			x63.free();
 
-			// val X2354 = ReLU()(X2353)
+			// val X708 = ReLU()(X707)
 			JCudaTensor x64;
 			JCudaTensor x65;
 			x65 = x56;
 			x64 = x55.forward(x65);
 
-			// val X2355 = Convolv(1,1)(X2354,cv5_W,cv5_B)
+			// val X709 = Convolv(1,1)(X708,cv5_W,cv5_B)
 			JCudaTensor x66;
 			JCudaTensor x67, x68, x69;
 			x67 = x64;
@@ -264,29 +264,29 @@ public class Alexnet_infer {
 			x69 = x71;
 			x66 = x72.forward(x67, x68, x69);
 
-			// Dealloc(X2354)
+			// Dealloc(X708)
 			JCudaTensor x73;
 			x73 = x64;
 			x73.free();
 
-			// val X2356 = ReLU()(X2355)
+			// val X710 = ReLU()(X709)
 			JCudaTensor x74;
 			JCudaTensor x75;
 			x75 = x66;
 			x74 = x76.forward(x75);
 
-			// val X2357 = Pooling(3,2,0,true)(X2356)
+			// val X711 = Pooling(3,2,0,true)(X710)
 			JCudaTensor x77;
 			JCudaTensor x78;
 			x78 = x74;
 			x77 = x79.forward(x78);
 
-			// Dealloc(X2356)
+			// Dealloc(X710)
 			JCudaTensor x80;
 			x80 = x74;
 			x80.free();
 
-			// val X2358 = (X2357[1><3])(i | @) * (fc6_W)(j | @)
+			// val X712 = (X711[1><3])(i | @) * (fc6_W)(j | @)
 			JCudaTensor x81;
 			JCudaMatrix x82;
 			JCudaMatrix x83;
@@ -300,36 +300,36 @@ public class Alexnet_infer {
 			x83 = x86.asMatrix(1, true);
 			x81 = x82.times(x83);
 
-			// Dealloc(X2357)
+			// Dealloc(X711)
 			JCudaTensor x88;
 			x88 = x77;
 			x88.free();
 
-			// val X2360 = (X2358 + (i) => fc6_B)
+			// val X714 = (X712 + (i) => fc6_B)
 			JCudaTensor x89;
 			JCudaTensor x90, x91;
 			x90 = x81;
 			x91 = x92;
 			x89 = x91.copy(128, x90);
 
-			// val X2361 = ReLU()(X2360)
+			// val X715 = ReLU()(X714)
 			JCudaTensor x93;
 			JCudaTensor x94;
 			x94 = x89;
 			x93 = x95.forward(x94);
 
-			// val X2362 = Dropout(0.5)(X2361)
+			// val X716 = Dropout(0.5)(X715)
 			JCudaTensor x96;
 			JCudaTensor x97;
 			x97 = x93;
 			x96 = x98.forward(x97);
 
-			// Dealloc(X2361)
+			// Dealloc(X715)
 			JCudaTensor x99;
 			x99 = x93;
 			x99.free();
 
-			// val X2363 = (X2362)(i | @) * (fc7_W)(j | @)
+			// val X717 = (X716)(i | @) * (fc7_W)(j | @)
 			JCudaTensor x100;
 			JCudaMatrix x101;
 			JCudaMatrix x102;
@@ -341,36 +341,36 @@ public class Alexnet_infer {
 			x102 = x104.asMatrix(1, true);
 			x100 = x101.times(x102);
 
-			// Dealloc(X2362)
+			// Dealloc(X716)
 			JCudaTensor x106;
 			x106 = x96;
 			x106.free();
 
-			// val X2365 = (X2363 + (i) => fc7_B)
+			// val X719 = (X717 + (i) => fc7_B)
 			JCudaTensor x107;
 			JCudaTensor x108, x109;
 			x108 = x100;
 			x109 = x110;
 			x107 = x109.copy(128, x108);
 
-			// val X2366 = ReLU()(X2365)
+			// val X720 = ReLU()(X719)
 			JCudaTensor x111;
 			JCudaTensor x112;
 			x112 = x107;
 			x111 = x95.forward(x112);
 
-			// val X2367 = Dropout(0.5)(X2366)
+			// val X721 = Dropout(0.5)(X720)
 			JCudaTensor x113;
 			JCudaTensor x114;
 			x114 = x111;
 			x113 = x98.forward(x114);
 
-			// Dealloc(X2366)
+			// Dealloc(X720)
 			JCudaTensor x115;
 			x115 = x111;
 			x115.free();
 
-			// val X2368 = (X2367)(i | @) * (fc8_W)(j | @)
+			// val X722 = (X721)(i | @) * (fc8_W)(j | @)
 			JCudaTensor x116;
 			JCudaMatrix x117;
 			JCudaMatrix x118;
@@ -382,24 +382,24 @@ public class Alexnet_infer {
 			x118 = x120.asMatrix(1, true);
 			x116 = x117.times(x118);
 
-			// Dealloc(X2367)
+			// Dealloc(X721)
 			JCudaTensor x122;
 			x122 = x113;
 			x122.free();
 
-			// val X2370 = (X2368 + (i) => fc8_B)
+			// val X724 = (X722 + (i) => fc8_B)
 			JCudaTensor x123;
 			JCudaTensor x124, x125;
 			x124 = x116;
 			x125 = x126;
 			x123 = x125.copy(128, x124);
 
-			// Prediction(X2370)
+			// Prediction(X724)
 			JCudaTensor x127;
 			x127 = x123;
-			System.out.println(x3 + " inference " + java.util.Arrays.toString(x127.asJTensor().prediction()));
+			System.out.println(x3 + " inference " + java.util.Arrays.toString(x127.prediction()));
 
-			// Dealloc(X2370)
+			// Dealloc(X724)
 			JCudaTensor x128;
 			x128 = x123;
 			x128.free();
