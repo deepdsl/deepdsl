@@ -9,7 +9,7 @@ public class TestBatchNorm {
 	
 	@Test
 	public void forward() {
-		float[] a = {2,0, 0,-1, -2,1}, a1 = {1, 1}, a2 = {0f, 0f};
+		float[] a = {2,1, 0,0, -2,2}, a1 = {1, 1}, a2 = {0f, 0f};
 		int[] dims = {3, 2, 1, 1}, norm_dims = {1, 2, 1, 1};
 		JTensorFloat t = new JTensorFloat(a, dims), 
 				tscale = new JTensorFloat(a1, norm_dims), 
@@ -26,6 +26,22 @@ public class TestBatchNorm {
 		System.out.println(Arrays.toString(norm.running_variance.asArray()));
 		System.out.println(Arrays.toString(norm.saved_mean.asArray()));
 		System.out.println(Arrays.toString(norm.saved_inv_variance.asArray())); 
+		y = norm.forward_inference(x, scale, bias);
+		System.out.println(Arrays.toString(y.asArray())); 
+		
+		float[] b = {4, 0, 0, -2, -4, 2};
+		JCudaTensor x1 = new JTensorFloat(b, dims).asJCudaTensor();
+
+//		norm.running_variance = new JTensorFloat(new float[]{0,0}, norm_dims).asJCudaTensor();
+		
+		y = norm.forward(x1, scale, bias);
+		System.out.println(Arrays.toString(y.asArray()));
+		System.out.println(Arrays.toString(norm.running_mean.asArray()));
+		System.out.println(Arrays.toString(norm.running_variance.asArray()));
+		System.out.println(Arrays.toString(norm.saved_mean.asArray()));
+		System.out.println(Arrays.toString(norm.saved_inv_variance.asArray()));
+		
+		
 		y = norm.forward_inference(x, scale, bias);
 		System.out.println(Arrays.toString(y.asArray()));
 	}

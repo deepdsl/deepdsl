@@ -2,7 +2,6 @@ package deepdsl.gen;
 import deepdsl.cudnn.*;
 import deepdsl.cudnn.config.*;
 import deepdsl.tensor.*;
-import deepdsl.data.imagenet.LmdbUtils;
 
 // This file is for inference only, which needs trained parameters.
 public class Resnet_infer {
@@ -10,8 +9,6 @@ public class Resnet_infer {
 	static{ JCudaTensor.enableMemoryCache();}
 	// network_dir
 	static String network_dir = "src/main/java/deepdsl/gen/resnet";
-	// platform
-	static LmdbUtils.OS platform = LmdbUtils.OS.WINDOWS;
 	// test_data_path
 	static String test_data_path = "dataset/imagenet/ilsvrc12_val_lmdb";
 	// test_itr
@@ -165,8 +162,8 @@ public class Resnet_infer {
 	static JCudnnConvolution x475 = new JCudnnConvolution(new int[]{64,512,28,28},new int[]{256,512,1,1},new int[]{256}, 2, 0);
 	// (Convolv(2,3),List(List(64, 3, 224, 224), List(64, 3, 7, 7), List(64)))
 	static JCudnnConvolution x13 = new JCudnnConvolution(new int[]{64,3,224,224},new int[]{64,3,7,7},new int[]{64}, 2, 3);
-	// (Lmdb(1000000,10000,Win32,1000),false)
-	static LmdbFactory x1 = LmdbFactory.getFactory(test_data_path, test_size, new int[]{64, 3, 224, 224}, platform, 1000, true);
+	// (Lmdb(1000000,10000,1000),false)
+	static LmdbFactory x1 = LmdbFactory.getFactory(test_data_path, test_size, new int[]{64, 3, 224, 224}, 1000, true);
 	// (Pooling(3,2,0,true),List(List(64, 64, 112, 112)))
 	static JCudnnPooling x28 = new JCudnnPooling(new int[]{64,64,112,112}, 3, 2, 0, PoolingType.MAX);
 	// (Pooling(7,1,0,false),List(List(64, 2048, 7, 7)))

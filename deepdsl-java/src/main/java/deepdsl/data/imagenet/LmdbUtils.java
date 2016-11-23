@@ -1,25 +1,38 @@
 package deepdsl.data.imagenet;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+
 import org.fusesource.lmdbjni.*;
 
 import java.util.Iterator;
+import java.util.Locale;
 
 import static org.fusesource.lmdbjni.Constants.bytes;
 import static org.fusesource.lmdbjni.Constants.string;
 
 public class LmdbUtils {
-
-    public enum OS {
-        OSX("osx"), LINUX("linux"), WINDOWS("win32");
-        private final String tpe;
-        public String tpe() {
-            return tpe;
-        }
-        OS(String tpe) {
-            this.tpe = tpe;
-        }
-    }
+    enum OS {WINDOWS, LINUX, OSX}
+    
+    static OS os = operating_system();
+    
+	static OS operating_system() {
+		OS os;
+		
+		String name = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
+		if(name.contains("win")) {
+			os = OS.WINDOWS;
+		}
+		else if (name.contains("nux")) {
+			os = OS.LINUX;
+		}
+		else if (name.contains("mac")) {
+			os = OS.OSX;
+		}
+		else {
+			throw new RuntimeException("unsupported operation system for Lmdb code: " + name);
+		}
+		return os;
+	}
 
     /**
      * This method loop through lmdb EntryIterator to get numSamples image byte array data
@@ -31,24 +44,30 @@ public class LmdbUtils {
      *               and nor further opearations can be done with the given transaction
      * @return the byte array that is formed by concatenating all the image byte array data
      */
-    public static byte[] getImageAsByteArray(Transaction tx, Database db, int numSamples, boolean keepTx, OS os) {
-        byte[] a = new byte[numSamples * getSize(tx, db, os)];
+    public static byte[] getImageAsByteArray(Transaction tx, Database db, int numSamples, boolean keepTx) {
+        byte[] a = new byte[numSamples * getSize(tx, db)];
         int i = 0;
         Iterable<Entry> iterable = getIterable(tx, db);
         for (Entry next : iterable) {
             try {
                 byte[] src;
-                if (os == OS.OSX) {
+                switch(os) {
+                case OSX:       
                     ImagenetProtoOSX.Datum datum = ImagenetProtoOSX.Datum.parseFrom(next.getValue());
                     System.out.println("label = " + datum.getLabel());
                     src = datum.getData().toByteArray();
-                } else if (os == OS.LINUX) {
-                    ImagenetProtoLinux.Datum datum = ImagenetProtoLinux.Datum.parseFrom(next.getValue());
-                    src = datum.getData().toByteArray();
-                } else if (os == OS.WINDOWS) {
-                    ImagenetProtoWin32.Datum datum = ImagenetProtoWin32.Datum.parseFrom(next.getValue());
-                    src = datum.getData().toByteArray();
-                } else throw new RuntimeException("The operation system is not supported");
+                    break;
+                case LINUX:
+                    ImagenetProtoLinux.Datum datum2 = ImagenetProtoLinux.Datum.parseFrom(next.getValue());
+                    src = datum2.getData().toByteArray();
+                    break;
+                case WINDOWS:
+                    ImagenetProtoWin32.Datum datum3 = ImagenetProtoWin32.Datum.parseFrom(next.getValue());
+                    src = datum3.getData().toByteArray();
+                    break;
+                default:
+                	throw new RuntimeException("The operation system is not supported");
+                }
                 System.arraycopy(src, 0, a, i++ * src.length, src.length);
             } catch (InvalidProtocolBufferException e) {
                 throw new RuntimeException(e);
@@ -68,27 +87,32 @@ public class LmdbUtils {
         return iterable.iterator();
     }
 
-    public static Tuple nextTuple(Entry entry, OS os) {
+    public static Tuple nextTuple(Entry entry) {
         byte[] image;
         int label;
         int[] dims = new int[3];
         try {
-            if (os == OS.OSX) {
+        	switch(os) {
+        	case OSX:
                 ImagenetProtoOSX.Datum datum = ImagenetProtoOSX.Datum.parseFrom(entry.getValue());
                 image = datum.getData().toByteArray();
                 label = datum.getLabel();
                 dims[0] = datum.getChannels(); dims[1] = datum.getHeight(); dims[2] = datum.getWidth();
-            } else if (os == OS.LINUX) {
-                ImagenetProtoLinux.Datum datum = ImagenetProtoLinux.Datum.parseFrom(entry.getValue());
-                image = datum.getData().toByteArray();
-                label = datum.getLabel();
-                dims[0] = datum.getChannels(); dims[1] = datum.getHeight(); dims[2] = datum.getWidth();
-            } else if (os == OS.WINDOWS) {
-                ImagenetProtoWin32.Datum datum = ImagenetProtoWin32.Datum.parseFrom(entry.getValue());
-                image = datum.getData().toByteArray();
-                label = datum.getLabel();
-                dims[0] = datum.getChannels(); dims[1] = datum.getHeight(); dims[2] = datum.getWidth();
-            } else throw new RuntimeException("The operation system is not supported");
+                break;
+        	case LINUX:
+                ImagenetProtoLinux.Datum datum2 = ImagenetProtoLinux.Datum.parseFrom(entry.getValue());
+                image = datum2.getData().toByteArray();
+                label = datum2.getLabel();
+                dims[0] = datum2.getChannels(); dims[1] = datum2.getHeight(); dims[2] = datum2.getWidth();
+                break;
+            case WINDOWS:
+                ImagenetProtoWin32.Datum datum3 = ImagenetProtoWin32.Datum.parseFrom(entry.getValue());
+                image = datum3.getData().toByteArray();
+                label = datum3.getLabel();
+                dims[0] = datum3.getChannels(); dims[1] = datum3.getHeight(); dims[2] = datum3.getWidth();
+                break;
+            default: throw new RuntimeException("The operation system is not supported");
+        	}
         } catch (InvalidProtocolBufferException e) {
             throw new RuntimeException(e);
         }
@@ -138,25 +162,27 @@ public class LmdbUtils {
         }
     }
     
-    public static int getSize(Transaction tx, Database db, OS os) {
-    	int[] dims = getDims(tx, db, os);
+    public static int getSize(Transaction tx, Database db) {
+    	int[] dims = getDims(tx, db);
     	return dims[0] * dims[1] * dims[2];
     }
 
-    public static int[] getDims(Transaction tx, Database db, OS os) {
+    public static int[] getDims(Transaction tx, Database db) {
         try(BufferCursor cursor = db.bufferCursor(tx)) {
             if (cursor.first()) {
                 try {
-                    if (os == OS.OSX) {
+                	switch(os) {
+                	case OSX: 
                         ImagenetProtoOSX.Datum datum = ImagenetProtoOSX.Datum.parseFrom(cursor.valBytes());
                         return new int[]{datum.getChannels(), datum.getHeight(), datum.getWidth()};
-                    } else if (os == OS.LINUX) {
-                        ImagenetProtoLinux.Datum datum = ImagenetProtoLinux.Datum.parseFrom(cursor.valBytes());
-                        return new int[]{datum.getChannels(), datum.getHeight(), datum.getWidth()};
-                    } else if (os == OS.WINDOWS) {
-                        ImagenetProtoWin32.Datum datum = ImagenetProtoWin32.Datum.parseFrom(cursor.valBytes());
-                        return new int[]{datum.getChannels(), datum.getHeight(), datum.getWidth()};
-                    } else throw new RuntimeException("The operation system is not supported");
+                	case LINUX:
+                        ImagenetProtoLinux.Datum datum2 = ImagenetProtoLinux.Datum.parseFrom(cursor.valBytes());
+                        return new int[]{datum2.getChannels(), datum2.getHeight(), datum2.getWidth()};
+                	case WINDOWS:
+                        ImagenetProtoWin32.Datum datum3 = ImagenetProtoWin32.Datum.parseFrom(cursor.valBytes());
+                        return new int[]{datum3.getChannels(), datum3.getHeight(), datum3.getWidth()};
+                    default: throw new RuntimeException("The operation system is not supported");
+                	}
                 } catch (InvalidProtocolBufferException e) {
                     throw new RuntimeException(e);
                 }
@@ -169,7 +195,7 @@ public class LmdbUtils {
         Env env = getEnv("dataset/imagenet/ilsvrc12_train_lmdb");
         Transaction tx = env.createReadTransaction();
         Database db = env.openDatabase();
-        getImageAsByteArray(tx, db, 20, true, OS.OSX);
+        getImageAsByteArray(tx, db, 20, true);
         //The below just demos how to get iterator
         getIterator(getIterable(tx, db));
         abortTransaction(tx);

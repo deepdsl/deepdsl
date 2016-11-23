@@ -2,7 +2,6 @@ package deepdsl.gen;
 import deepdsl.cudnn.*;
 import deepdsl.cudnn.config.*;
 import deepdsl.tensor.*;
-import deepdsl.data.imagenet.LmdbUtils;
 
 // This file is for inference only, which needs trained parameters.
 public class Overfeat_infer {
@@ -10,8 +9,6 @@ public class Overfeat_infer {
 	static{ JCudaTensor.enableMemoryCache();}
 	// network_dir
 	static String network_dir = "src/main/java/deepdsl/gen/overfeat";
-	// platform
-	static LmdbUtils.OS platform = LmdbUtils.OS.WINDOWS;
 	// test_data_path
 	static String test_data_path = "dataset/imagenet/ilsvrc12_val_lmdb";
 	// test_itr
@@ -29,8 +26,8 @@ public class Overfeat_infer {
 	static JCudnnConvolution x28 = new JCudnnConvolution(new int[]{128,96,27,27},new int[]{256,96,5,5},new int[]{256}, 1, 2);
 	// (Convolv(4,0),List(List(128, 3, 224, 224), List(96, 3, 11, 11), List(96)))
 	static JCudnnConvolution x13 = new JCudnnConvolution(new int[]{128,3,224,224},new int[]{96,3,11,11},new int[]{96}, 4, 0);
-	// (Lmdb(1000000,10000,Win32,1000),false)
-	static LmdbFactory x1 = LmdbFactory.getFactory(test_data_path, test_size, new int[]{128, 3, 224, 224}, platform, 1000, true);
+	// (Lmdb(1000000,10000,1000),false)
+	static LmdbFactory x1 = LmdbFactory.getFactory(test_data_path, test_size, new int[]{128, 3, 224, 224}, 1000, true);
 	// (Pooling(2,2,0,true),List(List(128, 1024, 13, 13)))
 	static JCudnnPooling x71 = new JCudnnPooling(new int[]{128,1024,13,13}, 2, 2, 0, PoolingType.MAX);
 	// (Pooling(2,2,0,true),List(List(128, 256, 27, 27)))

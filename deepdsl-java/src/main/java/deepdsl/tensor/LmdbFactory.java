@@ -17,13 +17,12 @@ public class LmdbFactory extends JTensorFactory {
 	Iterator<Entry> iterator;
 	Transaction tx;
 	Database db;
-	LmdbUtils.OS os; 
 	int max_size;
 	int count = 0;  
 	int[] mean; 
 	boolean centerCropping = false;
  
-	private LmdbFactory(int[] dims, String path, LmdbUtils.OS os, int max_size, int numOfClasses, boolean centerCropping) {
+	private LmdbFactory(int[] dims, String path, int max_size, int numOfClasses, boolean centerCropping) {
 		super(dims);   
 		this.centerCropping = centerCropping;
 		mean = (dims[1] == 3) ? new int[]{104, 117, 123} : new int[dims[1]]; // use fixed mean if channel size is 3  
@@ -31,8 +30,8 @@ public class LmdbFactory extends JTensorFactory {
 		Env env = LmdbUtils.getEnv(path);
 		tx = env.createReadTransaction();
 		db = env.openDatabase();
-		iterator = LmdbUtils.getIterator(LmdbUtils.getIterable(tx, db));
-		this.os = os;
+		iterator = LmdbUtils.getIterator(LmdbUtils.getIterable(tx, db)); 
+		
 		this.max_size = max_size;
 
 		if(max_size < batch) {
@@ -40,21 +39,23 @@ public class LmdbFactory extends JTensorFactory {
 		} 
 		if(_k == 0) {
 			_k = numOfClasses;
-			labelMap = new int[numOfClasses];
-			Arrays.fill(labelMap, -1);
+			if(labelMap == null || labelMap.length != _k) {
+				labelMap = new int[numOfClasses];
+				Arrays.fill(labelMap, -1);
+			}
 		}
 		else if(_k != numOfClasses){
 			throw new RuntimeException("Different number of classes for training/test samples");
 		}
 	} 
 	
-	// The lookup method is for testing only to force the class label to become 10 classes instead of 1000
+	// The lookup method is for testing only to force the class label to have a number of classes less than 1000
 	static final int maxNumOfClasses = 1000;
 	static int _k = 0;
-	static int[] labelMap;
+	static int[] labelMap; // = {365, 981, 863, 342, 819, 337, 374, 608, 895, 263}; // hard-coded class label translation for internal testing
 	
-	int lookup(int x) {
-		if(_k >= maxNumOfClasses) {
+	static int lookup(int x) {
+		if(_k >= maxNumOfClasses) { // don't translate labels if there are already 1000 classes
 			return x;
 		}
 		for(int i=0; i<_k; i++) {
@@ -88,7 +89,7 @@ public class LmdbFactory extends JTensorFactory {
 		
 		for (int i = 0; i < batch; i ++) {
 			Entry entry = iterator.next();
-			Tuple tuple = LmdbUtils.nextTuple(entry, os);
+			Tuple tuple = LmdbUtils.nextTuple(entry);
 			byte[] bytes = tuple.image;
 			int label = tuple.label;
 			int[] image_dims = tuple.dims;
@@ -126,12 +127,13 @@ public class LmdbFactory extends JTensorFactory {
 					}
 				}
 			}
-			labels[i] = lookup(label); // FIXME: replace "lookup(label)" with just "label" for actual training with 1000 classes
+			labels[i] = lookup(label); // FIXME: Users can replace "lookup(label)" with just "label" for actual training with 1000 classes
 		} 
 
 		JTensorFloatTuple pair = new JTensorFloatTuple(new JTensorFloat(images, dims), 
 														new JTensorFloat(labels, new int[]{batch}));
-		ArithStats.timing("sliceLmdbFloat", begin);
+		ArithStats.timing("sliceLmdbFloat", begin); 
+		
 		return pair;
 	}
 
@@ -139,25 +141,20 @@ public class LmdbFactory extends JTensorFactory {
 	 * The method to set up Factory for stream loading from LMDB
 	 *
 	 * @param dims
-	 * @param path the path of the LMDB data
-	 * @param os the operating system of concern
+	 * @param path the path of the LMDB data 
 	 * @return
-	 */
-	public static LmdbFactory getFactory(String path, int max_size, int[] dims, LmdbUtils.OS os, int numOfClasses, boolean centerCropping) {
-		return new LmdbFactory(dims, path, os, max_size, numOfClasses, centerCropping);
+	 */ 
+	public static LmdbFactory getFactory(String path, int max_size, int[] dims, int numOfClasses, boolean centerCropping) {
+		return new LmdbFactory(dims, path, max_size, numOfClasses, centerCropping);
 	}
-	
-	public static LmdbFactory getFactory(String path, int max_size, int[] dims, LmdbUtils.OS os, int numOfClasses) {
-		return getFactory(path, max_size, dims, os, numOfClasses, false);
+	public static LmdbFactory getFactory(String path, int max_size, int[] dims, int numOfClasses) {
+		return getFactory(path, max_size, dims, numOfClasses, false);
 	}
  
-	public static LmdbFactory getFactory(String path, int max_size, int[] dims, LmdbUtils.OS os) {
-		return getFactory(path, max_size, dims, os, 10);
+	public static LmdbFactory getFactory(String path, int max_size, int[] dims) {
+		return getFactory(path, max_size, dims, 10);
 	}
-	
-	public static LmdbFactory getFactory(String path, int max_size, int[] dims) { 
-		return getFactory(path, max_size, dims, LmdbUtils.OS.WINDOWS, 10);
-	}
+	 
 	 
 	public String toString() { return "LMDB " + Arrays.toString(dims); }
 }

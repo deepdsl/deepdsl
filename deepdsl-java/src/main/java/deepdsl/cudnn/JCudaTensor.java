@@ -113,9 +113,9 @@ public class JCudaTensor extends JCudaFunction {
 		return asJTensor().accuracy(y_label, top);
 	}
 	
-	public JCudaTensor clone() {
-		JCudaTensor ret = new JCudaTensor(this.dims);
-		
+	public JCudaTensor clone() { return clone(new JCudaTensor(this.dims)); }
+	
+	public JCudaTensor clone(JCudaTensor ret) { 
 		long begin = System.nanoTime();
 		
 		copyDeviceToDevice(size, data, ret.data); 
@@ -258,9 +258,11 @@ public class JCudaTensor extends JCudaFunction {
 	// this = this * scale
 	public JCudaTensor times_i(float scale) {
 		long begin = System.nanoTime(); 
-		Pointer x = getData();
-		VecFloat.mulScalar(size, x, x, scale);
-		 
+		
+		if(scale != 1) {
+			Pointer x = getData();
+			VecFloat.mulScalar(size, x, x, scale);
+		}
 		ArithStats.cuda_timing("cuda times scalar", begin);
 		return this;
 	}
@@ -289,6 +291,18 @@ public class JCudaTensor extends JCudaFunction {
 		return this;
 	}
 
+	// this = this + y
+	public JCudaTensor plus_i(float y) {
+		long begin = System.nanoTime(); 
+		
+		if(y != 0) {
+			Pointer x = getData();
+			VecFloat.addScalar(size, x, x, y);
+		}
+		ArithStats.cuda_timing("cuda add tensor to scalar", begin);
+		return this;
+	}
+	
 	public JCudaTensor log() {
 		long begin = System.nanoTime(); 
 		Pointer x = getData();
