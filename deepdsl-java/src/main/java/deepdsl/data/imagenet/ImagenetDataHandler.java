@@ -74,7 +74,7 @@ public class ImagenetDataHandler {
     public static void main (String[] argv) throws Exception {
         if (argv.length != 6) {
             System.out.println("USAGE: java deepdsl.data.imagenet.ImagenetDataHandler resize_image_height resize_image_width raw_image_path output_image_path ground_truth_file_path batch_size");
-            System.out.println("e.g. java deepdsl.data.imagenet.ImagenetDataHandler 256, 256, ~/tmp/ILSVRC2012_img_train, ~/tmp1/ILSVRC2012_img_train, dataset/imagenet/train.txt 512");
+            System.out.println("e.g. java deepdsl.data.imagenet.ImagenetDataHandler 256 256 ~/tmp/ILSVRC2012_img_train ~/tmp1/ILSVRC2012_img_train dataset/imagenet/train.txt 512");
         }
         else {
             ImagenetDataHandler handler = new ImagenetDataHandler(Integer.parseInt(argv[0]), Integer.parseInt(argv[1]), argv[2], argv[3], argv[4], Integer.parseInt(argv[5]));
@@ -82,11 +82,11 @@ public class ImagenetDataHandler {
 //            handler.prepareImagenetData();
 //            handler.resizeAndPersistAll();
 
-//            Testing with 175 images that have been stored in 3 batches (batch_size = 64)
-//            handler.setBatchFiles();
-//            for (int i = 0; i < 175; i++) {
-//                handler.nextTuple(i);
-//            }
+//            Testing with 2049 images that have been stored in 3 batches (batch_size = 1024)
+            handler.setBatchFiles();
+            for (int i = 0; i < 2049; i++) {
+                handler.nextTuple(i);
+            }
 
         }
     }
@@ -150,7 +150,8 @@ public class ImagenetDataHandler {
         } catch (DirectoryIteratorException | IOException ex) {
             throw new RuntimeException(ex);
         }
-        batchFiles.forEach( file -> System.out.println(file));
+        //The beow is used to show how many batches are available
+        //batchFiles.forEach( file -> System.out.println(file));
     }
 
     private void prepareImagenetData() throws IOException {
@@ -171,8 +172,9 @@ public class ImagenetDataHandler {
             try {
                 originalImage = ImageIO.read(new File(pathToDataset + FILE_SEPARATOR + pairs[i].getPath()));
                 ++index;
-            } catch (IIOException ex) {
-                continue;
+            } catch (Exception ex) {
+            	System.out.println("Image reading exception for " + pathToDataset + FILE_SEPARATOR + pairs[i].getPath() + ", skip it, exception is: " + ex.getMessage());
+            	continue;
             }
             int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
             BufferedImage resizeImageJpg = resizeImage(originalImage, type);
