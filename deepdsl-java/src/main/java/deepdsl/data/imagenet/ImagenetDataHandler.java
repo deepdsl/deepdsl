@@ -1,9 +1,9 @@
 package deepdsl.data.imagenet;
 
-import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.*;
@@ -185,11 +185,7 @@ public class ImagenetDataHandler {
             } else dim[0] = 3;
             dim[1] = resizeImageJpg.getHeight();
             dim[2] = resizeImageJpg.getWidth();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write( resizeImageJpg, "JPEG", baos );
-            baos.flush();
-            byte[] imageBytes = baos.toByteArray();
-            baos.close();
+            byte[] imageBytes = ((DataBufferByte) resizeImageJpg.getRaster().getDataBuffer()).getData();
             imageCol.addImageAndLabel(imageBytes, dim, pairs[i].getLabel());
             System.out.println(index + " resized image(" + i + ")");
             if (index % batchSize == 0) {
