@@ -79,8 +79,8 @@ public class ImagenetDataHandler {
         else {
             ImagenetDataHandler handler = new ImagenetDataHandler(Integer.parseInt(argv[0]), Integer.parseInt(argv[1]), argv[2], argv[3], argv[4], Integer.parseInt(argv[5]));
 //            Uncomment the below two lines to prepare the dataset
-//            handler.prepareImagenetData();
-//            handler.resizeAndPersistAll();
+            handler.prepareImagenetData();
+            handler.resizeAndPersistAll();
 
 //            Testing with 2049 images that have been stored in 3 batches (batch_size = 1024)
             handler.setBatchFiles();
@@ -187,7 +187,7 @@ public class ImagenetDataHandler {
             dim[2] = resizeImageJpg.getWidth();
             byte[] imageBytes = ((DataBufferByte) resizeImageJpg.getRaster().getDataBuffer()).getData();
             imageCol.addImageAndLabel(imageBytes, dim, pairs[i].getLabel());
-            System.out.println(index + " resized image(" + i + ")");
+            if (index % 500 == 0) System.out.println(index + " resized image(" + i + ")");
             if (index % batchSize == 0) {
                 persistBatch(imageCol, index / batchSize);
                 imageCol = new ImageCol();
