@@ -123,6 +123,10 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 
 ```
 
+## FAQ
+- What should I do if I receive compilation errors in the TestNetwork.scala code after I upgrade code?
+     - You can simply delete {your_home_folder}/.m2/repository/deepdsl/deepdsl-compile/0.1/deepdsl-compile-0.1.jar and rebuild.
+
 [JCuda]: <http://jcuda.org/>
 [DeepDSL]: <http://openreview.net/pdf?id=Bks8cPcxe>
 
