@@ -14,7 +14,7 @@ public class JCudnnConvolution extends JCudaFunction {
 	// limit = -1 unlimited workspace
 	// limit = 0 no workspace
 	// otherwise limited workspace
-	long limit = 500_000_000; // 3 * 1000_000_000; // 3000 MB
+	long limit = -1; // 3 * 1000_000_000; // 3000 MB
 	
 	private cudnnFilterDescriptor filter_dptr;
 	private cudnnConvolutionDescriptor convolv_dptr; 
