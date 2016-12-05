@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Deepdsl by deepdsl</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Deepdsl</h1>
+      <h2 class="project-tagline">DeepDSL is a domain specific language (DSL) embedded in Scala for writing deep learning network applications.</h2>
+      <a href="https://github.com/deepdsl/deepdsl" class="btn">View on GitHub</a>
+      <a href="https://github.com/deepdsl/deepdsl/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/deepdsl/deepdsl/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="deepdsl" class="anchor" href="#deepdsl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DeepDSL</h1>
+
+<p>DeepDSL is a domain specific language (DSL) embedded in Scala for writing deep learning network applications.</p>
+
+<ul>
+<li>DeepDSL program compiles into plain Java source program</li>
+<li>The compiled Java source program run on Nvidia GPU by leveraging <a href="http://jcuda.org/">JCuda</a> to interact with the Nvidia CUDA library</li>
+</ul>
+
+<h2>
+<a id="performance-benchmark" class="anchor" href="#performance-benchmark" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Performance Benchmark</h2>
+
+<p>Below we list the runtime and memory performance comparison between DeepDSL, Tensorflow, and Caffe with a single Nvidia Tesla K40c GPU. </p>
+
+<p><img src="https://github.com/deepdsl/deepdsl/blob/master/benchmark/runtime_performance.png" alt="Runtime performance">
+<img src="https://github.com/deepdsl/deepdsl/blob/master/benchmark/memory_performance.png" alt="Runtime performance"></p>
+
+<p>Please refer to our paper draft <a href="http://openreview.net/pdf?id=Bks8cPcxe">DeepDSL</a> for full details. </p>
+
+<h2>
+<a id="run-deepdsl-compiled-programs" class="anchor" href="#run-deepdsl-compiled-programs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Run DeepDSL compiled programs</h2>
+
+<ul>
+<li>There are several compiled Java source program located at <a href="https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen">src/main/java/deepdsl/gen/</a>. </li>
+<li>These programs train and test on several well-known deep networks: Lenet, Alexnet, Overfeat, Googlenet, Vgg, and ResNet. </li>
+</ul>
+
+<h3>
+<a id="maven-prerequisites" class="anchor" href="#maven-prerequisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Maven Prerequisites:</h3>
+
+<ul>
+<li>To build the project using Maven: You just need to install the latest <a href="https://maven.apache.org/download.cgi">Apache Maven</a>
+</li>
+<li>To run test cases and compiled code for different networks, you also need to: 
+
+<ul>
+<li>have a <a href="https://en.wikipedia.org/wiki/CUDA">Nvidia CUDA</a> enabled GPU machine<br>
+</li>
+<li>install 8.X version of <a href="https://developer.nvidia.com/cuda-downloads">CUDA Toolkit 8.0</a> and <a href="https://developer.nvidia.com/cudnn">cuDNN 5</a> libraries</li>
+</ul>
+</li>
+</ul>
+
+<h3>
+<a id="maven-build-need-to-be-executed-the-below-in-the-root-folder-of-the-project" class="anchor" href="#maven-build-need-to-be-executed-the-below-in-the-root-folder-of-the-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Maven Build (Need to be executed the below in the root folder of the project)</h3>
+
+<ul>
+<li>Windows build: mvn -Pwin64 clean install</li>
+<li>Linux build: mvn -Plinux64 clean install</li>
+<li>OSX build: mvn -Posx64 clean install (This will be for trial purpose only as there're no CUDA based GPU on Mac systems yet)</li>
+</ul>
+
+<h3>
+<a id="maven-run-the-below-uses-alexnet-as-example-executions-with-other-networks-are-similar" class="anchor" href="#maven-run-the-below-uses-alexnet-as-example-executions-with-other-networks-are-similar" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Maven Run (the below uses Alexnet as example, executions with other networks are similar)</h3>
+
+<p>After the previous Maven Build step, you can cd to the deepdsl-java folder and run the following based on your operating system:</p>
+
+<ul>
+<li>Windows build: mvn -Pwin64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"</li>
+<li>Linux build: mvn -Plinux64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"</li>
+<li>OSX build: mvn -Posx64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"</li>
+</ul>
+
+<h3>
+<a id="ide-notes" class="anchor" href="#ide-notes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>IDE notes</h3>
+
+<ul>
+<li>It appears IntelliJ can handle the dependencies correctly once you import the Maven project or simply pull the latest code</li>
+<li>Eclipse, however, after importing Maven project, you may also need to right select deepdsl project -&gt; Maven -&gt; Update Project... -&gt; Ok 
+to force refreshing the dependencies, if you have updated from previous build</li>
+</ul>
+
+<h2>
+<a id="data-handling-utils" class="anchor" href="#data-handling-utils" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data handling utils</h2>
+
+<p>There are two util Python scripts under the folder src/main/python (both should be run from the deepdsl project root folder).</p>
+
+<ul>
+<li>mnist_data_handler.py: download the mnist data and unzip to the <code>dataset/mnist</code> folder
+
+<ul>
+<li>to run: <code>python src/main/python/mnist_data_handler.py</code>, this will pull and extract the mnist dataset to <code>dataset/mnist</code>
+</li>
+</ul>
+</li>
+<li>imagenet_data_selector.py: to select given number of images of given number of categories from the original imagenet data
+
+<ul>
+<li>to run: <code>python src/main/python/imagenet_data_selector.py</code> and then follow the on-screen instructions to apply the desired parameters and run again
+
+<ul>
+<li>For example, <code>python imagenet_data_selector.py ~/data/ILSVRC2012_img_train ~/data/temp 5 50 0.3 0.2</code>, which selects from 5 categories (50 images per catetory) from ~/data/ILSVRC2012_img_train folder and stores selected images to ~/data/temp folder, where 30% are stored as validation dataset and 20% are stored as test dataset</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h3>
+<a id="default-location-for-training-and-testing-data" class="anchor" href="#default-location-for-training-and-testing-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default location for training and testing data</h3>
+
+<p>Each program assumes a location for the training and test data. </p>
+
+<ul>
+<li>
+<a href="https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Lenet.java">Lenet.java</a> uses Mnist, which is assumed to be located at <a href="please%20use%20the%20script%20described%20in%20the%20previous%20section%20to%20prepare%20the%20dataset">dataset/mnist</a>.</li>
+<li>Other programs such as <a href="https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Alexnet.java">Alexnet.java</a> use imagenet (as Lmdb database), which is assumed to be located at "<a href="https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/imagenet/">dataset/imagenet/</a>ilsvrc12_train_lmdb" for training data and "<a href="https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/imagenet/">dataset/imagenet/</a>ilsvrc12_val_lmdb" for testing data, where the image sizes are cropped to 224 x 224. Other image sizes should also work since we would randomly cropped the training images to the right size while cropping the testing images at center.
+
+<ul>
+<li>Users currently may use tools like <a href="https://github.com/BVLC/caffe/tree/master/examples/imagenet">Caffe's imagenet script</a> <code>examples/imagenet/create_imagenet.sh</code> to create the lmdb data from the original Imagenet dataset. Please hang tight, we are adding our scripts soon so you don't have to resort to outside reources.</li>
+</ul>
+</li>
+<li>For Lmdb data source, users may edit the call to <a href="https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/main/java/deepdsl/tensor/LmdbFactory.java">LmdbFactory</a>.getFactory in the generated Java source to change the max number of training images and test images. The current default is 1000,000 and 10,000 respectively. </li>
+<li>The training and testing all use the same batch size. </li>
+</ul>
+
+<h2>
+<a id="adjust-learning-parameters" class="anchor" href="#adjust-learning-parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adjust learning parameters</h2>
+
+<ul>
+<li>At the start of each file, there are some parameters you can adjust such as learn_rate and moment, as well as training iterations and test iterations</li>
+<li>The batch size for Lenet is set at 500; for Alexnet, Overfeat, and Googlenet is 128; for Vgg and ResNet is set at 64</li>
+<li>At this time, if you want to change batch size, you may want to regenerate the Java source file. Directly editing the Java source might easily miss a few places</li>
+</ul>
+
+<h3>
+<a id="default-location-for-trained-parameters" class="anchor" href="#default-location-for-trained-parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default location for trained parameters</h3>
+
+<p>Each program will save the trained model, the set of trained parameters (as serialized Java objects), into a default directory. </p>
+
+<ul>
+<li>It will try to load saved parameters (if exist) from the same directory when you train the same program again next time</li>
+<li>For example, <a href="https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Alexnet.java">Alexnet.java</a> will try to use the directory "<a href="https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen">src/main/java/deepdsl/gen/</a>alexnet" </li>
+<li>You can customize this in the source file directly.</li>
+</ul>
+
+<h2>
+<a id="generate-java-source" class="anchor" href="#generate-java-source" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Generate Java source</h2>
+
+<p>You can generate Java source for a particular network by running the Scala test program <a href="https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/test/java/deepdsl/TestNetwork.scala">TestNetwork.scala</a>. While this is a Scala program, you can run it as a JUnit test to generate Java source code, the generated code will be written to <a href="https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen">src/main/java/deepdsl/gen/</a>. 
+You can run this directly from IDE, or cd to deepdsl-java folder and run from command line as the below after modifying the code and executing Maven build.</p>
+
+<ul>
+<li>e.g. Overfeat cuda code generation: mvn -Plinux64 test -Dtest=TestNetwork#testOverfeat_cuda (this will generate a new Overfeat.java that overwrites the existing one in <a href="https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen">src/main/java/deepdsl/gen/</a>).</li>
+</ul>
+
+<h3>
+<a id="example-generate-lenet" class="anchor" href="#example-generate-lenet" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example: generate Lenet</h3>
+
+<div class="highlight highlight-source-scala"><pre>
+    <span class="pl-k">val</span> <span class="pl-en">K</span> <span class="pl-k">=</span> <span class="pl-c1">10</span> <span class="pl-c">// # of classes </span>
+    <span class="pl-k">val</span> <span class="pl-en">N</span> <span class="pl-k">=</span> <span class="pl-c1">500</span>; <span class="pl-k">val</span> <span class="pl-en">C</span> <span class="pl-k">=</span> <span class="pl-c1">1</span>; <span class="pl-k">val</span> <span class="pl-en">N1</span> <span class="pl-k">=</span> <span class="pl-c1">28</span>; <span class="pl-k">val</span> <span class="pl-en">N2</span> <span class="pl-k">=</span> <span class="pl-c1">28</span> <span class="pl-c">// batch size, channel, and x/y size</span>
+
+    <span class="pl-c">// Specifying train dataSet. (code gen will also use this to find test dataSet)</span>
+    <span class="pl-k">val</span> <span class="pl-en">y</span> <span class="pl-k">=</span> <span class="pl-en">Vec</span>._new(<span class="pl-en">Mnist</span>, <span class="pl-s"><span class="pl-pds">"</span>label<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Y<span class="pl-pds">"</span></span>, <span class="pl-en">N</span>)              
+    <span class="pl-k">val</span> <span class="pl-en">x</span> <span class="pl-k">=</span> <span class="pl-en">Vec</span>._new(<span class="pl-en">Mnist</span>, <span class="pl-s"><span class="pl-pds">"</span>image<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>X<span class="pl-pds">"</span></span>, <span class="pl-en">N</span>, <span class="pl-en">C</span>, <span class="pl-en">N1</span>, <span class="pl-en">N2</span>)  
+
+    <span class="pl-c">// followings are tensor functions</span>
+    <span class="pl-k">val</span> <span class="pl-en">cv1</span> <span class="pl-k">=</span> <span class="pl-en">CudaLayer</span>.convolv(<span class="pl-s"><span class="pl-pds">"</span>cv1<span class="pl-pds">"</span></span>, <span class="pl-c1">5</span>, <span class="pl-c1">20</span>)       <span class="pl-c">// convolution layer with kernel 5, stride 1, padding 0, and output channel 20</span>
+    <span class="pl-k">val</span> <span class="pl-en">cv2</span> <span class="pl-k">=</span> <span class="pl-en">CudaLayer</span>.convolv(<span class="pl-s"><span class="pl-pds">"</span>cv2<span class="pl-pds">"</span></span>, <span class="pl-c1">5</span>, <span class="pl-c1">50</span>)
+    <span class="pl-k">val</span> <span class="pl-en">mp</span> <span class="pl-k">=</span> <span class="pl-en">CudaLayer</span>.max_pool(<span class="pl-c1">2</span>)                  <span class="pl-c">// max pooling with kernel 2 and stride 2</span>
+    <span class="pl-k">val</span> <span class="pl-en">flat</span> <span class="pl-k">=</span> <span class="pl-en">Layer</span>.flatten(<span class="pl-c1">4</span>, <span class="pl-c1">1</span>)                  <span class="pl-c">// flatten a 4-D tensor to 2-D: axis 0 - 3 becomes axis 0 and  axis 1-3</span>
+    <span class="pl-k">val</span> <span class="pl-en">f</span> <span class="pl-k">=</span> <span class="pl-en">Layer</span>.full(<span class="pl-s"><span class="pl-pds">"</span>fc1<span class="pl-pds">"</span></span>, <span class="pl-c1">500</span>)                  <span class="pl-c">// fully connected layer with output dimension 500</span>
+    <span class="pl-k">val</span> <span class="pl-en">f2</span> <span class="pl-k">=</span> <span class="pl-en">Layer</span>.full(<span class="pl-s"><span class="pl-pds">"</span>fc2<span class="pl-pds">"</span></span>, <span class="pl-en">K</span>)                   
+    <span class="pl-k">val</span> <span class="pl-en">softmax</span> <span class="pl-k">=</span> <span class="pl-en">CudaLayer</span>.softmax                 
+    <span class="pl-k">val</span> <span class="pl-en">relu</span> <span class="pl-k">=</span> <span class="pl-en">CudaLayer</span>.relu(<span class="pl-c1">2</span>)                    <span class="pl-c">// ReLU activation function (2-D)</span>
+
+    <span class="pl-c">// o is a left-associative function composition operator: f o g o h == (f o g) o h  </span>
+    <span class="pl-k">val</span> <span class="pl-en">network</span> <span class="pl-k">=</span> f2 o relu o f o flat o mp o cv2 o mp o cv1 
+
+    println(typeof(network))                        <span class="pl-c">// typecheck the network and print out the tensor function type</span>
+
+    <span class="pl-k">val</span> <span class="pl-en">x1</span> <span class="pl-k">=</span> x.asCuda                               <span class="pl-c">// load x (images) to GPU memory</span>
+    <span class="pl-k">val</span> <span class="pl-en">y1</span> <span class="pl-k">=</span> y.asIndicator(<span class="pl-en">K</span>).asCuda                <span class="pl-c">// convert y (labels) to indicator vectors and load into GPU memory</span>
+    <span class="pl-k">val</span> <span class="pl-en">c</span> <span class="pl-k">=</span> (<span class="pl-en">Layer</span>.log_loss(y1) o softmax o network) (x1) <span class="pl-c">// represent the log-loss of the training data</span>
+    <span class="pl-k">val</span> <span class="pl-en">p</span> <span class="pl-k">=</span> (<span class="pl-en">Layer</span>.precision(y1) o network) (x1)    <span class="pl-c">// represent the accuracy of the test data</span>
+
+    <span class="pl-k">val</span> <span class="pl-en">param</span> <span class="pl-k">=</span> c.freeVar.toList                    <span class="pl-c">// discover the list of training parameters</span>
+
+    <span class="pl-c">// parameters: name, training iterations, test iterations, learn rate, momentum, weight decay, cropping (0 means none)</span>
+    <span class="pl-k">val</span> <span class="pl-en">solver</span> <span class="pl-k">=</span> <span class="pl-en">Train</span>(<span class="pl-s"><span class="pl-pds">"</span>lenet<span class="pl-pds">"</span></span>, <span class="pl-c1">100</span>, <span class="pl-c1">10</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">0.9f</span>, <span class="pl-c1">0.0005f</span>, <span class="pl-c1">0</span>)
+
+    <span class="pl-k">val</span> <span class="pl-en">loop</span> <span class="pl-k">=</span> <span class="pl-en">Loop</span>(c, p, (x, y), param, solver)    <span class="pl-c">// represent the training and testing loop</span>
+
+    runtimeMemory(loop.train)                       <span class="pl-c">// print out the detailed memory consumption for one training loop</span>
+    parameterMemory(loop)                           <span class="pl-c">// print out the parameter memory use</span>
+    workspaceMemory(loop.train)                     <span class="pl-c">// print out the GPU (convolution) workspace use (only if you has Nvidia GPU)</span>
+    cudnn_gen.print(loop)                           <span class="pl-c">// generate Java source code</span>
+</pre></div>
+
+<h2>
+<a id="faq" class="anchor" href="#faq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>FAQ</h2>
+
+<ul>
+<li>What should I do if I receive compilation errors in the TestNetwork.scala code after I upgrade code?
+
+<ul>
+<li>You can simply delete {your_home_folder}/.m2/repository/deepdsl/deepdsl-compile/0.1/deepdsl-compile-0.1.jar and rebuild.</li>
+</ul>
+</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/deepdsl/deepdsl">Deepdsl</a> is maintained by <a href="https://github.com/deepdsl">deepdsl</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
