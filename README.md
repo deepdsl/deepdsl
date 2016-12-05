@@ -1,6 +1,6 @@
 # DeepDSL
 
-DeepDSL is a domain specific language embedded in Scala for writing deep convolutional neural network applications.
+DeepDSL is a domain specific language (DSL) embedded in Scala for writing deep learning network applications.
 
 - DeepDSL program compiles into plain Java source program
 - The compiled Java source program run on Nvidia GPU by leveraging [JCuda] to interact with the Nvidia CUDA library
