@@ -180,9 +180,10 @@ public class ImagenetDataHandler {
             BufferedImage resizeImageJpg = resizeImage(originalImage, type);
             int[] dim = new int[3];
             int imageType = resizeImageJpg.getType();
-            if (BufferedImage.TYPE_BYTE_GRAY == imageType || BufferedImage.TYPE_USHORT_GRAY == imageType) {
-                dim[0] = 1;
-            } else dim[0] = 3;
+            //if (BufferedImage.TYPE_BYTE_GRAY == imageType || BufferedImage.TYPE_USHORT_GRAY == imageType) {
+            //    dim[0] = 1;
+            //} else dim[0] = 3;
+            dim[0] = 3;
             dim[1] = resizeImageJpg.getHeight();
             dim[2] = resizeImageJpg.getWidth();
             byte[] imageBytes = ((DataBufferByte) resizeImageJpg.getRaster().getDataBuffer()).getData();
