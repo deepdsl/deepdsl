@@ -91,7 +91,7 @@ public class JCudnnBatchNorm extends JCudaFunction {
 
 	// if fixed_factor <= 1/forward_count then use accumulative moving average else use exponential moving average
 	public static double FIXED_FACTOR = 0.001; 
-	public static boolean withRunningVariance = true; // whether to run inference with running mean/variance
+	public static boolean withRunningVariance = false; // whether to run inference with running mean/variance
 	
 	public JCudnnBatchNorm(String path, int[] x_dims) {
 		this.x_dims = x_dims;
@@ -220,7 +220,7 @@ public class JCudnnBatchNorm extends JCudaFunction {
 
 	public JCudaTensor[] backward(JCudaTensor dy, JCudaTensor x, JCudaTensor scale) {
 		JCudaTensor d_scale = new JCudaTensor(norm_dims), d_bias = new JCudaTensor(norm_dims);
-		JCudaTensor dx = dy; // new JCudaTensor(x.getDims()); // This is in-place. Forward call cannot be in-place since use x
+		JCudaTensor dx = dy; // This is in-place. Forward call cannot be in-place since backward uses x
 		long begin = System.nanoTime();
 
 		int ret = cudnnBatchNormalizationBackward(cudnnHandle, mode, one, zero, one, zero,

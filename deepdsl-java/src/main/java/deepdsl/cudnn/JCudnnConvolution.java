@@ -14,8 +14,7 @@ public class JCudnnConvolution extends JCudaFunction {
 	// limit = -1 unlimited workspace
 	// limit = 0 no workspace
 	// otherwise limited workspace
-	//long limit = 500_000_000; // 5 * 1000_000_000; // 5000 MB
-	long limit = -1;
+	public static long limit = -1; // 3 * 1000_000_000; // 3000 MB
 	
 	private cudnnFilterDescriptor filter_dptr;
 	private cudnnConvolutionDescriptor convolv_dptr; 
@@ -30,8 +29,8 @@ public class JCudnnConvolution extends JCudaFunction {
 	JCudnnDescriptor x_dptr, y_dptr, b_dptr;
 	int forward_algorithm, backward_data_algorithm, backward_filter_algorithm;
  
-	long forwardSize = 0, backwardDataSize = 0, backwardFilterSize = 0; 
-	
+	private long forwardSize = 0, backwardDataSize = 0, backwardFilterSize = 0; 
+
 	public JCudnnConvolution(int[] x_dims, int[] w_dims, int[] b_dims) {
 		this(x_dims, w_dims, b_dims, 1, 0);
 	}
@@ -68,6 +67,8 @@ public class JCudnnConvolution extends JCudaFunction {
 		findWorkspaceSize();
 		reserveWorkspace();
 	}
+	
+	public long[] workspaceSize() { return new long[] { forwardSize, backwardDataSize, backwardFilterSize }; }
 	
 	private void selectAlgorithm() {
 		// Choose the best according to the preference
@@ -109,7 +110,7 @@ public class JCudnnConvolution extends JCudaFunction {
 		size = size >= backwardDataSize ? size : backwardDataSize;
 		size = size >= backwardFilterSize ? size : backwardFilterSize;
 		
-		if(size != 0) { allocateWorkspace(size); } 
+		if(size != 0) { reserveWorkspace(size); } 
 	}
  
 	public void free() {
@@ -131,8 +132,8 @@ public class JCudnnConvolution extends JCudaFunction {
         
 		int ret = cudnnConvolutionForward(cudnnHandle, alpha, x_dptr.descriptor, x.getData(),
 				filter_dptr, w.getData(), convolv_dptr, algorithm,
-				getWorkspace(), forwardSize, beta, y_dptr.descriptor, y.getData());
-
+				allocWorkspace(forwardSize), forwardSize, beta, y_dptr.descriptor, y.getData());
+		deallocWorkspace();
 		checkError(ret);
 		
         ret = cudnnAddTensor(cudnnHandle, alpha, b_dptr.descriptor, b.getData(), one, y_dptr.descriptor, y.getData());
@@ -158,8 +159,8 @@ public class JCudnnConvolution extends JCudaFunction {
 		int algorithm = backward_data_algorithm; 
   
         int ret = cudnnConvolutionBackwardData(cudnnHandle, alpha, filter_dptr, w.getData(), y_dptr.descriptor, dy.getData(), convolv_dptr, 
-        		algorithm, getWorkspace(), backwardDataSize, beta, x_dptr.descriptor, dx.getData());
-        
+        		algorithm, allocWorkspace(backwardDataSize), backwardDataSize, beta, x_dptr.descriptor, dx.getData());
+        deallocWorkspace();
         checkError(ret);
  
 		ArithStats.cuda_timing("convolution backward data", begin);
@@ -180,8 +181,8 @@ public class JCudnnConvolution extends JCudaFunction {
 		int algorithm = backward_filter_algorithm; 
         
         int ret = cudnnConvolutionBackwardFilter(cudnnHandle, alpha, x_dptr.descriptor, x.getData(), y_dptr.descriptor, dy.getData(), convolv_dptr, 
-        		algorithm, getWorkspace(), backwardFilterSize, beta, filter_dptr, dw.getData());   
-  
+        		algorithm, allocWorkspace(backwardFilterSize), backwardFilterSize, beta, filter_dptr, dw.getData());   
+        deallocWorkspace();
         checkError(ret);
 		ArithStats.cuda_timing("convolution backward filter", begin);
 		return dw;

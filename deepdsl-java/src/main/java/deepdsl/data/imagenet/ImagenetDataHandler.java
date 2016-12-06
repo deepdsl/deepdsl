@@ -161,7 +161,7 @@ public class ImagenetDataHandler {
                 .collect(Collectors.toList()).toArray(new Pair[]{});
         shuffleArray(pairs);
         numTotalItems = pairs.length;
-        System.out.println("numTotalItems" + numTotalItems);
+        System.out.println("numTotalItems=" + numTotalItems);
     }
 
     private void resizeAndPersistAll() throws IOException {

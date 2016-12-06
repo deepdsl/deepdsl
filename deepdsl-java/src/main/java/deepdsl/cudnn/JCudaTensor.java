@@ -90,10 +90,18 @@ public class JCudaTensor extends JCudaFunction {
 		}  
 		ArithStats.cuda_timing("JCudaTensor allocation", begin);
 	}
-	public static void enableMemoryCache() { useCache = true; } 
-	public static void clearMemoryCache() { memory.clear(); }
-	public static void disableMemoryCache() { useCache = false; }
 
+	public static void clearMemoryCache() { memory.clear(); }
+	
+	public static void enableMemoryCache() { 
+		useCache = true; 
+		JCudaFunction.enableWorkspaceCache();
+	} 
+	public static void disableMemoryCache() { 
+		useCache = false; 
+		JCudaFunction.disableWorkspaceCache();
+	}
+	
 	public JCudaTensor(JTensorFloat tensor) {
 		this(tensor.dim);
 		long begin = System.nanoTime();
@@ -339,7 +347,7 @@ public class JCudaTensor extends JCudaFunction {
 		long begin = System.nanoTime(); 
 		Pointer x = getData();  
 		
-		allocateWorkspace(size * Sizeof.FLOAT);
+		reserveWorkspace(size * Sizeof.FLOAT);
 		Pointer y = getWorkspace();
 		
 		VecFloat.set(size, y, limit);

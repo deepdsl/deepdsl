@@ -31,9 +31,7 @@ public abstract class JCudaFunction {
 		JCudnn.cudnnDestroy(cudnnHandle);
 		JCublas2.cublasDestroy(cublasHandle);
 		VecFloat.shutdown();
-		if(workspaceSize > 0 && workspace != null) {
-			cudaFree(workspace);
-		}
+		freeWorkspace();
 	} 
 	
 	public static void allocFloat(Pointer data, int size) {
@@ -79,28 +77,53 @@ public abstract class JCudaFunction {
 	private static Pointer workspace;
 	static long workspaceSize = 0;
 	
-	public static void allocateWorkspace(long size) {
+	private static void freeWorkspace() {
+		if(workspace != null) {
+			if(workspaceSize > 0) {
+				free(workspace);
+			}
+			workspace = null;
+		}
+	}
+	public static void reserveWorkspace(long size) {
 		if(workspaceSize < size) { 
 			workspaceSize = size; 
-			
-			if(workspace != null) {
-				free(workspace);
-				workspace = null;
-			}
+			freeWorkspace();
 		} 
 	}
-	
+
+	// use reserved workspace size (max)
 	public static Pointer getWorkspace() { 
 		if(workspace == null) {
 			workspace = new Pointer();
 			if(workspaceSize > 0) {
-				allocByte(workspace, workspaceSize);
+				allocByte(workspace, workspaceSize);  
 			}
 		}
 		return workspace;
 	}
 	
 	public static long getWorkspaceSize() { return workspaceSize; }
+	
+	public static void enableWorkspaceCache() { cacheWorkspace = true; }
+	public static void disableWorkspaceCache() { cacheWorkspace = false; }
+	
+	private static boolean cacheWorkspace = false;
+	
+	// use argument size (ignore reserved workspace size) if workspace is not cached
+	public static Pointer allocWorkspace(long size) {
+		if(! cacheWorkspace) {
+			freeWorkspace();
+			workspaceSize = size;
+		}
+		return getWorkspace();
+	}
+	
+	public static void deallocWorkspace() {
+		if(! cacheWorkspace) {
+			freeWorkspace();
+		}
+	}
 	
 	static float current = 1;
 	static Pointer currentPointer = one;
