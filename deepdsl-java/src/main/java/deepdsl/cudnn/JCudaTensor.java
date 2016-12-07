@@ -93,14 +93,9 @@ public class JCudaTensor extends JCudaFunction {
 
 	public static void clearMemoryCache() { memory.clear(); }
 	
-	public static void enableMemoryCache() { 
-		useCache = true; 
-		JCudaFunction.enableWorkspaceCache();
-	} 
-	public static void disableMemoryCache() { 
-		useCache = false; 
-		JCudaFunction.disableWorkspaceCache();
-	}
+	public static void enableMemoryCache() { useCache = true; } 
+	
+	public static void disableMemoryCache() { useCache = false; }
 	
 	public JCudaTensor(JTensorFloat tensor) {
 		this(tensor.dim);
