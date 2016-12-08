@@ -50,7 +50,7 @@ public class JCudnnLRN extends JCudaFunction {
 	}
 	// dy = backward(dy, y, x)
 	public JCudaTensor backward(JCudaTensor dy, JCudaTensor y, JCudaTensor x) {
-		JCudaTensor dx = dy; // new JCudaTensor(x.getDims()); // can be in place
+		JCudaTensor dx = dy; // can be in place
 		return backward(dy, y, x, dx);
 	}
 	// dx = backward(dy, y, x)

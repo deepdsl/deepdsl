@@ -1,20 +1,32 @@
 package deepdsl.derivation
 
 import deepdsl.analysis._
+import deepdsl.derivation.MemoryAnalysis._
 import deepdsl.layer._
-import deepdsl.optimization._
 import deepdsl.run._
 import org.junit.Test
 
 class TestNetwork {
-  val K = 1000 // # of classes
-  //val lmdb = Lmdb(1000000, 10000, K) // # of training images, # of test images, # of classes
-  val imagenet = Imagenet(1000000, 10000, K) // # of training images, # of test images, # of classes
+  val K = 1000 // # of classes for ImageNet
+  val imagenet = Lmdb(1000000, 10000, K) // # of training images, # of test images, # of classes
+  //val imagenet = Imagenet(1000000, 10000, K)  // alternative data-store for ImageNet built with Java.
   val env = new Env(Map())
 
   @Test
-  def testResidualNN {
-    val N = 64; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
+  def testResidualNN = resnet(64, 0.01f, 0.9f, 0.0005f, 1000, 10, "resnet")
+  @Test
+  def testVgg = vgg(64, 0.1f, 0, 0.0005f, 1000, 10, "vgg")
+  @Test
+  def testOverfeat = overfeat(128, 0.01f, 0.9f, 0.0005f, 1000, 10, "overfeat")
+  @Test
+  def testGooglenet = googlenet(128, 0.01f, 0.9f, 0.0005f, 1000, 10, "googlenet")
+  @Test
+  def testAlexnet = alexnet(128, 0.01f, 0.1f, 0.0005f, 1000, 10, "alexnet")
+  @Test
+  def testLenet = lenet(500, 0.01f, 0.1f, 0.0005f, 100, 10, "lenet")
+
+  private def resnet(batch_size: Int, learn_rate: Float, momentum: Float, decay: Float, train_iter: Int, test_iter: Int, name: String) {
+    val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     // Specifying train dataSet
     val y = Vec._new(imagenet, "label", "Y", N)
@@ -69,27 +81,25 @@ class TestNetwork {
     val y1 = y.asIndicator(K).asCuda
 
     val c = Layer.loss(y1)((softmax o network)(x1))
-    val p = Accuracy(network(x1), y, 1)         // top 1 accuracy 
+    val p = Layer.accuracy(y, 1)(network(x1))         // top 1 accuracy 
 
     val param = c.freeVar.toList.sortWith((a,b) => a.toString < b.toString)
 
-    val solver = Train("resnet", 1000, 10, 0.01f, 0.9f, 0.0005f, 0)
+    val solver = Train(name, train_iter, test_iter, learn_rate, momentum, decay, 0)
     val loop = Loop(c, p, (x, y), param, solver)
 
     runtimeMemory(loop.train)
     parameterMemory(loop)
-    workspaceMemory(loop.train)
     // generate training and testing file
     cudnn_gen.print(loop)
 
     // generate forward inference file
-    val inf = Inference("resnet", 10, network(x1), x)
+    val inf = Inference(name, test_iter, network(x1), x)
     cudnn_gen.print(inf)
   }
 
-  @Test
-  def testVgg {
-    val N = 64; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
+  private def vgg(batch_size: Int, learn_rate: Float, momentum: Float, decay: Float, train_iter: Int, test_iter: Int, name: String) {
+    val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     // Specifying train dataSet
     val y = Vec._new(imagenet, "label", "Y", N)
@@ -136,26 +146,24 @@ class TestNetwork {
     val y1 = y.asIndicator(K).asCuda
 
     val c = Layer.loss(y1)((softmax o network)(x1))
-    val p = Accuracy(network(x1), y, 1)         // top 1 accuracy 
+    val p = Layer.accuracy(y, 1)(network(x1))         // top 1 accuracy
 
     val param = c.freeVar.toList.sortWith((a,b) => a.toString < b.toString)
-    val solver = Train("vgg", 1000, 10, 0.1f, 0f, 0.0005f, 0)
+    val solver = Train(name, train_iter, test_iter, learn_rate, momentum, decay, 0)
     val loop = Loop(c, p, (x, y), param, solver)
 
     runtimeMemory(loop.train)
     parameterMemory(loop)
-    workspaceMemory(loop.train)
     // generate training and testing file
     cudnn_gen.print(loop)
 
     // generate forward inference file
-    val inf = Inference("vgg", 10, network(x1), x)
+    val inf = Inference(name, test_iter, network(x1), x)
     cudnn_gen.print(inf)
   }
 
-  @Test
-  def testOverfeat {
-    val N = 128; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
+  private def overfeat(batch_size: Int, learn_rate: Float, momentum: Float, decay: Float, train_iter: Int, test_iter: Int, name: String) {
+    val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     // Specifying train dataSet
     val y = Vec._new(imagenet, "label", "Y", N)
@@ -192,26 +200,24 @@ class TestNetwork {
     val y1 = y.asIndicator(K).asCuda
 
     val c = Layer.loss(y1)((softmax o network)(x1))
-    val p = Accuracy(network(x1), y, 1)         // top 1 accuracy 
+    val p = Layer.accuracy(y, 1)(network(x1))         // top 1 accuracy
     val param = c.freeVar.toList.sortWith((a,b) => a.toString < b.toString)
 
-    val solver = Train("overfeat", 1000, 10, 0.01f, 0.9f, 0.0005f, 0)
+    val solver = Train("overfeat", train_iter, 10, learn_rate, momentum, decay, 0)
     val loop = Loop(c, p, (x, y), param, solver)
 
     runtimeMemory(loop.train)
     parameterMemory(loop)
-    workspaceMemory(loop.train)
     // generate training and testing file
     cudnn_gen.print(loop)
 
     // generate forward inference file
-    val inf = Inference("overfeat", 10, network(x1), x)
+    val inf = Inference("overfeat", test_iter, network(x1), x)
     cudnn_gen.print(inf)
   }
 
-  @Test
-  def testGooglenet {
-    val N = 128; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
+  private def googlenet(batch_size: Int, learn_rate: Float, momentum: Float, decay: Float, train_iter: Int, test_iter: Int, name: String) {
+    val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     // Specifying train dataSet
     val y = Vec._new(imagenet, "label", "Y", N)
@@ -278,23 +284,21 @@ class TestNetwork {
     val p = Accuracy((network3 o network2 o network1)(x1), y, 1)         // top 1 accuracy
     val param = c.freeVar.toList.sortWith((a,b) => a.toString < b.toString)
 
-    val solver = Train("googlenet", 1000, 10, 0.01f, 0.9f, 0.0005f, 0)
+    val solver = Train(name, train_iter, test_iter, learn_rate, momentum, decay, 0)
     val loop = Loop(c, p, (x, y), param, solver)
 
     runtimeMemory(loop.train)
     parameterMemory(loop)
-    workspaceMemory(loop.train)
     // generate training and testing file
     cudnn_gen.print(loop)
 
     // generate forward inference file
-    val inf = Inference("googlenet", 10, (network3 o network2 o network1)(x1), x)
+    val inf = Inference(name, test_iter, (network3 o network2 o network1)(x1), x)
     cudnn_gen.print(inf)
   }
 
-  @Test
-  def testAlexnet {
-    val N = 128; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
+  private def alexnet(batch_size: Int, learn_rate: Float, momentum: Float, decay: Float, train_iter: Int, test_iter: Int, name: String) {
+    val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     // Specifying train dataSet
     val y = Vec._new(imagenet, "label", "Y", N)
@@ -336,28 +340,25 @@ class TestNetwork {
     val y1 = y.asIndicator(K).asCuda
 
     val c = Layer.loss(y1)((softmax o network)(x1))
-    val p = Accuracy(network(x1), y, 1)         // top 1 accuracy
+    val p = Layer.accuracy(y, 1)(network(x1))         // top 1 accuracy
     val param = c.freeVar.toList.sortWith((a,b) => a.toString < b.toString)
 
-    val solver = Train("alexnet", 1000, 10, 0.01f, 0.9f, 0.0005f, 0)
+    val solver = Train(name, train_iter, test_iter, learn_rate, momentum, decay, 0)
     val loop = Loop(c, p, (x, y), param, solver)
 
     runtimeMemory(loop.train)
     parameterMemory(loop)
-    workspaceMemory(loop.train)
     // generate training and testing file
     cudnn_gen.print(loop)
 
     // generate forward inference file
-    val inf = Inference("alexnet", 10, network(x1), x)
+    val inf = Inference(name, test_iter, network(x1), x)
     cudnn_gen.print(inf)
   }
 
-
-  @Test
-  def testLenet {
+  private def lenet(batch_size: Int, learn_rate: Float, momentum: Float, decay: Float, train_iter: Int, test_iter: Int, name: String) {
     val K = 10 // # of classes 
-    val N = 500; val C = 1; val N1 = 28; val N2 = 28 // batch size, channel, and x/y size
+    val N = batch_size; val C = 1; val N1 = 28; val N2 = 28 // batch size, channel, and x/y size
 
     // Specifying train dataSet
     val y = Vec._new(Mnist, "label", "Y", N)
@@ -378,21 +379,20 @@ class TestNetwork {
     val x1 = x.asCuda
     val y1 = y.asIndicator(K).asCuda
     val c = (Layer.log_loss(y1) o softmax o network) (x1)
-    val p = Accuracy(network(x1), y, 1)         // top 1 accuracy
+    val p = Layer.accuracy(y, 1)(network(x1))         // top 1 accuracy
 
     val param = c.freeVar.toList
-    val solver = Train("lenet", 100, 10, 0.01f, 0.9f, 0.0005f, 0)
+    val solver = Train(name, train_iter, test_iter, learn_rate, momentum, decay, 0)
 
     val loop = Loop(c, p, (x, y), param, solver)
 
     runtimeMemory(loop.train)
     parameterMemory(loop)
-    workspaceMemory(loop.train)
     // generate training and testing file
     cudnn_gen.print(loop)
 
     // generate forward inference file
-    val inf = Inference("lenet", 10, network(x1), x)
+    val inf = Inference(name, test_iter, network(x1), x)
     cudnn_gen.print(inf)
   }
 
@@ -439,7 +439,7 @@ class TestNetwork {
     val x1 = x.asCuda
     val y1 = y.asIndicator(K).asCuda
     val c = Layer.log_loss(y1)((softmax o network)(x1))
-    val p = Accuracy(network(x1), y, 1)         // top 1 accuracy
+    val p = Layer.accuracy(y, 1)(network(x1))         // top 1 accuracy
 
     val param = c.freeVar.toList
     val solver = Train("lenet_tanh", 1000, 10, 0.1f, 0f, 0f, 0)
@@ -448,80 +448,7 @@ class TestNetwork {
 
     runtimeMemory(loop.train)
     parameterMemory(loop)
-    workspaceMemory(loop.train)
     cudnn_gen.print(loop)
   }
-
-  private def workspaceMemory(lst: List[Let]) = {
-    val convolutions =
-      lst.foldLeft[Set[FixVec]](Set())((c, let) => let match {
-        case VecLet(x, v @ FixVec(Convolv(_,_),_,_)) => c + v
-        case _ => c
-      })
-
-    def getWorkspace(cv: FixVec) {
-      val c = cv.layer.asInstanceOf[Convolv]
-      val stride = c.stride; val padding = c.padding;
-      val x_dim = cv.param(0).getDims.map(d=>env(d).size).toArray
-      val w_dim = cv.param(1).getDims.map(d=>env(d).size).toArray
-      val b_dim = cv.param(2).getDims.map(d=>env(d).size).toArray
-
-      new deepdsl.cudnn.JCudnnConvolution(x_dim, w_dim, b_dim, stride, padding)
-    }
-    convolutions.foreach(cv => getWorkspace(cv))
-    val mb = 1E6f
-    println("Convolution workspace: " + deepdsl.cudnn.JCudaFunction.getWorkspaceSize()/mb)
-  }
-
-  private def parameterMemory(loop: Loop) {
-    val mb = 1E6f
-    val param = loop.param
-    val size = param.map(e => e.dim.map(d => env(d).size).reduce(_*_) * 4 / mb)
-
-    println
-    for((v, s) <- param zip size) {
-      printf("%-60s%20s\n", v, s)
-    }
-
-    val total = size.reduce(_+_)
-
-    println(s"total parameter memory: ${total}")
-    if(loop.solver.momentum > 0) {
-      println(s"with SGD, this doubles to ${total * 2}")
-    }
-  }
-
-  private def runtimeMemory(lst: List[Let]) {
-    val sizes = memory(lst)._1
-    var pool: Set[Long] = Set()
-    val total_sizes = sizes.foldLeft[(List[(Long, Long)], Long, Long)]((Nil, 0L, 0L))((c, e) => {
-      val x = c._2 + e; 
-      if (e < 0) {
-        pool = pool + (-e)
-      }
-      val y = if(e > 0) {
-        if(pool.contains(e)) {
-          pool = pool - e
-          c._3
-        }
-        else 
-          c._3 + e 
-      }  
-      else 
-        c._3; 
-      
-      (c._1:::List((x,y)), x, y)}
-      
-    )._1
-
-    val mb = 1E6f
-    printf("\n%-60s%-15s%20s%20s%20s\n\n", "Statement", "Dimensions", "Current mem.", "Total mem.", "Accumulate mem.")
-    for((l, s) <- lst.zip(sizes zip total_sizes)) {
-      printf("%-60s%-15s%20f%20f%20f\n", l,
-        (l match {case VecLet(x,_) => x.dim.map(d=>env(d).size).mkString(" ")
-        case _ => ""}), s._1/mb, s._2._1/mb, s._2._2/mb)
-    }
-  }
-
 }
 
