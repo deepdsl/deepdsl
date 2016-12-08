@@ -130,7 +130,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 [JCuda]: <http://jcuda.org/>
 [DeepDSL]: <http://openreview.net/pdf?id=Bks8cPcxe>
 
-[TestNetwork.scala]: <https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/test/java/deepdsl/TestNetwork.scala>
+[TestNetwork.scala]: <https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/test/java/deepdsl/derivation/TestNetwork.scala>
 [LmdbFactory]: <https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/main/java/deepdsl/tensor/LmdbFactory.java>
 
 [src/main/java/deepdsl/gen/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen>
