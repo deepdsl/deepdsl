@@ -126,6 +126,10 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 ## FAQ
 - What should I do if I receive compilation errors in the TestNetwork.scala code after I upgrade code?
      - You can simply delete {your_home_folder}/.m2/repository/deepdsl/deepdsl-compile/0.1/deepdsl-compile-0.1.jar and rebuild.
+- What if my maven build / execution process gives me "Caused by: jcuda.CudaException: CUDA_ERROR_UNKNOWN" like error?    
+     - This means your installation of CUDA is not complete or correct. Please follow the [CUDA installation checking link] to verify and reinstall.
+- I can build the project successfully (e.g. with "mvn -Plinux64 clean install") but I received "Caused by: org.fusesource.lmdbjni.LMDBException: No such file or directory" when I run "mvn -Plinux64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"", what should I do?
+     - Congratulations, you are actually very close to run the examples. The only thing you need is to have some Imagenet data in the LMDB format. You receive the attached error because you don’t have the llmdb imagenet dataset in place. Please read the section "Default location for training and testing data" in this page for details on how to download the dataset and convert it to the Caffe lmdb format. Again, you need to put lmdb files to the assumed folder “dataset/imagenet/ilsvrc12_train_lmdb”.
 
 [JCuda]: <http://jcuda.org/>
 [DeepDSL]: <http://openreview.net/pdf?id=Bks8cPcxe>
@@ -148,3 +152,5 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 
 [CUDA Toolkit 8.0]: <https://developer.nvidia.com/cuda-downloads>
 [cuDNN 5]: <https://developer.nvidia.com/cudnn>
+
+[CUDA installation checking link]: <http://xcat-docs.readthedocs.io/en/stable/advanced/gpu/nvidia/verify_cuda_install.html>
