@@ -132,7 +132,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
      - Congratulations, you are actually very close to run the examples. The only thing you need is to have some Imagenet data in the LMDB format. You receive the attached error because you don’t have the llmdb imagenet dataset in place. Please read the section "Default location for training and testing data" in this page for details on how to download the dataset and convert it to the Caffe lmdb format. Again, you need to put lmdb files to the assumed folder “dataset/imagenet/ilsvrc12_train_lmdb”.
 
 [JCuda]: <http://jcuda.org/>
-[DeepDSL]: <http://openreview.net/pdf?id=Bks8cPcxe>
+[DeepDSL]: <https://arxiv.org/abs/1701.02284>
 
 [TestNetwork.scala]: <https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/test/java/deepdsl/derivation/TestNetwork.scala>
 [LmdbFactory]: <https://github.com/deepdsl/deepdsl/blob/master/deepdsl-java/src/main/java/deepdsl/tensor/LmdbFactory.java>
