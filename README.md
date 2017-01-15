@@ -124,6 +124,8 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 ```
 
 ## FAQ
+- Where is the definition of the DeepDSL syntax?
+     - All the available DSL constructs have been demonstrated in [TestNetwork.scala]. In addition, please refer to our Wiki page [DeepDSL layer syntax explanation][DeepDSL layer syntax] for detailed explanation for the layer syntax. 
 - What should I do if I receive compilation errors in the TestNetwork.scala code after I upgrade code?
      - You can simply delete {your_home_folder}/.m2/repository/deepdsl/deepdsl-compile/0.1/deepdsl-compile-0.1.jar and rebuild.
 - What if my maven build / execution process gives me "Caused by: jcuda.CudaException: CUDA_ERROR_UNKNOWN" like error?    
@@ -182,3 +184,5 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 [cuDNN 5]: <https://developer.nvidia.com/cudnn>
 
 [CUDA installation checking link]: <http://xcat-docs.readthedocs.io/en/stable/advanced/gpu/nvidia/verify_cuda_install.html>
+
+[DeepDSL layer syntax]: <https://github.com/deepdsl/deepdsl/wiki/DeepDSL:-A-compilation-based-Domain-Specific-Language-for-Deep-Neural-Network>
