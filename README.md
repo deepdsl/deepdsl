@@ -65,7 +65,7 @@ Each program assumes a location for the training and test data.
 - The batch size for Lenet is set at 500; for Alexnet, Overfeat, and Googlenet is 128; for Vgg and ResNet is set at 64
 - At this time, if you want to change batch size, you may want to regenerate the Java source file. Directly editing the Java source might easily miss a few places
 
-### Default location for trained parameters
+### <a name="default-loc"></a> Default location for trained parameters
 Each program will save the trained model, the set of trained parameters (as serialized Java objects), into a default directory. 
 
 - It will try to load saved parameters (if exist) from the same directory when you train the same program again next time
@@ -130,6 +130,34 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
      - This means your installation of CUDA is not complete or correct. Please follow the [CUDA installation checking link] to verify and reinstall.
 - I can build the project successfully (e.g. with "mvn -Plinux64 clean install") but I received "Caused by: org.fusesource.lmdbjni.LMDBException: No such file or directory" when I run "mvn -Plinux64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"", what should I do?
      - Congratulations, you are actually very close to run the examples. The only thing you need is to have some Imagenet data in the LMDB format. You receive the attached error because you don’t have the llmdb imagenet dataset in place. Please read the section "Default location for training and testing data" in this page for details on how to download the dataset and convert it to the Caffe lmdb format. Again, you need to put lmdb files to the assumed folder “dataset/imagenet/ilsvrc12_train_lmdb”.
+- I can run the generated code, such as Alexnet128, however, I received exception as shown below when the execution finishes, what am I supposed to do?
+ 
+    ```
+    java.io.FileNotFoundException: src/main/java/deepdsl/gen/Alexnet128/cv1_B.ser (No such file or directory)
+  	at java.io.FileOutputStream.open0(Native Method)
+  	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+  	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+  	at java.io.FileOutputStream.<init>(FileOutputStream.java:101)
+    ```
+    
+    ......
+    
+    
+    ```
+    java.io.FileNotFoundException: src/main/java/deepdsl/gen/Alexnet128/cv1_W.ser (No such file or directory)
+  	at java.io.FileOutputStream.open0(Native Method)
+  	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+  	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+  	at java.io.FileOutputStream.<init>(FileOutputStream.java:101)
+    ```
+    
+    ......  
+
+     - No worry. DeepDSL is designed to save your execution result automatically (Indeed, if you run the same program again, DeepDSL will 
+     automatically pick up where you left off last time and start training the model from there!). You just need to let DeepDSL know where 
+     to save! In the above example, the code is trying to store the trained model for Alexnet execution, therefore you need to create a 
+     folder "src/main/java/deepdsl/gen/alexnet” before you run the program, otherwise you lose it. Please refer to the 
+     [Default location for trained parameters](#default-loc) section for more details.   
 
 [JCuda]: <http://jcuda.org/>
 [DeepDSL]: <https://arxiv.org/abs/1701.02284>
