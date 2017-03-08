@@ -24,6 +24,9 @@ Please refer to our paper draft [DeepDSL] for full details.
 - To run test cases and compiled code for different networks, you also need to: 
   - have a [Nvidia CUDA] enabled GPU machine  
   - install 8.X version of [CUDA Toolkit 8.0] and [cuDNN 5] libraries
+  - make sure that the cuDNN library is visible for Java. 
+    On Windows, the path that contains the `cudnn64_5.dll` has to be added to the `PATH` environment variable. 
+    On Linux, the path that contains the ` libcudnn.so.5` has be added to the `LD_LIBRARY_PATH`
 
 ### Maven Build (Need to be executed the below in the root folder of the project)
 - Windows build: mvn -Pwin64 clean install
@@ -46,7 +49,7 @@ After the previous Maven Build step, you can cd to the deepdsl-java folder and r
 There are two util Python scripts under the folder src/main/python (both should be run from the deepdsl project root folder).
 
 - mnist_data_handler.py: download the mnist data and unzip to the `dataset/mnist` folder
-     - to run: `python src/main/python/mnist_data_handler.py`, this will pull and extract the mnist dataset to `dataset/mnist`
+     - to run: `python ../src/main/python/mnist_data_handler.py` (called in the `deepdsl-java` directory). This will pull and extract the mnist dataset to `dataset/mnist`
 - imagenet_data_selector.py: to select given number of images of given number of categories from the original imagenet data
      - to run: `python src/main/python/imagenet_data_selector.py` and then follow the on-screen instructions to apply the desired parameters and run again
         - For example, `python imagenet_data_selector.py ~/data/ILSVRC2012_img_train ~/data/temp 5 50 0.3 0.2`, which selects from 5 categories (50 images per catetory) from ~/data/ILSVRC2012_img_train folder and stores selected images to ~/data/temp folder, where 30% are stored as validation dataset and 20% are stored as test dataset
@@ -54,7 +57,7 @@ There are two util Python scripts under the folder src/main/python (both should 
 ### Default location for training and testing data
 Each program assumes a location for the training and test data. 
 
-- [Lenet.java] uses Mnist, which is assumed to be located at [dataset/mnist] (please use the script described in the previous section to prepare the dataset).
+- [Lenet.java] uses Mnist, which is assumed to be located at [dataset/mnist/] (please use the script described in the previous section to prepare the dataset).
 - Other programs such as [Alexnet.java] use imagenet (as Lmdb database), which is assumed to be located at "[dataset/imagenet/]ilsvrc12_train_lmdb" for training data and "[dataset/imagenet/]ilsvrc12_val_lmdb" for testing data, where the image sizes are cropped to 224 x 224. Other image sizes should also work since we would randomly cropped the training images to the right size while cropping the testing images at center.
      - Users currently may use tools like [Caffe's imagenet script] `examples/imagenet/create_imagenet.sh` to create the lmdb data from the original Imagenet dataset. Please hang tight, we are adding our scripts soon so you don't have to resort to outside reources.
 - For Lmdb data source, users may edit the call to [LmdbFactory].getFactory in the generated Java source to change the max number of training images and test images. The current default is 1000,000 and 10,000 respectively. 
@@ -158,7 +161,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
      - No worry. DeepDSL is designed to save your execution result automatically (Indeed, if you run the same program again, DeepDSL will 
      automatically pick up where you left off last time and start training the model from there!). You just need to let DeepDSL know where 
      to save! In the above example, the code is trying to store the trained model for Alexnet execution, therefore you need to create a 
-     folder "src/main/java/deepdsl/gen/alexnet‚Äù before you run the program, otherwise you lose it. Please refer to the 
+     folder `src/main/java/deepdsl/gen/alexnet`ù before you run the program, otherwise you lose it. Please refer to the 
      [Default location for trained parameters](#default-loc) section for more details.   
 
 [JCuda]: <http://jcuda.org/>
@@ -172,7 +175,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 [Lenet.java]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Lenet.java>
 [Alexnet.java]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Alexnet.java>
 
-[dataset/mnist]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/mnist>
+[dataset/mnist/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/mnist>
 [dataset/imagenet/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/imagenet/>
 [Caffe's imagenet script]: <https://github.com/BVLC/caffe/tree/master/examples/imagenet>
 
