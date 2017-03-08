@@ -57,7 +57,7 @@ There are two util Python scripts under the folder src/main/python (both should 
 ### Default location for training and testing data
 Each program assumes a location for the training and test data. 
 
-- [Lenet.java] uses Mnist, which is assumed to be located at [dataset/mnist/] (please use the script described in the previous section to prepare the dataset).
+- [Lenet.java] uses Mnist, which is assumed to be located at [dataset/mnist/](https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/mnist/) (please use the script described in the previous section to prepare the dataset).
 - Other programs such as [Alexnet.java] use imagenet (as Lmdb database), which is assumed to be located at "[dataset/imagenet/]ilsvrc12_train_lmdb" for training data and "[dataset/imagenet/]ilsvrc12_val_lmdb" for testing data, where the image sizes are cropped to 224 x 224. Other image sizes should also work since we would randomly cropped the training images to the right size while cropping the testing images at center.
      - Users currently may use tools like [Caffe's imagenet script] `examples/imagenet/create_imagenet.sh` to create the lmdb data from the original Imagenet dataset. Please hang tight, we are adding our scripts soon so you don't have to resort to outside reources.
 - For Lmdb data source, users may edit the call to [LmdbFactory].getFactory in the generated Java source to change the max number of training images and test images. The current default is 1000,000 and 10,000 respectively. 
@@ -134,7 +134,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 - What if my maven build / execution process gives me "Caused by: jcuda.CudaException: CUDA_ERROR_UNKNOWN" like error?    
      - This means your installation of CUDA is not complete or correct. Please follow the [CUDA installation checking link] to verify and reinstall.
 - I can build the project successfully (e.g. with "mvn -Plinux64 clean install") but I received "Caused by: org.fusesource.lmdbjni.LMDBException: No such file or directory" when I run "mvn -Plinux64 exec:java -Dexec.mainClass="deepdsl.gen.Alexnet"", what should I do?
-     - Congratulations, you are actually very close to run the examples. The only thing you need is to have some Imagenet data in the LMDB format. You receive the attached error because you don’t have the llmdb imagenet dataset in place. Please read the section "Default location for training and testing data" in this page for details on how to download the dataset and convert it to the Caffe lmdb format. Again, you need to put lmdb files to the assumed folder “dataset/imagenet/ilsvrc12_train_lmdb”.
+     - Congratulations, you are actually very close to run the examples. The only thing you need is to have some Imagenet data in the LMDB format. You receive the attached error because you don't have the llmdb imagenet dataset in place. Please read the section "Default location for training and testing data" in this page for details on how to download the dataset and convert it to the Caffe lmdb format. Again, you need to put lmdb files to the assumed folder `dataset/imagenet/ilsvrc12_train_lmdb`.
 - I can run the generated code, such as Alexnet128, however, I received exception as shown below when the execution finishes, what am I supposed to do?
  
     ```
@@ -175,8 +175,8 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 [Lenet.java]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Lenet.java>
 [Alexnet.java]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Alexnet.java>
 
-[dataset/mnist/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/mnist/>
-[dataset/imagenet/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/imagenet/>
+
+[dataset/imagenet/]: <>
 [Caffe's imagenet script]: <https://github.com/BVLC/caffe/tree/master/examples/imagenet>
 
 [Apache Maven]: <https://maven.apache.org/download.cgi>
