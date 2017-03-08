@@ -175,7 +175,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
 [Lenet.java]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Lenet.java>
 [Alexnet.java]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/src/main/java/deepdsl/gen/Alexnet.java>
 
-[dataset/mnist/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/mnist>
+[dataset/mnist/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/mnist/>
 [dataset/imagenet/]: <https://github.com/deepdsl/deepdsl/tree/master/deepdsl-java/dataset/imagenet/>
 [Caffe's imagenet script]: <https://github.com/BVLC/caffe/tree/master/examples/imagenet>
 
