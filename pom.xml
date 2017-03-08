@@ -61,7 +61,7 @@
                 <version>2.8.0</version>
             </dependency>
             <!--
-                local dependencies
+                JCuda dependencies
             -->
             <dependency>
                 <groupId>org.naokishibata.sleef</groupId>
@@ -71,53 +71,22 @@
             <dependency>
                 <groupId>org.jcuda</groupId>
                 <artifactId>jcudnn</artifactId>
-                <version>0.8.0RC</version>
+                <version>0.8.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jcuda</groupId>
                 <artifactId>jcuda</artifactId>
-                <version>0.8.0RC</version>
+                <version>0.8.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jcuda</groupId>
                 <artifactId>jcublas</artifactId>
-                <version>0.8.0RC</version>
+                <version>0.8.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jcuda</groupId>
                 <artifactId>jcuda-vec</artifactId>
-                <version>0.0.1</version>
-            </dependency>
-            <!-- native dependencies -->
-            <dependency>
-                <groupId>org.jcuda</groupId>
-                <artifactId>jcuda-natives</artifactId>
-                <version>0.8.0RC-linux-x86_64</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jcuda</groupId>
-                <artifactId>jcublas-natives</artifactId>
-                <version>0.8.0RC-linux-x86_64</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jcuda</groupId>
-                <artifactId>jcudnn-natives</artifactId>
-                <version>0.8.0RC-linux-x86_64</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jcuda</groupId>
-                <artifactId>jcuda-natives</artifactId>
-                <version>0.8.0RC-windows-x86_64</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jcuda</groupId>
-                <artifactId>jcublas-natives</artifactId>
-                <version>0.8.0RC-windows-x86_64</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jcuda</groupId>
-                <artifactId>jcudnn-natives</artifactId>
-                <version>0.8.0RC-HOTFIX01-windows-x86_64</version>
+                <version>0.0.2</version>
             </dependency>
             <!--
                 test dependencies
@@ -143,24 +112,6 @@
                     <groupId>org.deephacks.lmdbjni</groupId>
                     <artifactId>lmdbjni-win64</artifactId>
                 </dependency>
-                <dependency>
-                    <groupId>org.jcuda</groupId>
-                    <artifactId>jcuda-natives</artifactId>
-                    <version>0.8.0RC-windows-x86_64</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.jcuda</groupId>
-                    <artifactId>jcublas-natives</artifactId>
-                    <version>0.8.0RC-windows-x86_64</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.jcuda</groupId>
-                    <artifactId>jcudnn-natives</artifactId>
-                    <version>0.8.0RC-HOTFIX01-windows-x86_64</version>
-                    <scope>test</scope>
-                </dependency>
             </dependencies>
         </profile>
         <profile>
@@ -169,24 +120,6 @@
                 <dependency>
                     <groupId>org.deephacks.lmdbjni</groupId>
                     <artifactId>lmdbjni-linux64</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.jcuda</groupId>
-                    <artifactId>jcuda-natives</artifactId>
-                    <version>0.8.0RC-linux-x86_64</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.jcuda</groupId>
-                    <artifactId>jcublas-natives</artifactId>
-                    <version>0.8.0RC-linux-x86_64</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.jcuda</groupId>
-                    <artifactId>jcudnn-natives</artifactId>
-                    <version>0.8.0RC-linux-x86_64</version>
-                    <scope>test</scope>
                 </dependency>
             </dependencies>
         </profile>
