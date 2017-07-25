@@ -1,3 +1,8 @@
+# Notice
+
+We are working on some major updates on the core which will make the entire work even faster and modulized. The updates are going to be 
+transparent to the users so no worry about any compatibility issues, we will update soon!
+
 # DeepDSL
 
 DeepDSL is a domain specific language (DSL) embedded in Scala for writing deep learning network applications.
