@@ -12,16 +12,26 @@ class TestNetwork {
   val K = 1000 // # of classes for ImageNet
   val env = new Env(Map())
 
+  //Code to generate Alexnet128 Alexnet256 Googlenet128 Googlenet256 Overfeat128 Overfeat256 Vgg64 Resnet32 Resnet64
+  //classes in the src/main/java/deepdsl/gen folder
   @Test
-  def testResidualNN = resnet(64, 0.01f, 0.9f, 0.0005f, 1000, 10, "resnet")
+  def testResidualNN32 = resnet(32, 0.01f, 0.9f, 0.0005f, 1000, 10, "resnet32")
   @Test
-  def testVgg = vgg(64, 0.1f, 0, 0.0005f, 1000, 10, "vgg")
+  def testResidualNN64 = resnet(64, 0.01f, 0.9f, 0.0005f, 1000, 10, "resnet64")
   @Test
-  def testOverfeat = overfeat(128, 0.01f, 0.9f, 0.0005f, 1000, 10, "overfeat")
+  def testVgg = vgg(64, 0.1f, 0, 0.0005f, 1000, 10, "vgg64")
   @Test
-  def testGooglenet = googlenet(128, 0.01f, 0.9f, 0.0005f, 1000, 10, "googlenet")
+  def testOverfeat128 = overfeat(128, 0.01f, 0.9f, 0.0005f, 1000, 10, "overfeat128")
   @Test
-  def testAlexnet = alexnet(128, 0.01f, 0.1f, 0.0005f, 1000, 10, "alexnet")
+  def testOverfeat256 = overfeat(256, 0.01f, 0.9f, 0.0005f, 1000, 10, "overfeat256")
+  @Test
+  def testGooglenet128 = googlenet(128, 0.01f, 0.9f, 0.0005f, 1000, 10, "googlenet128")
+  @Test
+  def testGooglenet256 = googlenet(256, 0.01f, 0.9f, 0.0005f, 1000, 10, "googlenet256")
+  @Test
+  def testAlexnet128 = alexnet(128, 0.01f, 0.1f, 0.0005f, 1000, 10, "alexnet128")
+  @Test
+  def testAlexnet256 = alexnet(256, 0.01f, 0.1f, 0.0005f, 1000, 10, "alexnet256")
   @Test
   def testLenet = lenet(500, 0.01f, 0.1f, 0.0005f, 100, 10, "lenet")
 
