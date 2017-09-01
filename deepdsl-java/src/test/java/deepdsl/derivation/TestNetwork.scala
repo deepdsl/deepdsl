@@ -38,8 +38,8 @@ class TestNetwork {
   private def resnet(batch_size: Int, learn_rate: Float, momentum: Float, decay: Float, train_iter: Int, test_iter: Int, name: String) {
     val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
     val dim = List(N, C, N1, N2)
-    val lmdb = Lmdb(dim, 1000000, 10000, K) // # of training images, # of test images, # of classes
-    //val lmdb = Imagenet(dim, 1000000, 10000, K)  // alternative data-store for ImageNet built with Java.
+    val lmdb = Lmdb(dim, 10000, 100, K) // # of training images, # of test images, # of classes
+    //val lmdb = Imagenet(dim, 10000, 100, K)  // alternative data-store for ImageNet built with Java.
 
     // Specifying train dataSet
     val y = T._new("Y", List(N))
@@ -115,7 +115,7 @@ class TestNetwork {
     val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     val dim = List(N, C, N1, N2)
-    val lmdb = Lmdb(dim, 1000000, 10000, K) // # of training images, # of test images, # of classes
+    val lmdb = Lmdb(dim, 10000, 100, K) // # of training images, # of test images, # of classes
 
     // Specifying train dataSet
     val y = T._new("Y", List(N))
@@ -182,7 +182,7 @@ class TestNetwork {
     val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     val dim = List(N, C, N1, N2)
-    val lmdb = Lmdb(dim, 1000000, 10000, K) // # of training images, # of test images, # of classes
+    val lmdb = Lmdb(dim, 10000, 100, K) // # of training images, # of test images, # of classes
 
     // Specifying train dataSet
     val y = T._new("Y", List(N))
@@ -222,7 +222,7 @@ class TestNetwork {
     val p = Layer.accuracy(y, 1)(network(x1))         // top 1 accuracy
     val param = c.freeVar.toList.sortWith((a,b) => a.toString < b.toString)
 
-    val solver = Train("overfeat", train_iter, 10, learn_rate, momentum, decay, 0)
+    val solver = Train(name, train_iter, 10, learn_rate, momentum, decay, 0)
     val loop = Loop(c, p, lmdb, (x, y), param, solver)
 
     runtimeMemory(loop.train)
@@ -231,7 +231,7 @@ class TestNetwork {
     CudnnGen.print(loop)
 
     // generate forward inference file
-    val inf = Inference("overfeat", test_iter, network(x1), x, lmdb)
+    val inf = Inference(name, test_iter, network(x1), x, lmdb)
     CudnnGen.print(inf)
   }
 
@@ -239,7 +239,7 @@ class TestNetwork {
     val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     val dim = List(N, C, N1, N2)
-    val lmdb = Lmdb(dim, 1000000, 10000, K) // # of training images, # of test images, # of classes
+    val lmdb = Lmdb(dim, 10000, 100, K) // # of training images, # of test images, # of classes
 
     // Specifying train dataSet
     val y = T._new("Y", List(N))
@@ -323,7 +323,7 @@ class TestNetwork {
     val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     val dim = List(N, C, N1, N2)
-    val lmdb = Lmdb(dim, 1000000, 10000, K) // # of training images, # of test images, # of classes
+    val lmdb = Lmdb(dim, 10000, 100, K) // # of training images, # of test images, # of classes
 
     // Specifying train dataSet
     val y = T._new("Y", List(N))
