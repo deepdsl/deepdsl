@@ -11,6 +11,14 @@ deepdsl-common/.cache-main
 deepdsl-common/.cache-tests
 deepdsl-java/.cache-main
 deepdsl-java/.cache-tests
-src/main/java/deepdsl/gen/*
+deepdsl-java/src/main/java/deepdsl/gen/vgg64/*
+deepdsl-java/src/main/java/deepdsl/gen/googlenet128/*
+deepdsl-java/src/main/java/deepdsl/gen/googlenet256/*
+deepdsl-java/src/main/java/deepdsl/gen/resnet32/*
+deepdsl-java/src/main/java/deepdsl/gen/resnet64/*
+deepdsl-java/src/main/java/deepdsl/gen/alexnet128/*
+deepdsl-java/src/main/java/deepdsl/gen/alexnet256/*
+deepdsl-java/src/main/java/deepdsl/gen/overfeat128/*
+deepdsl-java/src/main/java/deepdsl/gen/overfeat256/*
 dataset
 

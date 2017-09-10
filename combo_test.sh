@@ -26,9 +26,9 @@ clean() {
        do
        	rm deepdsl-java/src/main/java/deepdsl/gen/$network.java 
        	rm deepdsl-java/src/main/java/deepdsl/gen/$network\_infer.java 
-       	rm deepdsl-java/$nextwork-test1.txt
-       	rm deepdsl-java/$nextwork-test2.txt
-       	rm deepdsl-java/$nextwork-test3.txt
+       	rm deepdsl-java/$network-test1.txt
+       	rm deepdsl-java/$network-test2.txt
+       	rm deepdsl-java/$network-test3.txt
        done
 }
 echo "Start testing"
