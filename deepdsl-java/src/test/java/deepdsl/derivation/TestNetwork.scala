@@ -15,31 +15,31 @@ class TestNetwork {
   //Code to generate Alexnet128 Alexnet256 Googlenet128 Googlenet256 Overfeat128 Overfeat256 Vgg64 Resnet32 Resnet64
   //classes in the src/main/java/deepdsl/gen folder
   @Test
-  def testResidualNN32 = resnet(32, 0.01f, 0.9f, 0.0005f, 1000, 10, "resnet32")
+  def testResidualNN32 = resnet(32, 0.01f, 0.9f, 0.0005f, 10, 1, "resnet32")
   @Test
-  def testResidualNN64 = resnet(64, 0.01f, 0.9f, 0.0005f, 1000, 10, "resnet64")
+  def testResidualNN64 = resnet(64, 0.01f, 0.9f, 0.0005f, 10, 1, "resnet64")
   @Test
-  def testVgg = vgg(64, 0.1f, 0, 0.0005f, 1000, 10, "vgg64")
+  def testVgg = vgg(64, 0.1f, 0, 0.0005f, 10, 1, "vgg64")
   @Test
-  def testOverfeat128 = overfeat(128, 0.01f, 0.9f, 0.0005f, 1000, 10, "overfeat128")
+  def testOverfeat128 = overfeat(128, 0.01f, 0.9f, 0.0005f, 10, 1, "overfeat128")
   @Test
-  def testOverfeat256 = overfeat(256, 0.01f, 0.9f, 0.0005f, 1000, 10, "overfeat256")
+  def testOverfeat256 = overfeat(256, 0.01f, 0.9f, 0.0005f, 10, 1, "overfeat256")
   @Test
-  def testGooglenet128 = googlenet(128, 0.01f, 0.9f, 0.0005f, 1000, 10, "googlenet128")
+  def testGooglenet128 = googlenet(128, 0.01f, 0.9f, 0.0005f, 10, 1, "googlenet128")
   @Test
-  def testGooglenet256 = googlenet(256, 0.01f, 0.9f, 0.0005f, 1000, 10, "googlenet256")
+  def testGooglenet256 = googlenet(256, 0.01f, 0.9f, 0.0005f, 10, 1, "googlenet256")
   @Test
-  def testAlexnet128 = alexnet(128, 0.01f, 0.1f, 0.0005f, 1000, 10, "alexnet128")
+  def testAlexnet128 = alexnet(128, 0.01f, 0.1f, 0.0005f, 10, 1, "alexnet128")
   @Test
-  def testAlexnet256 = alexnet(256, 0.01f, 0.1f, 0.0005f, 1000, 10, "alexnet256")
+  def testAlexnet256 = alexnet(256, 0.01f, 0.1f, 0.0005f, 10, 1, "alexnet256")
   @Test
-  def testLenet = lenet(500, 0.01f, 0.1f, 0.0005f, 100, 10, "lenet")
+  def testLenet = lenet(500, 0.01f, 0.1f, 0.0005f, 10, 1, "lenet")
 
   private def resnet(batch_size: Int, learn_rate: Float, momentum: Float, decay: Float, train_iter: Int, test_iter: Int, name: String) {
     val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
     val dim = List(N, C, N1, N2)
-    val lmdb = Lmdb(dim, 10000, 100, K) // # of training images, # of test images, # of classes
-    //val lmdb = Imagenet(dim, 10000, 100, K)  // alternative data-store for ImageNet built with Java.
+    val lmdb = Lmdb(dim, 6000, 1000, K) // # of training images, # of test images, # of classes
+    //val lmdb = Imagenet(dim, 6000, 1000, K)  // alternative data-store for ImageNet built with Java.
 
     // Specifying train dataSet
     val y = T._new("Y", List(N))
@@ -115,7 +115,7 @@ class TestNetwork {
     val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     val dim = List(N, C, N1, N2)
-    val lmdb = Lmdb(dim, 10000, 100, K) // # of training images, # of test images, # of classes
+    val lmdb = Lmdb(dim, 6000, 1000, K) // # of training images, # of test images, # of classes
 
     // Specifying train dataSet
     val y = T._new("Y", List(N))
@@ -182,7 +182,7 @@ class TestNetwork {
     val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     val dim = List(N, C, N1, N2)
-    val lmdb = Lmdb(dim, 10000, 100, K) // # of training images, # of test images, # of classes
+    val lmdb = Lmdb(dim, 6000, 1000, K) // # of training images, # of test images, # of classes
 
     // Specifying train dataSet
     val y = T._new("Y", List(N))
@@ -222,7 +222,7 @@ class TestNetwork {
     val p = Layer.accuracy(y, 1)(network(x1))         // top 1 accuracy
     val param = c.freeVar.toList.sortWith((a,b) => a.toString < b.toString)
 
-    val solver = Train(name, train_iter, 10, learn_rate, momentum, decay, 0)
+    val solver = Train(name, train_iter, test_iter, learn_rate, momentum, decay, 0)
     val loop = Loop(c, p, lmdb, (x, y), param, solver)
 
     runtimeMemory(loop.train)
@@ -231,7 +231,7 @@ class TestNetwork {
     CudnnGen.print(loop)
 
     // generate forward inference file
-    val inf = Inference(name, test_iter, network(x1), x, lmdb)
+    val inf = Inference("overfeat", test_iter, network(x1), x, lmdb)
     CudnnGen.print(inf)
   }
 
@@ -239,7 +239,7 @@ class TestNetwork {
     val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     val dim = List(N, C, N1, N2)
-    val lmdb = Lmdb(dim, 10000, 100, K) // # of training images, # of test images, # of classes
+    val lmdb = Lmdb(dim, 6000, 1000, K) // # of training images, # of test images, # of classes
 
     // Specifying train dataSet
     val y = T._new("Y", List(N))
@@ -323,7 +323,7 @@ class TestNetwork {
     val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
     val dim = List(N, C, N1, N2)
-    val lmdb = Lmdb(dim, 10000, 100, K) // # of training images, # of test images, # of classes
+    val lmdb = Lmdb(dim, 6000, 1000, K) // # of training images, # of test images, # of classes
 
     // Specifying train dataSet
     val y = T._new("Y", List(N))
@@ -473,7 +473,7 @@ class TestNetwork {
     val p = Layer.accuracy(y, 1)(network(x1))         // top 1 accuracy
 
     val param = c.freeVar.toList
-    val solver = Train("lenet_tanh", 1000, 10, 0.1f, 0f, 0f, 0)
+    val solver = Train("lenet_tanh", 10, 1, 0.1f, 0f, 0f, 0)
 
     val loop = Loop(c, p, mnist, (x, y), param, solver)
 
@@ -482,4 +482,5 @@ class TestNetwork {
     CudnnGen.print(loop)
   }
 }
+
 
