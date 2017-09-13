@@ -13,18 +13,24 @@ class TestNetwork {
   val env = new Env(Map())
 
   @Test
-  def testResidualNN = resnet(64, 0.01f, 0.9f, 0.0005f, 1000, 10, "resnet")
+  def testResidualNN32 = resnet(32, 0.01f, 0.9f, 0.0005f, 10, 1, "resnet32")
   @Test
-  def testVgg = vgg(64, 0.1f, 0, 0.0005f, 1000, 10, "vgg")
+  def testResidualNN64 = resnet(64, 0.01f, 0.9f, 0.0005f, 10, 1, "resnet64")
   @Test
-  def testOverfeat = overfeat(128, 0.01f, 0.9f, 0.0005f, 1000, 10, "overfeat")
+  def testVgg = vgg(64, 0.1f, 0, 0.0005f, 10, 1, "vgg64")
   @Test
-  def testGooglenet = googlenet(128, 0.01f, 0.9f, 0.0005f, 1000, 10, "googlenet")
+  def testOverfeat128 = overfeat(128, 0.01f, 0.9f, 0.0005f, 10, 1, "overfeat128")
   @Test
-  def testAlexnet = alexnet(128, 0.01f, 0.1f, 0.0005f, 1000, 10, "alexnet")
+  def testOverfeat256 = overfeat(256, 0.01f, 0.9f, 0.0005f, 10, 1, "overfeat256")
   @Test
-  def testLenet = lenet(500, 0.01f, 0.1f, 0.0005f, 100, 10, "lenet")
-
+  def testGooglenet128 = googlenet(128, 0.01f, 0.9f, 0.0005f, 10, 1, "googlenet128")
+  @Test
+  def testGooglenet256 = googlenet(256, 0.01f, 0.9f, 0.0005f, 10, 1, "googlenet256")
+  @Test
+  def testAlexnet128 = alexnet(128, 0.01f, 0.1f, 0.0005f, 10, 1, "alexnet128")
+  @Test
+  def testAlexnet256 = alexnet(256, 0.01f, 0.1f, 0.0005f, 10, 1, "alexnet256")
+  
   private def resnet(batch_size: Int, learn_rate: Float, momentum: Float, decay: Float, train_iter: Int, test_iter: Int, name: String) {
     val N = batch_size; val C = 3;  val N1 = 224; val N2 = 224 // batch size, channel, and x/y size
 
@@ -203,7 +209,7 @@ class TestNetwork {
     val p = Layer.accuracy(y, 1)(network(x1))         // top 1 accuracy
     val param = c.freeVar.toList.sortWith((a,b) => a.toString < b.toString)
 
-    val solver = Train("overfeat", train_iter, 10, learn_rate, momentum, decay, 0)
+    val solver = Train(name, train_iter, 10, learn_rate, momentum, decay, 0)
     val loop = Loop(c, p, (x, y), param, solver)
 
     runtimeMemory(loop.train)
