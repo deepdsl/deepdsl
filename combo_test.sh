@@ -11,9 +11,9 @@ do_test() {
         do
         #test one network at a time
         nvidia-smi --query-gpu=memory.used --format=csv >> $network-$test_num.txt -lms $1 &
-        start=`date +%s.%N`
+        start=`date +%s`
         mvn -Plinux64 exec:java -Dexec.mainClass="$2.$network"
-        end=`date +%s.%N`
+        end=`date +%s`
         runtime=$((end-start))
         echo "$network execution time: $runtime" >> deepdsl-java/$result_file
         
@@ -40,22 +40,22 @@ echo "Start testing"
 echo "Start test time $(date)" >> deepdsl-java/$result_file
 #assuming start from deepdsl root folder
 #Step 1: generate the code and compile
-start=`date +%s.%N`
+start=`date +%s`
 mvn -Plinux64 clean install -DskipTests 2>&1 >/dev/null
-end=`date +%s.%N`
+end=`date +%s`
 runtime=$((end-start))
 echo "maven build time: $runtime" >> deepdsl-java/$result_file
 #cd deepdsl-java
 #mvn -Plinux64 test -Dtest=TestNetwork#testAll
-start=`date +%s.%N`
+start=`date +%s`
 mvn -Plinux64 test -Dtest=TestNetwork 2>&1 >/dev/null
-end=`date +%s.%N`
+end=`date +%s`
 runtime=$((end-start))
 echo "codegen time: $runtime" >> deepdsl-java/$result_file
 #cd ..
-start=`date +%s.%N`
+start=`date +%s`
 mvn -Plinux64 clean install -DskipTests 2>&1 >/dev/null
-end=`date +%s.%N`
+end=`date +%s`
 runtime=$((end-start))
 echo "maven re-build(after codegen) time: $runtime" >> deepdsl-java/$result_file
 cd deepdsl-java
@@ -71,9 +71,9 @@ echo "-------------------------------------------------------"
 echo "test set 2: with only enableMemoryCache disabled" >> $result_file
 sed -i -- 's/JCudaTensor.enableMemoryCache();/\/\/JCudaTensor.enableMemoryCache();/g' src/main/java/deepdsl/gen/*java
 cd ..
-start=`date +%s.%N`
+start=`date +%s`
 mvn -Plinux64 clean install -DskipTests 2>&1 >/dev/null
-end=`date +%s.%N`
+end=`date +%s`
 runtime=$((end-start))
 echo "maven re-build(after enableMemoryCache is disabled) time: $runtime" >> deepdsl-java/$result_file
 cd deepdsl-java
@@ -85,18 +85,18 @@ echo "-------------------------------------------------------"
 echo "test set 3: with both enableMemoryCache and enableWorkspaceCache disabled" >> $result_file
 sed -i -- 's/JCudaTensor.enableWorkspaceCache();/\/\/JCudaTensor.enableWorkspaceCache();/g' src/main/java/deepdsl/gen/*java
 cd ..
-start=`date +%s.%N`
+start=`date +%s`
 mvn -Plinux64 clean install -DskipTests 2>&1 >/dev/null
-end=`date +%s.%N`
+end=`date +%s`
 runtime=$((end-start))
 echo "maven re-build(after both enableMemoryCache and enableWorkspaceCache are disabled) time: $runtime" >> deepdsl-java/$result_file
 cd deepdsl-java
 do_test $freq $package test3
 
 #restore cache
-start=`date +%s.%N`
+start=`date +%s`
 sed -i -- 's,//JCudaTensor,JCudaTensor,g' src/main/java/deepdsl/gen/*java
-end=`date +%s.%N`
+end=`date +%s`
 runtime=$((end-start))
 echo "code restore(re-enabled both enableMemoryCache and enableWorkspaceCache)  time: $runtime" >> deepdsl-java/$result_file
 
