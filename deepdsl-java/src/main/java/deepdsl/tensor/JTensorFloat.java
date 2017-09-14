@@ -2,44 +2,69 @@ package deepdsl.tensor;
 
 import deepdsl.cudnn.JCudaTensor;
 import deepdsl.util.ArithStats;
+
 import org.naokishibata.sleef.FastMath;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.HashMap; 
+import java.util.Map; 
 
 public class JTensorFloat extends JTensor {  
 	private static final long serialVersionUID = 346421286929171807L;
+	private static Map<JTensorFloat, String> parameters = new HashMap<>();
+	private static Map<JCudaTensor, String> cudaParameters = new HashMap<>();
+	
+	public static void save() {
+		if(parameters.size() > 0) {
+			for(JTensorFloat t : parameters.keySet()) { t.save(parameters.get(t)); }
+			parameters.clear();
+		}
+		if(cudaParameters.size() > 0) {
+			for(JCudaTensor t : cudaParameters.keySet()) { 
+				t.save(cudaParameters.get(t)); 
+				t.free();
+			}
+			cudaParameters.clear();
+		}
+	}
+	
 	public final float[] array; 
 	
 	public JTensorFloat(float[] array, int[] dim) {
 		super(dim);
 		this.array = array; 
 	}
-	
 	public JTensorFloat load(String name) {
-		JTensorFloat t = null;
-		try {
-			FileInputStream fileIn = new FileInputStream(name + ".ser");
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			t = (JTensorFloat) in.readObject();
-			in.close();
-			fileIn.close();
+		JTensorFloat ret = _load(name);
+		parameters.put(ret, name);
+		return ret;
+	}
+	public JCudaTensor loadCuda(String name) {
+		JCudaTensor ret =  _load(name).asJCudaTensor();
+		cudaParameters.put(ret, name);
+		return ret;
+	}
+	private JTensorFloat _load(String name) {
+		JTensorFloat ret = this; 
+		try(FileInputStream fileIn = new FileInputStream(name + ".ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn)) 
+		{
+			JTensorFloat t = (JTensorFloat) in.readObject(); 
 			if(t != null) {
 				if(Arrays.toString(this.dim).equals(Arrays.toString(t.dim))) {
 					if(t.array.length == this.array.length) {
-						System.out.printf("Restored %s\n", name);
-						return t;
+						ret = t;
+						System.out.printf("Restored %s\n", name); 
 					}
 				}
 			}
 		}
-		catch(IOException i) {
-//			i.printStackTrace(); 
+		catch(IOException i) { 
 		}
-		catch(ClassNotFoundException c) { 
-//			c.printStackTrace();  
-		}
-		return this;
+		catch(ClassNotFoundException c) {  
+		} 
+		return ret;
 	}
 	
 	public void save(String name) {

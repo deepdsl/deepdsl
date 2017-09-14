@@ -4,6 +4,10 @@ import static jcuda.runtime.JCuda.cudaFree;
 import static jcuda.runtime.JCuda.cudaMalloc; 
 import static jcuda.runtime.JCuda.cudaMemcpy;
 import static jcuda.runtime.cudaMemcpyKind.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import jcuda.Pointer;
 import jcuda.Sizeof;
 import jcuda.jcudnn.JCudnn;
@@ -14,7 +18,13 @@ import jcuda.runtime.JCuda;
 import jcuda.vec.VecFloat;
 
 public abstract class JCudaFunction {
-	abstract void free();
+	// stores all JCuda functions
+	static private Set<JCudaFunction> functions = new HashSet<>();
+	
+	public JCudaFunction() {
+		functions.add(this);
+	}
+	public abstract void free();
 	
 	public static final cudnnHandle cudnnHandle = new cudnnHandle();
 	public static final cublasHandle cublasHandle = new cublasHandle();
@@ -28,6 +38,9 @@ public abstract class JCudaFunction {
 	}
 	
 	public static void destroy() {
+		for(JCudaFunction f: functions) { 
+			f.free(); 
+		}
 		JCudnn.cudnnDestroy(cudnnHandle);
 		JCublas2.cublasDestroy(cublasHandle);
 		VecFloat.shutdown();
