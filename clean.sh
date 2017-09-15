@@ -16,3 +16,11 @@ rm deepdsl-java/src/main/java/deepdsl/gen/Overfeat256.java
 rm deepdsl-java/src/main/java/deepdsl/gen/Resnet32.java
 rm deepdsl-java/src/main/java/deepdsl/gen/Resnet64.java
 rm deepdsl-java/src/main/java/deepdsl/gen/Vgg64.java
+rm deepdsl-java/src/main/java/deepdsl/gen/alexnet128/*
+rm deepdsl-java/src/main/java/deepdsl/gen/alexnet256/*
+rm deepdsl-java/src/main/java/deepdsl/gen/googlenet128/*
+rm deepdsl-java/src/main/java/deepdsl/gen/googlenet256/*
+rm deepdsl-java/src/main/java/deepdsl/gen/resnet32/*
+rm deepdsl-java/src/main/java/deepdsl/gen/resnet64/*
+rm deepdsl-java/src/main/java/deepdsl/gen/vgg64/*
+ 
