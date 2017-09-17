@@ -41,6 +41,7 @@ public abstract class JCudaFunction {
 		for(JCudaFunction f: functions) { 
 			f.free(); 
 		}
+		functions.clear();
 		JCudnn.cudnnDestroy(cudnnHandle);
 		JCublas2.cublasDestroy(cublasHandle);
 		VecFloat.shutdown();
