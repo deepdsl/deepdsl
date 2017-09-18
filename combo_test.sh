@@ -16,7 +16,7 @@ do_test() {
         #to use both $network and $1, need 1. use double quate and put backslash in front of $1 to allow
         #variable interpolation
         #kill $(jobs -p)
-        ps -ef | grep nvidia-smi | awk '{print $2}' | xargs kill
+        ps -ef | grep [n]vidia-smi | awk '{print $2}' | xargs kill
         sort -n $network-$test_num.txt | sed -n '$p' | awk "{print \"$network-$test_num: \" \$1 \"mb\"}"  >> $result_file
         sleep 3
         done
