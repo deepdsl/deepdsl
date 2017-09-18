@@ -11,6 +11,7 @@ import java.util.*;
  
 //import jcuda.runtime.JCuda;
 import jcuda.vec.VecFloat;
+import static deepdsl.cudnn.JCudaFunction.*;
 
 class MemoryManager {
 	private class Pair {
@@ -66,7 +67,8 @@ class MemoryManager {
 	}
 }
 
-public class JCudaTensor extends JCudaFunction {
+
+public class JCudaTensor {
 	private Pointer data;
 	private final int[] dims;
 	final int size;
@@ -96,6 +98,8 @@ public class JCudaTensor extends JCudaFunction {
 	public static void enableMemoryCache() { useCache = true; } 
 	
 	public static void disableMemoryCache() { useCache = false; }
+	
+	public static void enableWorkspaceCache() { JCudaFunction.enableWorkspaceCache(); }
 	
 	public JCudaTensor(JTensorFloat tensor) {
 		this(tensor.dim);
@@ -182,7 +186,7 @@ public class JCudaTensor extends JCudaFunction {
 		long begin = System.nanoTime();
  
 		if (! useCache) { // when memory reuse is disabled
-			free(data); 
+			JCudaFunction.free(data); 
 		}
 		else {
 			memory.free(data);
