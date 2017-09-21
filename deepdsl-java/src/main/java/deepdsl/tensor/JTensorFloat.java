@@ -17,13 +17,20 @@ public class JTensorFloat extends JTensor {
 	
 	public static void save() {
 		if(parameters.size() > 0) {
-			for(JTensorFloat t : parameters.keySet()) { t.save(parameters.get(t)); }
+			for(JTensorFloat t : parameters.keySet()) { 
+				String path = parameters.get(t);
+				if(!path.equals("")) {
+					t.save(path); 
+				}
+			}
 			parameters.clear();
 		}
 		if(cudaParameters.size() > 0) {
 			for(JCudaTensor t : cudaParameters.keySet()) { 
-				t.save(cudaParameters.get(t)); 
-				t.free();
+				String path = cudaParameters.get(t);
+				if(!path.equals("")) {
+					t.save(path); 
+				}
 			}
 			cudaParameters.clear();
 		}
@@ -35,9 +42,18 @@ public class JTensorFloat extends JTensor {
 		super(dim);
 		this.array = array; 
 	}
+	public JTensorFloat load() { 
+		parameters.put(this, "");
+		return this;
+	}
 	public JTensorFloat load(String name) {
 		JTensorFloat ret = _load(name);
 		parameters.put(ret, name);
+		return ret;
+	}
+	public JCudaTensor loadCuda() {
+		JCudaTensor ret =  this.asJCudaTensor();
+		cudaParameters.put(ret, "");
 		return ret;
 	}
 	public JCudaTensor loadCuda(String name) {
