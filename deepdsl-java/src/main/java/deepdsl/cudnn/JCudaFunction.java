@@ -38,9 +38,9 @@ public abstract class JCudaFunction {
 	}
 	
 	public static void destroy() {
-		for(JCudaFunction f: functions) { 
+		/*for(JCudaFunction f: functions) { 
 			f.free(); 
-		}
+		}*/
 		functions.clear();
 		JCudnn.cudnnDestroy(cudnnHandle);
 		JCublas2.cublasDestroy(cublasHandle);

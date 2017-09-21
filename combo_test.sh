@@ -12,7 +12,9 @@ do_test() {
         #test one network at a time
         nvidia-smi --query-gpu=memory.used --format=csv >> $network-$test_num.txt -lms $1 &
         { time mvn -Plinux64 exec:java -Dexec.mainClass="$2.$network" ; } 2>&1 | grep real | sed -En "s/real\s*(.+)/\1/p" | xargs echo "$network execution time: " >> $result_file
-        
+       
+        #sleep 5
+        #echo "sleep 5" >> $result_file 
         #to use both $network and $1, need 1. use double quate and put backslash in front of $1 to allow
         #variable interpolation
         #kill $(jobs -p)
@@ -49,7 +51,7 @@ cd deepdsl-java
 echo "-------------------------------------------------------"
 echo "test set 1: with cache enabled" >> $result_file
 do_test $freq $package test1
-sleep 10
+#sleep 10
 
 #Step 3: Comment out one cache line and run test suite 2
 echo "-------------------------------------------------------"
@@ -59,7 +61,7 @@ cd ..
 { time mvn -Plinux64 clean install -DskipTests; } 2>&1 | grep real | sed -En "s/real\s*(.+)/\1/p" | xargs echo "maven re-build(after enableMemoryCache is disabled) time: " >> deepdsl-java/$result_file
 cd deepdsl-java
 do_test $freq $package test2
-sleep 10
+#sleep 10
 
 #Step 4: Comment out both cache lines and run test suite 3
 echo "-------------------------------------------------------"
