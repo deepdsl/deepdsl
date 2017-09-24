@@ -33,8 +33,7 @@ public class LmdbFactory extends JTensorFactory {
 		iterator = LmdbUtils.getIterator(LmdbUtils.getIterable(tx, db)); 
 		
 		this.max_size = max_size;
-		System.out.println("max_size=" + max_size + ", batch=" + batch);
-				
+
 		if(max_size < batch) {
 			throw new RuntimeException("not enough training/test samples for even one batch");
 		} 
@@ -70,7 +69,7 @@ public class LmdbFactory extends JTensorFactory {
 		}
 		throw new RuntimeException(String.format("Data has more than %d classes of labels", _k));
 	}
-
+	
 	public JTensorFloatTuple nextFloat() {
 		long begin = System.nanoTime(); 
 
