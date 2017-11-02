@@ -2,895 +2,222 @@ package deepdsl.gen;
 import deepdsl.cudnn.*;
 import deepdsl.cudnn.config.*;
 import deepdsl.tensor.*;
+import deepdsl.util.CudaRun;
 
 
-public class Lenet {
-	static{
-		// comment the first or both lines below for memory efficient mode
-		JCudaTensor.enableMemoryCache();
-		JCudaTensor.enableWorkspaceCache();
-	}
-	// decay
-	static float decay = 5.0E-4f;
-	// lrn_rate
-	static float lrn_rate = -0.01f;
-	// momentum
-	static float momentum = 0.1f;
-	// network_dir
-	static String network_dir = "src/main/java/deepdsl/gen/lenet";
-	// test_itr
-	static int test_itr = 10;
-	// train_itr
-	static int train_itr = 100;
-
-	// (Convolv(1,0),List(List(500, 1, 28, 28), List(20, 1, 5, 5), List(20)))
-	static JCudnnConvolution x15 = new JCudnnConvolution(new int[]{500,1,28,28},new int[]{20,1,5,5},new int[]{20}, 1, 0);
-	// (Convolv(1,0),List(List(500, 20, 12, 12), List(50, 20, 5, 5), List(50)))
-	static JCudnnConvolution x25 = new JCudnnConvolution(new int[]{500,20,12,12},new int[]{50,20,5,5},new int[]{50}, 1, 0);
-	// (MNIST,false)
-	static MnistFactory x2 = MnistFactory.getFactory(false, new int[]{500, 1, 28, 28});
-	// (MNIST,true)
-	static MnistFactory x1 = MnistFactory.getFactory(true, new int[]{500, 1, 28, 28});
-	// (Pooling(2,2,0,true),List(List(500, 20, 24, 24)))
-	static JCudnnPooling x18 = new JCudnnPooling(new int[]{500,20,24,24}, 2, 2, 0, PoolingType.MAX);
-	// (Pooling(2,2,0,true),List(List(500, 50, 8, 8)))
-	static JCudnnPooling x28 = new JCudnnPooling(new int[]{500,50,8,8}, 2, 2, 0, PoolingType.MAX);
-	// (ReLU(),List(List(500, 500)))
-	static JCudnnActivation x42 = new JCudnnActivation(new int[]{500,500}, ActivationMode.RELU);
-	// (Softmax(),List(List(500, 10)))
-	static JCudnnSoftmax x55 = new JCudnnSoftmax(new int[]{500,10}, SoftmaxAlgorithm.ACCURATE);
-	// Precision(Accuracy(X155, Y, 1))
-	static float x315;
-	// V_cv1_B
-	static JCudaTensor x239 = JTensor.constFloat(0.0f, 20).asJCudaTensor();
-	// V_cv1_W
-	static JCudaTensor x245 = JTensor.constFloat(0.0f, 20, 1, 5, 5).asJCudaTensor();
-	// V_cv2_B
-	static JCudaTensor x203 = JTensor.constFloat(0.0f, 50).asJCudaTensor();
-	// V_cv2_W
-	static JCudaTensor x196 = JTensor.constFloat(0.0f, 50, 20, 5, 5).asJCudaTensor();
-	// V_fc1_B
-	static JCudaTensor x149 = JTensor.constFloat(0.0f, 500).asJCudaTensor();
-	// V_fc1_W
-	static JCudaTensor x162 = JTensor.constFloat(0.0f, 500, 800).asJCudaTensor();
-	// V_fc2_B
-	static JCudaTensor x105 = JTensor.constFloat(0.0f, 10).asJCudaTensor();
-	// V_fc2_W
-	static JCudaTensor x98 = JTensor.constFloat(0.0f, 10, 500).asJCudaTensor();
-	// X
-	static JTensorFloat x3;
-	// Y
-	static JTensorFloat x4;
-	// cv1_B
-	static JCudaTensor x14 = JTensor.constFloat(0.0f, 20).load(network_dir + "/cv1_B").asJCudaTensor();
-	// cv1_W
-	static JCudaTensor x13 = JTensor.randomFloat(-0.28284273f, 0.28284273f, 20, 1, 5, 5).load(network_dir + "/cv1_W").asJCudaTensor();
-	// cv2_B
-	static JCudaTensor x24 = JTensor.constFloat(0.0f, 50).load(network_dir + "/cv2_B").asJCudaTensor();
-	// cv2_W
-	static JCudaTensor x23 = JTensor.randomFloat(-0.06324555f, 0.06324555f, 50, 20, 5, 5).load(network_dir + "/cv2_W").asJCudaTensor();
-	// fc1_B
-	static JCudaTensor x39 = JTensor.constFloat(0.0f, 500).load(network_dir + "/fc1_B").asJCudaTensor();
-	// fc1_W
-	static JCudaTensor x35 = JTensor.randomFloat(-0.05f, 0.05f, 500, 800).load(network_dir + "/fc1_W").asJCudaTensor();
-	// fc2_B
-	static JCudaTensor x52 = JTensor.constFloat(0.0f, 10).load(network_dir + "/fc2_B").asJCudaTensor();
-	// fc2_W
-	static JCudaTensor x48 = JTensor.randomFloat(-0.06324555f, 0.06324555f, 10, 500).load(network_dir + "/fc2_W").asJCudaTensor();
+public class Lenet extends CudaRun {
 
 	public static void main(String[] args){
-		double t = System.nanoTime();
-		train();
-		System.out.println((System.nanoTime() - t) / 1.0E9);
-		test();
-		x13.save(network_dir + "/cv1_W");
-		x48.save(network_dir + "/fc2_W");
-		x23.save(network_dir + "/cv2_W");
-		x35.save(network_dir + "/fc1_W");
-		x39.save(network_dir + "/fc1_B");
-		x24.save(network_dir + "/cv2_B");
-		x52.save(network_dir + "/fc2_B");
-		x14.save(network_dir + "/cv1_B");
-		x24.free();
-		x39.free();
-		x239.free();
-		x98.free();
-		x35.free();
-		x196.free();
-		x203.free();
-		x23.free();
-		x52.free();
-		x48.free();
-		x13.free();
-		x149.free();
-		x105.free();
-		x245.free();
-		x14.free();
-		x162.free();
-		x15.free();
-		x18.free();
-		x25.free();
-		x55.free();
-		x28.free();
-		x42.free();
-		JCudaTensor.clearMemoryCache();
-		JCudaFunction.destroy();
-	}
-	static void train() {
-		for(int x5=0; x5<train_itr; x5++) {
-			JTensorFloatTuple x6 =  x1.nextFloat();
-			x3 = x6.image;
-			x4 = x6.label;
-
-			// val X129 = Cuda(X)
-			JCudaTensor x7;
-			JTensorFloat x8;
-			x8 = x3;
-			x7 = x8.asJCudaTensor();
-
-			// val X130 = Convolv(1,0)(X129,cv1_W,cv1_B)
-			JCudaTensor x9;
-			JCudaTensor x10, x11, x12;
-			x10 = x7;
-			x11 = x13;
-			x12 = x14;
-			x9 = x15.forward(x10, x11, x12);
-
-			// val X131 = Pooling(2,2,0,true)(X130)
-			JCudaTensor x16;
-			JCudaTensor x17;
-			x17 = x9;
-			x16 = x18.forward(x17);
-
-			// val X132 = Convolv(1,0)(X131,cv2_W,cv2_B)
-			JCudaTensor x19;
-			JCudaTensor x20, x21, x22;
-			x20 = x16;
-			x21 = x23;
-			x22 = x24;
-			x19 = x25.forward(x20, x21, x22);
-
-			// val X133 = Pooling(2,2,0,true)(X132)
-			JCudaTensor x26;
-			JCudaTensor x27;
-			x27 = x19;
-			x26 = x28.forward(x27);
-
-			// val X134 = (X133[1><3])(i10 | @) * (fc1_W)(i11 | @)
-			JCudaTensor x29;
-			JCudaMatrix x30;
-			JCudaMatrix x31;
-			JCudaTensor x32;
-			JCudaTensor x33;
-			x33 = x26;
-			x32 = x33.flatten(1, new int[]{50, 4, 4});
-			x30 = x32.asMatrix(1, true);
-			JCudaTensor x34;
-			x34 = x35;
-			x31 = x34.asMatrix(1, true);
-			x29 = x30.times(x31);
-
-			// val X136 = (X134 + (i10) => fc1_B)
-			JCudaTensor x36;
-			JCudaTensor x37, x38;
-			x37 = x29;
-			x38 = x39;
-			x36 = x38.copy(500, x37);
-
-			// val X137 = ReLU()(X136)
-			JCudaTensor x40;
-			JCudaTensor x41;
-			x41 = x36;
-			x40 = x42.forward(x41);
-
-			// val X138 = (X137)(i13 | @) * (fc2_W)(i14 | @)
-			JCudaTensor x43;
-			JCudaMatrix x44;
-			JCudaMatrix x45;
-			JCudaTensor x46;
-			x46 = x40;
-			x44 = x46.asMatrix(1, true);
-			JCudaTensor x47;
-			x47 = x48;
-			x45 = x47.asMatrix(1, true);
-			x43 = x44.times(x45);
-
-			// val X140 = (X138 + (i13) => fc2_B)
-			JCudaTensor x49;
-			JCudaTensor x50, x51;
-			x50 = x43;
-			x51 = x52;
-			x49 = x51.copy(500, x50);
-
-			// val X141 = Softmax()(X140)
-			JCudaTensor x53;
-			JCudaTensor x54;
-			x54 = x49;
-			x53 = x55.forward(x54);
-
-			// Dealloc(X140)
-			JCudaTensor x56;
-			x56 = x49;
-			x56.free();
-
-			// val X142 = Cuda(Indicator(Y, 10))
-			JCudaTensor x57;
-			JTensorFloat x58;
-			x58 = x4.asIndicator(10);
-			x57 = x58.asJCudaTensor();
-
-			// val X143 = Log X141.copy
-			JCudaTensor x59;
-			JCudaTensor x60;
-			x60 = x53;
-			x60 = x60.clone();
-			x59 = x60.log();
-
-			// val X75 = 1/(X141.copy)
-			JCudaTensor x61;
-			JCudaTensor x62;
-			float x63;
-			x62 = x53;
-			x62 = x62.clone();
-			x63 = -1;
-			x61 = x62.pow(x63);
-
-			// Cost(((0 - (X142 . X143)) / |500|))
-			float x64;
-			float x65;
-			float x66;
-			float x67;
-			JCudaTensor x68, x69;
-			x68 = x57;
-			x69 = x59;
-			x67 = x68.dot(x69);
-			x65 = - x67;
-			x66 = 500;
-			x64 = x65 / x66;
-			System.out.println(x5 + " " + x64);
-			if (Float.isNaN(x64)) { System.exit(-1); }
-
-			// Dealloc(X143)
-			JCudaTensor x70;
-			x70 = x59;
-			x70.free();
-
-			// val X76 = X142.copy .* X75
-			JCudaTensor x71;
-			JCudaTensor x72, x73;
-			x72 = x57;
-			x72 = x72.clone();
-			x73 = x61;
-			x71 = x72.times_i(x73);
-
-			// Dealloc(X75)
-			JCudaTensor x74;
-			x74 = x61;
-			x74.free();
-
-			// Dealloc(X142)
-			JCudaTensor x75;
-			x75 = x57;
-			x75.free();
-
-			// val X77 = - X76
-			JCudaTensor x76;
-			JCudaTensor x77;
-			float x78;
-			x77 = x71;
-			x78 = -1;
-			x76 = x77.times_i(x78);
-
-			// val X78 = (X77 / |500|)
-			JCudaTensor x79;
-			JCudaTensor x80;
-			float x81;
-			x80 = x76;
-			float x82;
-			x82 = 500;
-			x81 = 1 / x82;
-			x79 = x80.times_i(x81);
-
-			// val X80 = X78 * d_Softmax()(X141)/d_X140
-			JCudaTensor x83;
-			JCudaTensor x84, x85;
-			x84 = x79;
-			x85 = x53;
-			x83 = x55.backward(x84, x85);
-
-			// Dealloc(X78)
-			JCudaTensor x86;
-			x86 = x79;
-			x86.free();
-
-			// Dealloc(X141)
-			JCudaTensor x87;
-			x87 = x53;
-			x87.free();
-
-			// val m1 = (i93) => fc2_W[@, i93]
-			JCudaMatrix x88;
-			JCudaTensor x89;
-			x89 = x48;
-			x88 = x89.asMatrix(1, false);
-
-			// val m6 = (i22) => X80[@, i22]
-			JCudaMatrix x90;
-			JCudaTensor x91;
-			x91 = x83;
-			x90 = x91.asMatrix(1, false);
-
-			// val m7 = (i23) => X137[@, i23]
-			JCudaMatrix x92;
-			JCudaTensor x93;
-			x93 = x40;
-			x92 = x93.asMatrix(1, false);
-
-			// val X90 = (X80)(i92 | @) * m1
-			JCudaTensor x94;
-			JCudaMatrix x95;
-			JCudaMatrix x96;
-			JCudaTensor x97;
-			x97 = x83;
-			x95 = x97.asMatrix(1, true);
-			x96 = x88;
-			x94 = x95.times(x96);
-
-			// V_fc2_W <~~ m6 * m7
-			float x99, x100;
-			float x101;
-			float x102;
-			x101 = 1;
-			x102 = lrn_rate;
-			x99 = x101 * x102;
-			x100 = momentum;
-			JCudaMatrix x103;
-			JCudaMatrix x104;
-			x103 = x90;
-			x104 = x92;
-			x103.times(x104, x98, x99, x100);
-
-			// V_fc2_B <~~ Sum(m6)
-			float x106, x107;
-			float x108;
-			float x109;
-			x108 = 1;
-			x109 = lrn_rate;
-			x106 = x108 * x109;
-			x107 = momentum;
-			JCudaMatrix x110;
-			x110 = x90;
-			x110.sum(x105, x106, x107);
-
-			// Dealloc(X80)
-			JCudaTensor x111;
-			x111 = x83;
-			x111.free();
-
-			// val X92 = X90 * d_ReLU()(X137)/d_X136
-			JCudaTensor x112;
-			JCudaTensor x113, x114;
-			x113 = x94;
-			x114 = x40;
-			x112 = x42.backward(x113, x114);
-
-			// Dealloc(X137)
-			JCudaTensor x115;
-			x115 = x40;
-			x115.free();
-
-			// val m2 = (i97) => fc1_W[@, i97]
-			JCudaMatrix x116;
-			JCudaTensor x117;
-			x117 = x35;
-			x116 = x117.asMatrix(1, false);
-
-			// fc2_W <~~ V_fc2_W
-			float x118, x119;
-			x118 = 1;
-			float x120;
-			float x121;
-			x120 = 1;
-			float x122;
-			float x123;
-			float x124;
-			float x125;
-			x124 = 1;
-			x125 = decay;
-			x122 = x124 * x125;
-			float x126;
-			float x127;
-			x126 = 1;
-			x127 = lrn_rate;
-			x123 = x126 * x127;
-			x121 = x122 * x123;
-			x119 = x120 + x121;
-			JCudaTensor x128;
-			x128 = x98;
-			x48.update(x128, x118, x119);
-
-			// fc2_B <~~ V_fc2_B
-			float x129, x130;
-			x129 = 1;
-			float x131;
-			float x132;
-			x131 = 1;
-			float x133;
-			float x134;
-			float x135;
-			float x136;
-			x135 = 1;
-			x136 = decay;
-			x133 = x135 * x136;
-			float x137;
-			float x138;
-			x137 = 1;
-			x138 = lrn_rate;
-			x134 = x137 * x138;
-			x132 = x133 * x134;
-			x130 = x131 + x132;
-			JCudaTensor x139;
-			x139 = x105;
-			x52.update(x139, x129, x130);
-
-			// val X93 = (X92)(i96 | @) * m2
-			JCudaTensor x140;
-			JCudaMatrix x141;
-			JCudaMatrix x142;
-			JCudaTensor x143;
-			x143 = x112;
-			x141 = x143.asMatrix(1, true);
-			x142 = x116;
-			x140 = x141.times(x142);
-
-			// val m8 = (i31) => X92[@, i31]
-			JCudaMatrix x144;
-			JCudaTensor x145;
-			x145 = x112;
-			x144 = x145.asMatrix(1, false);
-
-			// val m9 = (i32) => X133[1><3][@, i32]
-			JCudaMatrix x146;
-			JCudaTensor x147;
-			JCudaTensor x148;
-			x148 = x26;
-			x147 = x148.flatten(1, new int[]{50, 4, 4});
-			x146 = x147.asMatrix(1, false);
-
-			// V_fc1_B <~~ Sum(m8)
-			float x150, x151;
-			float x152;
-			float x153;
-			x152 = 1;
-			x153 = lrn_rate;
-			x150 = x152 * x153;
-			x151 = momentum;
-			JCudaMatrix x154;
-			x154 = x144;
-			x154.sum(x149, x150, x151);
-
-			// val X95 = X93[1<>3] * d_Pooling(2,2,0,true)(X133,X132)/d_X132
-			JCudaTensor x155;
-			JCudaTensor x156, x157, x158;
-			JCudaTensor x159;
-			x159 = x140;
-			x156 = x159.unflatten(1, new int[]{50, 4, 4});
-			x157 = x26;
-			x158 = x19;
-			x155 = x28.backward(x156, x157, x158);
-
-			// Dealloc(X93)
-			JCudaTensor x160;
-			x160 = x140;
-			x160.free();
-
-			// Dealloc(X132)
-			JCudaTensor x161;
-			x161 = x19;
-			x161.free();
-
-			// V_fc1_W <~~ m8 * m9
-			float x163, x164;
-			float x165;
-			float x166;
-			x165 = 1;
-			x166 = lrn_rate;
-			x163 = x165 * x166;
-			x164 = momentum;
-			JCudaMatrix x167;
-			JCudaMatrix x168;
-			x167 = x144;
-			x168 = x146;
-			x167.times(x168, x162, x163, x164);
-
-			// Dealloc(X92)
-			JCudaTensor x169;
-			x169 = x112;
-			x169.free();
-
-			// Dealloc(X133)
-			JCudaTensor x170;
-			x170 = x26;
-			x170.free();
-
-			// fc1_B <~~ V_fc1_B
-			float x171, x172;
-			x171 = 1;
-			float x173;
-			float x174;
-			x173 = 1;
-			float x175;
-			float x176;
-			float x177;
-			float x178;
-			x177 = 1;
-			x178 = decay;
-			x175 = x177 * x178;
-			float x179;
-			float x180;
-			x179 = 1;
-			x180 = lrn_rate;
-			x176 = x179 * x180;
-			x174 = x175 * x176;
-			x172 = x173 + x174;
-			JCudaTensor x181;
-			x181 = x149;
-			x39.update(x181, x171, x172);
-
-			// fc1_W <~~ V_fc1_W
-			float x182, x183;
-			x182 = 1;
-			float x184;
-			float x185;
-			x184 = 1;
-			float x186;
-			float x187;
-			float x188;
-			float x189;
-			x188 = 1;
-			x189 = decay;
-			x186 = x188 * x189;
-			float x190;
-			float x191;
-			x190 = 1;
-			x191 = lrn_rate;
-			x187 = x190 * x191;
-			x185 = x186 * x187;
-			x183 = x184 + x185;
-			JCudaTensor x192;
-			x192 = x162;
-			x35.update(x192, x182, x183);
-
-			// val X96 = X95 * d_Convolv(1,0)(cv2_W)/d_X131
-			JCudaTensor x193;
-			JCudaTensor x194, x195;
-			x194 = x155;
-			x195 = x23;
-			x193 = x25.backward_data(x194, x195);
-
-			// V_cv2_W <~~ X95 * d_Convolv(1,0)(X131)/d_cv2_W
-			float x197, x198;
-			float x199;
-			float x200;
-			x199 = 1;
-			x200 = lrn_rate;
-			x197 = x199 * x200;
-			x198 = momentum;
-			JCudaTensor x201, x202;
-			x201 = x155;
-			x202 = x16;
-			x25.backward_filter(x201, x202, x196, x197, x198);
-
-			// V_cv2_B <~~ X95 * d_Convolv(1,0)()/d_cv2_B
-			float x204, x205;
-			float x206;
-			float x207;
-			x206 = 1;
-			x207 = lrn_rate;
-			x204 = x206 * x207;
-			x205 = momentum;
-			JCudaTensor x208;
-			x208 = x155;
-			x25.backward_bias(x208, x203, x204, x205);
-
-			// Dealloc(X95)
-			JCudaTensor x209;
-			x209 = x155;
-			x209.free();
-
-			// cv2_W <~~ V_cv2_W
-			float x210, x211;
-			x210 = 1;
-			float x212;
-			float x213;
-			x212 = 1;
-			float x214;
-			float x215;
-			float x216;
-			float x217;
-			x216 = 1;
-			x217 = decay;
-			x214 = x216 * x217;
-			float x218;
-			float x219;
-			x218 = 1;
-			x219 = lrn_rate;
-			x215 = x218 * x219;
-			x213 = x214 * x215;
-			x211 = x212 + x213;
-			JCudaTensor x220;
-			x220 = x196;
-			x23.update(x220, x210, x211);
-
-			// cv2_B <~~ V_cv2_B
-			float x221, x222;
-			x221 = 1;
-			float x223;
-			float x224;
-			x223 = 1;
-			float x225;
-			float x226;
-			float x227;
-			float x228;
-			x227 = 1;
-			x228 = decay;
-			x225 = x227 * x228;
-			float x229;
-			float x230;
-			x229 = 1;
-			x230 = lrn_rate;
-			x226 = x229 * x230;
-			x224 = x225 * x226;
-			x222 = x223 + x224;
-			JCudaTensor x231;
-			x231 = x203;
-			x24.update(x231, x221, x222);
-
-			// val X98 = X96 * d_Pooling(2,2,0,true)(X131,X130)/d_X130
-			JCudaTensor x232;
-			JCudaTensor x233, x234, x235;
-			x233 = x193;
-			x234 = x16;
-			x235 = x9;
-			x232 = x18.backward(x233, x234, x235);
-
-			// Dealloc(X96)
-			JCudaTensor x236;
-			x236 = x193;
-			x236.free();
-
-			// Dealloc(X131)
-			JCudaTensor x237;
-			x237 = x16;
-			x237.free();
-
-			// Dealloc(X130)
-			JCudaTensor x238;
-			x238 = x9;
-			x238.free();
-
-			// V_cv1_B <~~ X98 * d_Convolv(1,0)()/d_cv1_B
-			float x240, x241;
-			float x242;
-			float x243;
-			x242 = 1;
-			x243 = lrn_rate;
-			x240 = x242 * x243;
-			x241 = momentum;
-			JCudaTensor x244;
-			x244 = x232;
-			x15.backward_bias(x244, x239, x240, x241);
-
-			// V_cv1_W <~~ X98 * d_Convolv(1,0)(X129)/d_cv1_W
-			float x246, x247;
-			float x248;
-			float x249;
-			x248 = 1;
-			x249 = lrn_rate;
-			x246 = x248 * x249;
-			x247 = momentum;
-			JCudaTensor x250, x251;
-			x250 = x232;
-			x251 = x7;
-			x15.backward_filter(x250, x251, x245, x246, x247);
-
-			// Dealloc(X98)
-			JCudaTensor x252;
-			x252 = x232;
-			x252.free();
-
-			// Dealloc(X129)
-			JCudaTensor x253;
-			x253 = x7;
-			x253.free();
-
-			// cv1_B <~~ V_cv1_B
-			float x254, x255;
-			x254 = 1;
-			float x256;
-			float x257;
-			x256 = 1;
-			float x258;
-			float x259;
-			float x260;
-			float x261;
-			x260 = 1;
-			x261 = decay;
-			x258 = x260 * x261;
-			float x262;
-			float x263;
-			x262 = 1;
-			x263 = lrn_rate;
-			x259 = x262 * x263;
-			x257 = x258 * x259;
-			x255 = x256 + x257;
-			JCudaTensor x264;
-			x264 = x239;
-			x14.update(x264, x254, x255);
-
-			// cv1_W <~~ V_cv1_W
-			float x265, x266;
-			x265 = 1;
-			float x267;
-			float x268;
-			x267 = 1;
-			float x269;
-			float x270;
-			float x271;
-			float x272;
-			x271 = 1;
-			x272 = decay;
-			x269 = x271 * x272;
-			float x273;
-			float x274;
-			x273 = 1;
-			x274 = lrn_rate;
-			x270 = x273 * x274;
-			x268 = x269 * x270;
-			x266 = x267 + x268;
-			JCudaTensor x275;
-			x275 = x245;
-			x13.update(x275, x265, x266);
-
-		}
-
+		Lenet run = new Lenet();
+		run.train(100);
+		run.test(10);
+		run.save();
+		run.free();
 	}
 
-	static void test() {
-		for(int x5=0; x5<test_itr; x5++) {
-			JTensorFloatTuple x6 =  x2.nextFloat();
-			x3 = x6.image;
-			x4 = x6.label;
+	public Lenet() {
+		super("src/main/java/deepdsl/gen/lenet");
+		setTrainData(MnistFactory.getFactory(true, new int[]{500, 1, 28, 28}));
+		setTestData(MnistFactory.getFactory(false, new int[]{500, 1, 28, 28}));
+	}
 
-			// val X144 = Cuda(X)
-			JCudaTensor x276;
-			JTensorFloat x277;
-			x277 = x3;
-			x276 = x277.asJCudaTensor();
+	float lrn_rate = -0.01f;
+	float momentum = 0.9f;
+	float decay = 5.0E-4f;
 
-			// val X145 = Convolv(1,0)(X144,cv1_W,cv1_B)
-			JCudaTensor x278;
-			JCudaTensor x279, x280, x281;
-			x279 = x276;
-			x280 = x13;
-			x281 = x14;
-			x278 = x15.forward(x279, x280, x281);
+	JCudnnConvolution y6 = addConvolution(new int[]{500,1,28,28},new int[]{20,1,5,5},new int[]{20}, 1, 0);
+	JCudnnConvolution y4 = addConvolution(new int[]{500,20,12,12},new int[]{50,20,5,5},new int[]{50}, 1, 0);
+	JCudnnPooling y5 = addPooling(new int[]{500,20,24,24}, 2, 2, 0, PoolingType.MAX);
+	JCudnnPooling y3 = addPooling(new int[]{500,50,8,8}, 2, 2, 0, PoolingType.MAX);
+	JCudnnActivation y2 = addActivation(new int[]{500,500}, ActivationMode.RELU);
+	JCudnnSoftmax y1 = addSoftmax(new int[]{500,10}, SoftmaxAlgorithm.ACCURATE);
+	JCudaTensor V_cv1_B = addParam("V_cv1_B", "Constant", 0f, 20);
+	JCudaTensor V_cv1_W = addParam("V_cv1_W", "Constant", 0f, 20, 1, 5, 5);
+	JCudaTensor V_cv2_B = addParam("V_cv2_B", "Constant", 0f, 50);
+	JCudaTensor V_cv2_W = addParam("V_cv2_W", "Constant", 0f, 50, 20, 5, 5);
+	JCudaTensor V_fc1_B = addParam("V_fc1_B", "Constant", 0f, 500);
+	JCudaTensor V_fc1_W = addParam("V_fc1_W", "Constant", 0f, 500, 800);
+	JCudaTensor V_fc2_B = addParam("V_fc2_B", "Constant", 0f, 10);
+	JCudaTensor V_fc2_W = addParam("V_fc2_W", "Constant", 0f, 10, 500);
+	JCudaTensor cv1_B = addParam("cv1_B", "Constant", 0.0f, 20);
+	JCudaTensor cv1_W = addParam("cv1_W", "Random", 0.28284273f, 20, 1, 5, 5);
+	JCudaTensor cv2_B = addParam("cv2_B", "Constant", 0.0f, 50);
+	JCudaTensor cv2_W = addParam("cv2_W", "Random", 0.06324555f, 50, 20, 5, 5);
+	JCudaTensor fc1_B = addParam("fc1_B", "Constant", 0.0f, 500);
+	JCudaTensor fc1_W = addParam("fc1_W", "Random", 0.05f, 500, 800);
+	JCudaTensor fc2_B = addParam("fc2_B", "Constant", 0.0f, 10);
+	JCudaTensor fc2_W = addParam("fc2_W", "Random", 0.06324555f, 10, 500);
 
-			// Dealloc(X144)
-			JCudaTensor x282;
-			x282 = x276;
-			x282.free();
+	public float trainFunction(JTensorFloat X, JTensorFloat Y) {
+		// val X67 = Cuda(X)
+		JCudaTensor X67 = X.asJCudaTensor();
+		// val X23 = Convolv(1,0)(X67,cv1_W,cv1_B)
+		JCudaTensor X23 = y6.forward(X67, cv1_W, cv1_B);
+		// val X24 = Pooling(2,2,0,true)(X23)
+		JCudaTensor X24 = y5.forward(X23);
+		// val X25 = Convolv(1,0)(X24,cv2_W,cv2_B)
+		JCudaTensor X25 = y4.forward(X24, cv2_W, cv2_B);
+		// val X26 = Pooling(2,2,0,true)(X25)
+		JCudaTensor X26 = y3.forward(X25);
+		// val X65 = (X26[1><3])(i10 | @) * (fc1_W)(i11 | @)
+		JCudaTensor X65 = X26.flatten(1, new int[]{50, 4, 4}).asMatrix(1, true).times(fc1_W.asMatrix(1, true));
+		// val X28 = (X65 + (i10) => fc1_B)
+		JCudaTensor X28 = fc1_B.copy(500, X65);
+		// val X29 = ReLU()(X28)
+		JCudaTensor X29 = y2.forward(X28);
+		// val X68 = (X29)(i13 | @) * (fc2_W)(i14 | @)
+		JCudaTensor X68 = X29.asMatrix(1, true).times(fc2_W.asMatrix(1, true));
+		// val X30 = (X68 + (i13) => fc2_B)
+		JCudaTensor X30 = fc2_B.copy(500, X68);
+		// val X31 = Softmax()(X30)
+		JCudaTensor X31 = y1.forward(X30);
+		// dealloc X30
+		X30.free();
+		// val X80 = 1/(X31.copy)
+		JCudaTensor X80 = X31.clone().pow(-1f);
+		// val X71 = Log X31.copy
+		JCudaTensor X71 = X31.clone().log();
+		// val X70 = Cuda(Indicator(Y, 10))
+		JCudaTensor X70 = Y.asIndicator(10).asJCudaTensor();
+		// val X81 = X70.copy .* X80
+		JCudaTensor X81 = X70.clone().times_i(X80);;
+		// dealloc X80
+		X80.free();
+		// val _loss = ((0 - (X70 . X71)) / |500|)
+		float _loss = - X70.dot(X71) / 500f;
+		// dealloc X71
+		X71.free();
+		// dealloc X70
+		X70.free();
+		// val X82 = - X81
+		JCudaTensor X82 = X81.times_i(-1f);;
+		// val X32 = (X82 / |500|)
+		JCudaTensor X32 = X82.times_i(1 / 500f);;
+		// val X75 = X32 * d_Softmax()(X31)/d_X30
+		JCudaTensor X75 = y1.backward(X32, X31);
+		// dealloc X32
+		X32.free();
+		// dealloc X31
+		X31.free();
+		// val m8 = (i40) => fc2_W[@, i40]
+		JCudaMatrix m8 = fc2_W.asMatrix(1, false);
+		// val m3 = (i43) => X75[@, i43]
+		JCudaMatrix m3 = X75.asMatrix(1, false);
+		// val X97 = (X75)(i39 | @) * m8
+		JCudaTensor X97 = X75.asMatrix(1, true).times(m8);
+		// val m7 = (i19) => X29[@, i19]
+		JCudaMatrix m7 = X29.asMatrix(1, false);
+		// V_fc2_B = ((Sum(m3) * -0.01) + (V_fc2_B * 0.9))
+		m3.sum(V_fc2_B, lrn_rate, momentum);
+		// val X90 = X97 * d_ReLU()(X29)/d_X28
+		JCudaTensor X90 = y2.backward(X97, X29);
+		// V_fc2_W = ((m3 * m7 * -0.01) + (V_fc2_W * 0.9))
+		m3.times(m7, V_fc2_W, lrn_rate, momentum);
+		// dealloc X75
+		X75.free();
+		// dealloc X29
+		X29.free();
+		// val m5 = (i33) => fc1_W[@, i33]
+		JCudaMatrix m5 = fc1_W.asMatrix(1, false);
+		// val X83 = (X90)(i32 | @) * m5
+		JCudaTensor X83 = X90.asMatrix(1, true).times(m5);
+		// val m1 = (i22) => X90[@, i22]
+		JCudaMatrix m1 = X90.asMatrix(1, false);
+		// fc2_W = (V_fc2_W + (fc2_W * (1 + (5.0E-4 * -0.01))))
+		fc2_W.update(V_fc2_W, 1f, 1f + decay * lrn_rate);
+		// fc2_B = (V_fc2_B + (fc2_B * (1 + (5.0E-4 * -0.01))))
+		fc2_B.update(V_fc2_B, 1f, 1f + decay * lrn_rate);
+		// val m2 = (i23) => X26[1><3][@, i23]
+		JCudaMatrix m2 = X26.flatten(1, new int[]{50, 4, 4}).asMatrix(1, false);
+		// val X86 = X83[1<>3] * d_Pooling(2,2,0,true)(X26,X25)/d_X25
+		JCudaTensor X86 = y3.backward(X83.unflatten(1, new int[]{50, 4, 4}), X26, X25);
+		// dealloc X25
+		X25.free();
+		// dealloc X83
+		X83.free();
+		// V_fc1_W = ((m1 * m2 * -0.01) + (V_fc1_W * 0.9))
+		m1.times(m2, V_fc1_W, lrn_rate, momentum);
+		// dealloc X26
+		X26.free();
+		// V_fc1_B = ((Sum(m1) * -0.01) + (V_fc1_B * 0.9))
+		m1.sum(V_fc1_B, lrn_rate, momentum);
+		// dealloc X90
+		X90.free();
+		// V_cv2_B = ((X86 * d_Convolv(1,0)()/d_cv2_B * -0.01) + (V_cv2_B * 0.9))
+		y4.backward_bias(X86, V_cv2_B, lrn_rate, momentum);
+		// fc1_B = (V_fc1_B + (fc1_B * (1 + (5.0E-4 * -0.01))))
+		fc1_B.update(V_fc1_B, 1f, 1f + decay * lrn_rate);
+		// V_cv2_W = ((X86 * d_Convolv(1,0)(X24)/d_cv2_W * -0.01) + (V_cv2_W * 0.9))
+		y4.backward_filter(X86, X24, V_cv2_W, lrn_rate, momentum);
+		// val X93 = X86 * d_Convolv(1,0)(cv2_W)/d_X24
+		JCudaTensor X93 = y4.backward_data(X86, cv2_W);
+		// dealloc X86
+		X86.free();
+		// fc1_W = (V_fc1_W + (fc1_W * (1 + (5.0E-4 * -0.01))))
+		fc1_W.update(V_fc1_W, 1f, 1f + decay * lrn_rate);
+		// cv2_W = (V_cv2_W + (cv2_W * (1 + (5.0E-4 * -0.01))))
+		cv2_W.update(V_cv2_W, 1f, 1f + decay * lrn_rate);
+		// cv2_B = (V_cv2_B + (cv2_B * (1 + (5.0E-4 * -0.01))))
+		cv2_B.update(V_cv2_B, 1f, 1f + decay * lrn_rate);
+		// val X77 = X93 * d_Pooling(2,2,0,true)(X24,X23)/d_X23
+		JCudaTensor X77 = y5.backward(X93, X24, X23);
+		// dealloc X93
+		X93.free();
+		// dealloc X24
+		X24.free();
+		// dealloc X23
+		X23.free();
+		// V_cv1_W = ((X77 * d_Convolv(1,0)(X67)/d_cv1_W * -0.01) + (V_cv1_W * 0.9))
+		y6.backward_filter(X77, X67, V_cv1_W, lrn_rate, momentum);
+		// dealloc X67
+		X67.free();
+		// V_cv1_B = ((X77 * d_Convolv(1,0)()/d_cv1_B * -0.01) + (V_cv1_B * 0.9))
+		y6.backward_bias(X77, V_cv1_B, lrn_rate, momentum);
+		// dealloc X77
+		X77.free();
+		// cv1_W = (V_cv1_W + (cv1_W * (1 + (5.0E-4 * -0.01))))
+		cv1_W.update(V_cv1_W, 1f, 1f + decay * lrn_rate);
+		// cv1_B = (V_cv1_B + (cv1_B * (1 + (5.0E-4 * -0.01))))
+		cv1_B.update(V_cv1_B, 1f, 1f + decay * lrn_rate);
 
-			// val X146 = Pooling(2,2,0,true)(X145)
-			JCudaTensor x283;
-			JCudaTensor x284;
-			x284 = x278;
-			x283 = x18.forward(x284);
+		return _loss; 
+	}
 
-			// Dealloc(X145)
-			JCudaTensor x285;
-			x285 = x278;
-			x285.free();
+	public JCudaTensor testFunction(JTensorFloat X) {
+		// val X10 = Cuda(X)
+		JCudaTensor X10 = X.asJCudaTensor();
+		// val X11 = Convolv(1,0)(X10,cv1_W,cv1_B)
+		JCudaTensor X11 = y6.forward(X10, cv1_W, cv1_B);
+		// dealloc X10
+		X10.free();
+		// val X12 = Pooling(2,2,0,true)(X11)
+		JCudaTensor X12 = y5.forward(X11);
+		// dealloc X11
+		X11.free();
+		// val X13 = Convolv(1,0)(X12,cv2_W,cv2_B)
+		JCudaTensor X13 = y4.forward(X12, cv2_W, cv2_B);
+		// dealloc X12
+		X12.free();
+		// val X14 = Pooling(2,2,0,true)(X13)
+		JCudaTensor X14 = y3.forward(X13);
+		// dealloc X13
+		X13.free();
+		// val X19 = (X14[1><3])(i10 | @) * (fc1_W)(i11 | @)
+		JCudaTensor X19 = X14.flatten(1, new int[]{50, 4, 4}).asMatrix(1, true).times(fc1_W.asMatrix(1, true));
+		// dealloc X14
+		X14.free();
+		// val X16 = (X19 + (i10) => fc1_B)
+		JCudaTensor X16 = fc1_B.copy(500, X19);
+		// val X17 = ReLU()(X16)
+		JCudaTensor X17 = y2.forward(X16);
+		// val X21 = (X17)(i13 | @) * (fc2_W)(i14 | @)
+		JCudaTensor X21 = X17.asMatrix(1, true).times(fc2_W.asMatrix(1, true));
+		// dealloc X17
+		X17.free();
+		// val X18 = (X21 + (i13) => fc2_B)
+		JCudaTensor X18 = fc2_B.copy(500, X21);
 
-			// val X147 = Convolv(1,0)(X146,cv2_W,cv2_B)
-			JCudaTensor x286;
-			JCudaTensor x287, x288, x289;
-			x287 = x283;
-			x288 = x23;
-			x289 = x24;
-			x286 = x25.forward(x287, x288, x289);
-
-			// Dealloc(X146)
-			JCudaTensor x290;
-			x290 = x283;
-			x290.free();
-
-			// val X148 = Pooling(2,2,0,true)(X147)
-			JCudaTensor x291;
-			JCudaTensor x292;
-			x292 = x286;
-			x291 = x28.forward(x292);
-
-			// Dealloc(X147)
-			JCudaTensor x293;
-			x293 = x286;
-			x293.free();
-
-			// val X149 = (X148[1><3])(i10 | @) * (fc1_W)(i11 | @)
-			JCudaTensor x294;
-			JCudaMatrix x295;
-			JCudaMatrix x296;
-			JCudaTensor x297;
-			JCudaTensor x298;
-			x298 = x291;
-			x297 = x298.flatten(1, new int[]{50, 4, 4});
-			x295 = x297.asMatrix(1, true);
-			JCudaTensor x299;
-			x299 = x35;
-			x296 = x299.asMatrix(1, true);
-			x294 = x295.times(x296);
-
-			// Dealloc(X148)
-			JCudaTensor x300;
-			x300 = x291;
-			x300.free();
-
-			// val X151 = (X149 + (i10) => fc1_B)
-			JCudaTensor x301;
-			JCudaTensor x302, x303;
-			x302 = x294;
-			x303 = x39;
-			x301 = x303.copy(500, x302);
-
-			// val X152 = ReLU()(X151)
-			JCudaTensor x304;
-			JCudaTensor x305;
-			x305 = x301;
-			x304 = x42.forward(x305);
-
-			// val X153 = (X152)(i13 | @) * (fc2_W)(i14 | @)
-			JCudaTensor x306;
-			JCudaMatrix x307;
-			JCudaMatrix x308;
-			JCudaTensor x309;
-			x309 = x304;
-			x307 = x309.asMatrix(1, true);
-			JCudaTensor x310;
-			x310 = x48;
-			x308 = x310.asMatrix(1, true);
-			x306 = x307.times(x308);
-
-			// Dealloc(X152)
-			JCudaTensor x311;
-			x311 = x304;
-			x311.free();
-
-			// val X155 = (X153 + (i13) => fc2_B)
-			JCudaTensor x312;
-			JCudaTensor x313, x314;
-			x313 = x306;
-			x314 = x52;
-			x312 = x314.copy(500, x313);
-
-			// Precision(Accuracy(X155, Y, 1))
-			float x316;
-			JCudaTensor x317;
-			JTensorFloat x318;
-			x317 = x312;
-			x318 = x4;
-			x316 = x317.accuracy(x318, 1);
-			System.out.println(x5 + " test precision "  + x316);
-			x315 += x316;
-
-			// Dealloc(X155)
-			JCudaTensor x319;
-			x319 = x312;
-			x319.free();
-
-		}
-		System.out.println();
-		System.out.println("average precision: " + x315/test_itr);
-		System.out.println(); 
+		return X18; 
 	}
 
 }

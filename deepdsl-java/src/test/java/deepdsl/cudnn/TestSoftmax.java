@@ -30,7 +30,7 @@ public class TestSoftmax {
 		
 		JCudnnSoftmax softmax = new JCudnnSoftmax(dims, SoftmaxAlgorithm.LOG);
 		
-		JCudaTensor y = softmax.forward(x);
+		JCudaTensor y = softmax.forward(x); 
 		JCudaTensor dy = new JCudaTensor(new JTensorFloat(c, dims));
 		
 		JCudaTensor dx = softmax.backward(dy, y);

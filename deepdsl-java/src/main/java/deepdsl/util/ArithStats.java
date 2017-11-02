@@ -1,12 +1,12 @@
 package deepdsl.util;
 
-import deepdsl.cudnn.JCudaFunction;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Stream;
+
+import deepdsl.cudnn.JCudaFunction;
 
 /**
  * This class collects the number of calls for each arith op during program running

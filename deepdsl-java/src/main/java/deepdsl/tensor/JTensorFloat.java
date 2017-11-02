@@ -2,44 +2,58 @@ package deepdsl.tensor;
 
 import deepdsl.cudnn.JCudaTensor;
 import deepdsl.util.ArithStats;
+
 import org.naokishibata.sleef.FastMath;
 
 import java.io.*;
 import java.util.Arrays;
 
 public class JTensorFloat extends JTensor {  
-	private static final long serialVersionUID = 346421286929171807L;
+	private static final long serialVersionUID = 346421286929171807L;  
+	
 	public final float[] array; 
 	
 	public JTensorFloat(float[] array, int[] dim) {
 		super(dim);
 		this.array = array; 
 	}
-	
-	public JTensorFloat load(String name) {
-		JTensorFloat t = null;
-		try {
-			FileInputStream fileIn = new FileInputStream(name + ".ser");
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			t = (JTensorFloat) in.readObject();
-			in.close();
-			fileIn.close();
+	public int getLength() {
+		int ret = 1;
+		for(int d: dim) { ret *= d; }
+		return ret;
+	}
+	public JTensorFloat load() {  
+		return this;
+	}
+	public JTensorFloat load(String name) { 
+		return _load(name);
+	}
+	public JCudaTensor loadCuda() { 
+		return asJCudaTensor();
+	}
+	public JCudaTensor loadCuda(String name) { 
+		return _load(name).asJCudaTensor();
+	}
+	private JTensorFloat _load(String name) {
+		JTensorFloat ret = this; 
+		try(FileInputStream fileIn = new FileInputStream(name + ".ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn)) 
+		{
+			JTensorFloat t = (JTensorFloat) in.readObject(); 
 			if(t != null) {
 				if(Arrays.toString(this.dim).equals(Arrays.toString(t.dim))) {
-					if(t.array.length == this.array.length) {
-						System.out.printf("Restored %s\n", name);
-						return t;
+					if(t.getLength() == this.getLength()) {
+						ret = t;
+						System.out.printf("Restored %s\n", name); 
 					}
 				}
 			}
 		}
-		catch(IOException i) {
-//			i.printStackTrace(); 
+		catch(IOException i) { 
 		}
-		catch(ClassNotFoundException c) { 
-//			c.printStackTrace();  
-		}
-		return this;
+		catch(ClassNotFoundException c) {  
+		} 
+		return ret;
 	}
 	
 	public void save(String name) {
@@ -59,7 +73,7 @@ public class JTensorFloat extends JTensor {
 	// convert an array to an indicator matrix
 	// [0, 2, 1] --> [[1,0,0], [0,0,1], [0,1,0]] if there are 3 classes
 	public JTensorFloat asIndicator(int numOfCls) { 
-		int length = this.array.length;
+		int length = this.getLength();
 		float[] newArray = new float[length * numOfCls];
 		
 		for(int i=0; i<length; i++) {
@@ -116,7 +130,7 @@ public class JTensorFloat extends JTensor {
 	
 	// for debugging 
 	String print(int i) {
-		i = i < array.length? i : array.length;
+		i = i < getLength()? i : getLength();
 		
 		float[] a = new float[i];
 		for(int k=0; k<i; k++) {
@@ -131,15 +145,15 @@ public class JTensorFloat extends JTensor {
 	
 	private float[] getArray() { return array; }
 	private float[] getArrayCopy() { 
-		float[] ret = new float[array.length];
-		System.arraycopy(array, 0, ret, 0, array.length);
+		float[] ret = new float[getLength()];
+		System.arraycopy(array, 0, ret, 0, getLength());
 		return ret;
 	}  
 
 	public JTensorFloat clone() { return new JTensorFloat(getArrayCopy(), dim); }
 	
 	public JTensorFloat update(JTensorFloat that, float alpha, float beta) {
-		int size = array.length, thatSize = that.array.length;
+		int size = getLength(), thatSize = that.getLength();
 		if(size != thatSize) {
 			throw new RuntimeException("tensor sizes do not match");
 		}  
@@ -178,7 +192,7 @@ public class JTensorFloat extends JTensor {
 
 	public float max() {
 		float ret = array[0];
-		for(int i=1; i<array.length; i++) {
+		for(int i=1; i<getLength(); i++) {
 			if (ret < array[i]) {
 				ret = array[i];
 			}
@@ -190,9 +204,9 @@ public class JTensorFloat extends JTensor {
 	public float dot(JTensorFloat t) {
 		long begin = System.nanoTime();
 		float ret = 0;
-		if(t.array.length != array.length) { throw new RuntimeException("tensor array lengths do not match"); }
+		if(t.getLength() != getLength()) { throw new RuntimeException("tensor array lengths do not match"); }
 
-		for(int i=0; i<array.length; i++) {
+		for(int i=0; i<getLength(); i++) {
 			ret += array[i] * t.array[i];
 		}
 		ArithStats.timing("dot_prod", begin);
@@ -231,12 +245,12 @@ public class JTensorFloat extends JTensor {
 	  
 	public JTensorFloat plus(JTensorFloat t) {
 		long begin = System.nanoTime();
-		if(array.length != t.array.length) {
+		if(getLength() != t.getLength()) {
 			throw new RuntimeException("tensor lengths do not match"); 
 		}
 
 		float[] a = getArray();
-		for(int i=0; i<array.length; i++) {
+		for(int i=0; i<getLength(); i++) {
 			a[i] = array[i] + t.array[i];
 		} 
 
@@ -247,7 +261,7 @@ public class JTensorFloat extends JTensor {
 	public JTensorFloat times(float x) {
 		long begin = System.nanoTime();
 		float[] a = getArray();
-		for(int i=0; i<array.length; i++) {
+		for(int i=0; i<getLength(); i++) {
 			a[i] = array[i] * x;
 		}
 		ArithStats.timing("times-scalar", begin);
@@ -256,9 +270,9 @@ public class JTensorFloat extends JTensor {
 	// element-wise product
 	public JTensorFloat times(JTensorFloat t) {
 		long begin = System.nanoTime();
-		if(array.length != t.array.length) { throw new RuntimeException("tensor lengths do not match"); }
+		if(getLength() != t.getLength()) { throw new RuntimeException("tensor lengths do not match"); }
 		float[] a = getArray();
-		for(int i=0; i<array.length; i++) {
+		for(int i=0; i<getLength(); i++) {
 			a[i] = array[i] * t.array[i];
 		}
 		ArithStats.timing("elem-wise_prod", begin);
@@ -267,7 +281,7 @@ public class JTensorFloat extends JTensor {
 	public float sum() {
 		long begin = System.nanoTime();
 		float ret = 0;
-		for(int i=0; i<array.length; i++) {
+		for(int i=0; i<getLength(); i++) {
 			ret += (array[i]);
 		}
 		ArithStats.timing("sum", begin);
@@ -276,7 +290,7 @@ public class JTensorFloat extends JTensor {
 	public JTensorFloat tanh() {
 		long begin = System.nanoTime();
 		float[] a = getArray();
-		for(int i=0; i<array.length; i++) {
+		for(int i=0; i<getLength(); i++) {
 			a[i] = FastMath.tanhf(array[i]);
 		}
 		ArithStats.timing("tanh", begin);
@@ -285,7 +299,7 @@ public class JTensorFloat extends JTensor {
 	public JTensorFloat log() {
 		long begin = System.nanoTime();
 		float[] a = getArray();
-		for(int i=0; i<array.length; i++) {
+		for(int i=0; i<getLength(); i++) {
 			a[i] = FastMath.logf(array[i]);
 		}
 		ArithStats.timing("log", begin);
@@ -294,7 +308,7 @@ public class JTensorFloat extends JTensor {
 	public JTensorFloat exp() {
 		long begin = System.nanoTime();
 		float[] a = getArray();
-		for(int i=0; i<array.length; i++) {
+		for(int i=0; i<getLength(); i++) {
 			a[i] = FastMath.expf(array[i]);
 		}
 		ArithStats.timing("exp", begin);
@@ -302,9 +316,9 @@ public class JTensorFloat extends JTensor {
 	}
 	public JTensorFloat indicator(JTensorFloat t) {
 		long begin = System.nanoTime();
-		if(array.length != t.array.length) { throw new RuntimeException("tensor lengths do not match"); }
+		if(getLength() != t.getLength()) { throw new RuntimeException("tensor lengths do not match"); }
 		float[] a = getArray();
-		for(int i=0; i<array.length; i++) {
+		for(int i=0; i<getLength(); i++) {
 			a[i] = (array[i] == t.array[i])? 1 : 0;
 		}
 		ArithStats.timing("indicator", begin);
@@ -316,9 +330,9 @@ public class JTensorFloat extends JTensor {
 		for(int i=0; i<moreDim.length; i++) {
 			size *= moreDim[i];
 		}
-		float[] a = new float[size* array.length];
+		float[] a = new float[size* getLength()];
 		for(int i=0; i<size; i++) {
-			System.arraycopy(array, 0, a, i*array.length, array.length);
+			System.arraycopy(array, 0, a, i*getLength(), getLength());
 		}
 		int[] d = new int[dim.length + moreDim.length];
 		System.arraycopy(dim, 0, d, 0, dim.length);
@@ -328,7 +342,7 @@ public class JTensorFloat extends JTensor {
 	}
 	public JTensorFloat pow(float x) {
 		long begin = System.nanoTime();
-		int size = array.length;
+		int size = getLength();
 		float[] a = getArray();
 		for(int i=0; i<size; i++) {
 			 a[i] = FastMath.powf(array[i], x);
