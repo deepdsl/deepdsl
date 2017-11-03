@@ -52,7 +52,7 @@ public class LmdbFactory extends JTensorFactory {
 	// The lookup method is for testing only to force the class label to have a number of classes less than 1000
 	static final int maxNumOfClasses = 1000;
 	static int _k = 0;
-	static int[] labelMap; // = {365, 981, 863, 342, 819, 337, 374, 608, 895, 263}; // hard-coded class label translation for internal testing
+	static int[] labelMap = {365, 981, 863, 342, 819, 337, 374, 608, 895, 263}; // hard-coded class label translation for internal testing
 	
 	static int lookup(int x) {
 		if(_k >= maxNumOfClasses) { // don't translate labels if there are already 1000 classes
@@ -69,7 +69,7 @@ public class LmdbFactory extends JTensorFactory {
 		}
 		throw new RuntimeException(String.format("Data has more than %d classes of labels", _k));
 	}
-	
+
 	public JTensorFloatTuple nextFloat() {
 		long begin = System.nanoTime(); 
 

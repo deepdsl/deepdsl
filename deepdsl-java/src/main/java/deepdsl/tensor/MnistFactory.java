@@ -35,7 +35,7 @@ public class MnistFactory extends JTensorFactory {
 
 		float[] array = new float[size];
 		for(int i=0; i<size; i++) {
-			array[i] = (dataByteArray[i+start] & 0xFF) / 256.0f; 
+			array[i] = ((int) (dataByteArray[i+start] & 0xFF) - 127) / 128.0f; 
 		}
 		JTensorFloat image = new JTensorFloat(array, dims);
 		

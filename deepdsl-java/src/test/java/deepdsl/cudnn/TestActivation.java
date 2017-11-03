@@ -1,10 +1,13 @@
 package deepdsl.cudnn;
 
-import deepdsl.cudnn.config.ActivationMode;
-import deepdsl.tensor.JTensorFloat;
+import java.util.Arrays;
+
 import org.junit.Test;
 
-import java.util.Arrays;
+import deepdsl.cudnn.JCudaTensor;
+import deepdsl.cudnn.JCudnnActivation;
+import deepdsl.cudnn.config.ActivationMode;
+import deepdsl.tensor.JTensorFloat;
 
 public class TestActivation {
 	@Test
@@ -52,7 +55,7 @@ public class TestActivation {
 		
 		JCudnnActivation activation = new JCudnnActivation(dims, ActivationMode.TANH);
 		
-		JCudaTensor y = activation.forward(x);
+		JCudaTensor y = activation.forward(x); 
 		JCudaTensor dy = new JCudaTensor(new JTensorFloat(new float[]{1, 1, 1, 1, 1, 1}, dims));
 		
 		JCudaTensor dx = activation.backward(dy, y, x);
