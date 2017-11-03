@@ -75,5 +75,4 @@ do_test $freq $package test3
 cd ..
 echo "Finish testing"
 echo "End test time $(date)" >> deepdsl-java/$result_file
-#clean
-
+clean
