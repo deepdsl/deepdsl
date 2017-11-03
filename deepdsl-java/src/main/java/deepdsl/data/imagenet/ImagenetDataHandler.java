@@ -161,7 +161,7 @@ public class ImagenetDataHandler {
                 .collect(Collectors.toList()).toArray(new Pair[]{});
         shuffleArray(pairs);
         numTotalItems = pairs.length;
-        System.out.println("numTotalItems=" + numTotalItems);
+        System.out.println("numTotalItems" + numTotalItems);
     }
 
     private void resizeAndPersistAll() throws IOException {
@@ -173,17 +173,16 @@ public class ImagenetDataHandler {
                 originalImage = ImageIO.read(new File(pathToDataset + FILE_SEPARATOR + pairs[i].getPath()));
                 ++index;
             } catch (Exception ex) {
-            	System.out.println("Image reading exception for " + pathToDataset + FILE_SEPARATOR + pairs[i].getPath() + ", skip it, exception is: " + ex.getMessage());
-            	continue;
+                System.out.println("Image reading exception for " + pathToDataset + FILE_SEPARATOR + pairs[i].getPath() + ", skip it, exception is: " + ex.getMessage());
+                continue;
             }
             int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
             BufferedImage resizeImageJpg = resizeImage(originalImage, type);
             int[] dim = new int[3];
             int imageType = resizeImageJpg.getType();
-            //if (BufferedImage.TYPE_BYTE_GRAY == imageType || BufferedImage.TYPE_USHORT_GRAY == imageType) {
-            //    dim[0] = 1;
-            //} else dim[0] = 3;
-            dim[0] = 3;
+            if (BufferedImage.TYPE_BYTE_GRAY == imageType || BufferedImage.TYPE_USHORT_GRAY == imageType) {
+                dim[0] = 1;
+            } else dim[0] = 3;
             dim[1] = resizeImageJpg.getHeight();
             dim[2] = resizeImageJpg.getWidth();
             byte[] imageBytes = ((DataBufferByte) resizeImageJpg.getRaster().getDataBuffer()).getData();

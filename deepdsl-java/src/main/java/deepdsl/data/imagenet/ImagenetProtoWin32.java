@@ -78,7 +78,7 @@ public final class ImagenetProtoWin32 {
          *
          * <code>repeated float float_data = 6;</code>
          */
-        java.util.List<Float> getFloatDataList();
+        java.util.List<java.lang.Float> getFloatDataList();
         /**
          * <pre>
          * Optionally, the datum could also hold float data.
@@ -134,7 +134,7 @@ public final class ImagenetProtoWin32 {
             encoded_ = false;
         }
 
-        @Override
+        @java.lang.Override
         public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
             return this.unknownFields;
@@ -189,7 +189,7 @@ public final class ImagenetProtoWin32 {
                         }
                         case 53: {
                             if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-                                floatData_ = new java.util.ArrayList<Float>();
+                                floatData_ = new java.util.ArrayList<java.lang.Float>();
                                 mutable_bitField0_ |= 0x00000020;
                             }
                             floatData_.add(input.readFloat());
@@ -199,7 +199,7 @@ public final class ImagenetProtoWin32 {
                             int length = input.readRawVarint32();
                             int limit = input.pushLimit(length);
                             if (!((mutable_bitField0_ & 0x00000020) == 0x00000020) && input.getBytesUntilLimit() > 0) {
-                                floatData_ = new java.util.ArrayList<Float>();
+                                floatData_ = new java.util.ArrayList<java.lang.Float>();
                                 mutable_bitField0_ |= 0x00000020;
                             }
                             while (input.getBytesUntilLimit() > 0) {
@@ -230,14 +230,14 @@ public final class ImagenetProtoWin32 {
         }
         public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-            return ImagenetProtoWin32.internal_static_deepdsl_Datum_descriptor;
+            return deepdsl.data.imagenet.ImagenetProtoWin32.internal_static_deepdsl_Datum_descriptor;
         }
 
-        protected FieldAccessorTable
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-            return ImagenetProtoWin32.internal_static_deepdsl_Datum_fieldAccessorTable
+            return deepdsl.data.imagenet.ImagenetProtoWin32.internal_static_deepdsl_Datum_fieldAccessorTable
                     .ensureFieldAccessorsInitialized(
-                            Datum.class, Builder.class);
+                            deepdsl.data.imagenet.ImagenetProtoWin32.Datum.class, deepdsl.data.imagenet.ImagenetProtoWin32.Datum.Builder.class);
         }
 
         private int bitField0_;
@@ -325,7 +325,7 @@ public final class ImagenetProtoWin32 {
         }
 
         public static final int FLOAT_DATA_FIELD_NUMBER = 6;
-        private java.util.List<Float> floatData_;
+        private java.util.List<java.lang.Float> floatData_;
         /**
          * <pre>
          * Optionally, the datum could also hold float data.
@@ -333,7 +333,7 @@ public final class ImagenetProtoWin32 {
          *
          * <code>repeated float float_data = 6;</code>
          */
-        public java.util.List<Float>
+        public java.util.List<java.lang.Float>
         getFloatDataList() {
             return floatData_;
         }
@@ -458,15 +458,15 @@ public final class ImagenetProtoWin32 {
         }
 
         private static final long serialVersionUID = 0L;
-        @Override
-        public boolean equals(final Object obj) {
+        @java.lang.Override
+        public boolean equals(final java.lang.Object obj) {
             if (obj == this) {
                 return true;
             }
-            if (!(obj instanceof Datum)) {
+            if (!(obj instanceof deepdsl.data.imagenet.ImagenetProtoWin32.Datum)) {
                 return super.equals(obj);
             }
-            Datum other = (Datum) obj;
+            deepdsl.data.imagenet.ImagenetProtoWin32.Datum other = (deepdsl.data.imagenet.ImagenetProtoWin32.Datum) obj;
 
             boolean result = true;
             result = result && (hasChannels() == other.hasChannels());
@@ -505,7 +505,7 @@ public final class ImagenetProtoWin32 {
             return result;
         }
 
-        @Override
+        @java.lang.Override
         public int hashCode() {
             if (memoizedHashCode != 0) {
                 return memoizedHashCode;
@@ -546,58 +546,58 @@ public final class ImagenetProtoWin32 {
             return hash;
         }
 
-        public static Datum parseFrom(
+        public static deepdsl.data.imagenet.ImagenetProtoWin32.Datum parseFrom(
                 com.google.protobuf.ByteString data)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
-        public static Datum parseFrom(
+        public static deepdsl.data.imagenet.ImagenetProtoWin32.Datum parseFrom(
                 com.google.protobuf.ByteString data,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
-        public static Datum parseFrom(byte[] data)
+        public static deepdsl.data.imagenet.ImagenetProtoWin32.Datum parseFrom(byte[] data)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
-        public static Datum parseFrom(
+        public static deepdsl.data.imagenet.ImagenetProtoWin32.Datum parseFrom(
                 byte[] data,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
-        public static Datum parseFrom(java.io.InputStream input)
+        public static deepdsl.data.imagenet.ImagenetProtoWin32.Datum parseFrom(java.io.InputStream input)
                 throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                     .parseWithIOException(PARSER, input);
         }
-        public static Datum parseFrom(
+        public static deepdsl.data.imagenet.ImagenetProtoWin32.Datum parseFrom(
                 java.io.InputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                     .parseWithIOException(PARSER, input, extensionRegistry);
         }
-        public static Datum parseDelimitedFrom(java.io.InputStream input)
+        public static deepdsl.data.imagenet.ImagenetProtoWin32.Datum parseDelimitedFrom(java.io.InputStream input)
                 throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                     .parseDelimitedWithIOException(PARSER, input);
         }
-        public static Datum parseDelimitedFrom(
+        public static deepdsl.data.imagenet.ImagenetProtoWin32.Datum parseDelimitedFrom(
                 java.io.InputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                     .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
         }
-        public static Datum parseFrom(
+        public static deepdsl.data.imagenet.ImagenetProtoWin32.Datum parseFrom(
                 com.google.protobuf.CodedInputStream input)
                 throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                     .parseWithIOException(PARSER, input);
         }
-        public static Datum parseFrom(
+        public static deepdsl.data.imagenet.ImagenetProtoWin32.Datum parseFrom(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws java.io.IOException {
@@ -609,7 +609,7 @@ public final class ImagenetProtoWin32 {
         public static Builder newBuilder() {
             return DEFAULT_INSTANCE.toBuilder();
         }
-        public static Builder newBuilder(Datum prototype) {
+        public static Builder newBuilder(deepdsl.data.imagenet.ImagenetProtoWin32.Datum prototype) {
             return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
         }
         public Builder toBuilder() {
@@ -617,9 +617,9 @@ public final class ImagenetProtoWin32 {
                     ? new Builder() : new Builder().mergeFrom(this);
         }
 
-        @Override
+        @java.lang.Override
         protected Builder newBuilderForType(
-                BuilderParent parent) {
+                com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
             Builder builder = new Builder(parent);
             return builder;
         }
@@ -629,17 +629,17 @@ public final class ImagenetProtoWin32 {
         public static final class Builder extends
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:deepdsl.Datum)
-                DatumOrBuilder {
+                deepdsl.data.imagenet.ImagenetProtoWin32.DatumOrBuilder {
             public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-                return ImagenetProtoWin32.internal_static_deepdsl_Datum_descriptor;
+                return deepdsl.data.imagenet.ImagenetProtoWin32.internal_static_deepdsl_Datum_descriptor;
             }
 
-            protected FieldAccessorTable
+            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
-                return ImagenetProtoWin32.internal_static_deepdsl_Datum_fieldAccessorTable
+                return deepdsl.data.imagenet.ImagenetProtoWin32.internal_static_deepdsl_Datum_fieldAccessorTable
                         .ensureFieldAccessorsInitialized(
-                                Datum.class, Builder.class);
+                                deepdsl.data.imagenet.ImagenetProtoWin32.Datum.class, deepdsl.data.imagenet.ImagenetProtoWin32.Datum.Builder.class);
             }
 
             // Construct using deepdsl.data.imagenet.win32.ImagenetProto.Datum.newBuilder()
@@ -648,7 +648,7 @@ public final class ImagenetProtoWin32 {
             }
 
             private Builder(
-                    BuilderParent parent) {
+                    com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
                 super(parent);
                 maybeForceBuilderInitialization();
             }
@@ -678,23 +678,23 @@ public final class ImagenetProtoWin32 {
 
             public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-                return ImagenetProtoWin32.internal_static_deepdsl_Datum_descriptor;
+                return deepdsl.data.imagenet.ImagenetProtoWin32.internal_static_deepdsl_Datum_descriptor;
             }
 
-            public Datum getDefaultInstanceForType() {
-                return Datum.getDefaultInstance();
+            public deepdsl.data.imagenet.ImagenetProtoWin32.Datum getDefaultInstanceForType() {
+                return deepdsl.data.imagenet.ImagenetProtoWin32.Datum.getDefaultInstance();
             }
 
-            public Datum build() {
-                Datum result = buildPartial();
+            public deepdsl.data.imagenet.ImagenetProtoWin32.Datum build() {
+                deepdsl.data.imagenet.ImagenetProtoWin32.Datum result = buildPartial();
                 if (!result.isInitialized()) {
                     throw newUninitializedMessageException(result);
                 }
                 return result;
             }
 
-            public Datum buildPartial() {
-                Datum result = new Datum(this);
+            public deepdsl.data.imagenet.ImagenetProtoWin32.Datum buildPartial() {
+                deepdsl.data.imagenet.ImagenetProtoWin32.Datum result = new deepdsl.data.imagenet.ImagenetProtoWin32.Datum(this);
                 int from_bitField0_ = bitField0_;
                 int to_bitField0_ = 0;
                 if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -758,16 +758,16 @@ public final class ImagenetProtoWin32 {
                 return (Builder) super.addRepeatedField(field, value);
             }
             public Builder mergeFrom(com.google.protobuf.Message other) {
-                if (other instanceof Datum) {
-                    return mergeFrom((Datum)other);
+                if (other instanceof deepdsl.data.imagenet.ImagenetProtoWin32.Datum) {
+                    return mergeFrom((deepdsl.data.imagenet.ImagenetProtoWin32.Datum)other);
                 } else {
                     super.mergeFrom(other);
                     return this;
                 }
             }
 
-            public Builder mergeFrom(Datum other) {
-                if (other == Datum.getDefaultInstance()) return this;
+            public Builder mergeFrom(deepdsl.data.imagenet.ImagenetProtoWin32.Datum other) {
+                if (other == deepdsl.data.imagenet.ImagenetProtoWin32.Datum.getDefaultInstance()) return this;
                 if (other.hasChannels()) {
                     setChannels(other.getChannels());
                 }
@@ -809,11 +809,11 @@ public final class ImagenetProtoWin32 {
                     com.google.protobuf.CodedInputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                     throws java.io.IOException {
-                Datum parsedMessage = null;
+                deepdsl.data.imagenet.ImagenetProtoWin32.Datum parsedMessage = null;
                 try {
                     parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
                 } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                    parsedMessage = (Datum) e.getUnfinishedMessage();
+                    parsedMessage = (deepdsl.data.imagenet.ImagenetProtoWin32.Datum) e.getUnfinishedMessage();
                     throw e.unwrapIOException();
                 } finally {
                     if (parsedMessage != null) {
@@ -1003,10 +1003,10 @@ public final class ImagenetProtoWin32 {
                 return this;
             }
 
-            private java.util.List<Float> floatData_ = java.util.Collections.emptyList();
+            private java.util.List<java.lang.Float> floatData_ = java.util.Collections.emptyList();
             private void ensureFloatDataIsMutable() {
                 if (!((bitField0_ & 0x00000020) == 0x00000020)) {
-                    floatData_ = new java.util.ArrayList<Float>(floatData_);
+                    floatData_ = new java.util.ArrayList<java.lang.Float>(floatData_);
                     bitField0_ |= 0x00000020;
                 }
             }
@@ -1017,7 +1017,7 @@ public final class ImagenetProtoWin32 {
              *
              * <code>repeated float float_data = 6;</code>
              */
-            public java.util.List<Float>
+            public java.util.List<java.lang.Float>
             getFloatDataList() {
                 return java.util.Collections.unmodifiableList(floatData_);
             }
@@ -1076,7 +1076,7 @@ public final class ImagenetProtoWin32 {
              * <code>repeated float float_data = 6;</code>
              */
             public Builder addAllFloatData(
-                    Iterable<? extends Float> values) {
+                    java.lang.Iterable<? extends java.lang.Float> values) {
                 ensureFloatDataIsMutable();
                 com.google.protobuf.AbstractMessageLite.Builder.addAll(
                         values, floatData_);
@@ -1159,16 +1159,16 @@ public final class ImagenetProtoWin32 {
         }
 
         // @@protoc_insertion_point(class_scope:deepdsl.Datum)
-        private static final Datum DEFAULT_INSTANCE;
+        private static final deepdsl.data.imagenet.ImagenetProtoWin32.Datum DEFAULT_INSTANCE;
         static {
-            DEFAULT_INSTANCE = new Datum();
+            DEFAULT_INSTANCE = new deepdsl.data.imagenet.ImagenetProtoWin32.Datum();
         }
 
-        public static Datum getDefaultInstance() {
+        public static deepdsl.data.imagenet.ImagenetProtoWin32.Datum getDefaultInstance() {
             return DEFAULT_INSTANCE;
         }
 
-        @Deprecated public static final com.google.protobuf.Parser<Datum>
+        @java.lang.Deprecated public static final com.google.protobuf.Parser<Datum>
                 PARSER = new com.google.protobuf.AbstractParser<Datum>() {
             public Datum parsePartialFrom(
                     com.google.protobuf.CodedInputStream input,
@@ -1182,12 +1182,12 @@ public final class ImagenetProtoWin32 {
             return PARSER;
         }
 
-        @Override
+        @java.lang.Override
         public com.google.protobuf.Parser<Datum> getParserForType() {
             return PARSER;
         }
 
-        public Datum getDefaultInstanceForType() {
+        public deepdsl.data.imagenet.ImagenetProtoWin32.Datum getDefaultInstanceForType() {
             return DEFAULT_INSTANCE;
         }
 
@@ -1206,7 +1206,7 @@ public final class ImagenetProtoWin32 {
     private static  com.google.protobuf.Descriptors.FileDescriptor
             descriptor;
     static {
-        String[] descriptorData = {
+        java.lang.String[] descriptorData = {
                 "\n%dataset/imagenet/imagenet-win32.proto\022" +
                         "\007deepdsl\"\201\001\n\005Datum\022\020\n\010channels\030\001 \001(\005\022\016\n\006" +
                         "height\030\002 \001(\005\022\r\n\005width\030\003 \001(\005\022\014\n\004data\030\004 \001(" +
@@ -1231,7 +1231,7 @@ public final class ImagenetProtoWin32 {
         internal_static_deepdsl_Datum_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_deepdsl_Datum_descriptor,
-                new String[] { "Channels", "Height", "Width", "Data", "Label", "FloatData", "Encoded", });
+                new java.lang.String[] { "Channels", "Height", "Width", "Data", "Label", "FloatData", "Encoded", });
     }
 
     // @@protoc_insertion_point(outer_class_scope)

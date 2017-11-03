@@ -7,14 +7,14 @@
     <groupId>deepdsl</groupId>
     <artifactId>deepdsl</artifactId>
     <packaging>pom</packaging>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <modules>
         <module>deepdsl-java</module>
     </modules>
 
     <properties>
         <junit.version>4.12</junit.version>
-        <deepdsl-compile.version>0.1</deepdsl-compile.version>
+        <deepdsl-compile.version>1.0</deepdsl-compile.version>
     </properties>
 
     <dependencyManagement>

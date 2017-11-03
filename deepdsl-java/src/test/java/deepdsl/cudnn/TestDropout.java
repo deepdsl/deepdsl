@@ -1,9 +1,10 @@
 package deepdsl.cudnn;
 
-import deepdsl.tensor.JTensorFloat;
+import java.util.Arrays;
+
 import org.junit.Test;
 
-import java.util.Arrays;
+import deepdsl.tensor.JTensorFloat;
 
 public class TestDropout {
 	@Test
@@ -13,7 +14,7 @@ public class TestDropout {
 		JTensorFloat t = new JTensorFloat(a, dims);
 		JCudaTensor x = new JCudaTensor(t);
 		
-		JCudnnDropout dropout = new JCudnnDropout(dims, 0.5f);
+		JCudnnDropout dropout = new JCudnnDropout("dropout", dims, 0.5f);
 		
 		JCudaTensor y = dropout.forward(x);
 		System.out.println(Arrays.toString(y.asArray()));
@@ -26,7 +27,7 @@ public class TestDropout {
 		JTensorFloat t = new JTensorFloat(a, dims);
 		JCudaTensor x = new JCudaTensor(t);
 		
-		JCudnnDropout dropout = new JCudnnDropout(dims, 0.5f);
+		JCudnnDropout dropout = new JCudnnDropout("dropout", dims, 0.5f);
 		
 		dropout.forward(x); // don't delete this. There is shared reserve memory between forward and backward
 		JCudaTensor dy = new JCudaTensor(new JTensorFloat(new float[]{1, 1, 1, 1, 1, 1}, dims));

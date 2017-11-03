@@ -34,27 +34,25 @@ class RunningMeanVariance implements Serializable {
 	}
 
 	public RunningMeanVariance load(String name) {
-		RunningMeanVariance t = null;
+		RunningMeanVariance ret = this;
 		try {
 			FileInputStream fileIn = new FileInputStream(name + ".ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
-			t = (RunningMeanVariance) in.readObject();
+			RunningMeanVariance t = (RunningMeanVariance) in.readObject();
 			in.close();
 			fileIn.close();
 			if(t != null) {
 				if(this.dim == t.dim) {
 					System.out.printf("Restored %s\n", name);
-					return t; 
+					ret = t; 
 				}
 			}
 		}
 		catch(IOException i) {
-			//			i.printStackTrace(); 
 		}
 		catch(ClassNotFoundException c) { 
-			//			c.printStackTrace();  
 		}
-		return this;
+		return ret;
 	}
 	public void save(String name) {
 		try {
@@ -66,7 +64,7 @@ class RunningMeanVariance implements Serializable {
 			System.out.printf("Parameter is serialized in %s.ser\n", name);
 		}
 		catch(IOException i) {
-			i.printStackTrace();
+			System.out.println(i);
 		}
 	}
 }
@@ -91,7 +89,7 @@ public class JCudnnBatchNorm extends JCudaFunction {
 
 	// if fixed_factor <= 1/forward_count then use accumulative moving average else use exponential moving average
 	public static double FIXED_FACTOR = 0.001; 
-	public static boolean withRunningVariance = false; // whether to run inference with running mean/variance
+	public static boolean withRunningVariance = true; // whether to run inference with running mean/variance
 	
 	public JCudnnBatchNorm(String path, int[] x_dims) {
 		this.x_dims = x_dims;
@@ -113,13 +111,8 @@ public class JCudnnBatchNorm extends JCudaFunction {
 			upperBound = new JCudaTensor(norm_dims);
 		}
 	}
-
+	@Override
 	public void free() {
-		if (trained) {
-			new RunningMeanVariance(x_dims[1], forward_count, 
-					running_mean.asJTensor(), running_variance.asJTensor())
-			.save(path);
-		}
 		this.x_dptr.free();
 		this.norm_dptr.free();
 		this.running_mean.free();
@@ -133,6 +126,14 @@ public class JCudnnBatchNorm extends JCudaFunction {
 		}
 	}
 	
+	@Override
+	public void save() {
+		if (trained) {
+			new RunningMeanVariance(x_dims[1], forward_count, 
+					running_mean.asJTensor(), running_variance.asJTensor())
+			.save(path);
+		}
+	}
 	public JCudaTensor forward_inference(JCudaTensor x, JCudaTensor scale, JCudaTensor bias) {
 		JCudaTensor ret;
 		
@@ -145,7 +146,7 @@ public class JCudnnBatchNorm extends JCudaFunction {
 		return ret;
 	}
 
-	public JCudaTensor forward_inference_running_variance(JCudaTensor x, JCudaTensor scale, JCudaTensor bias) {
+	private JCudaTensor forward_inference_running_variance(JCudaTensor x, JCudaTensor scale, JCudaTensor bias) {
 		JCudaTensor y = new JCudaTensor(x_dims);
 
 		int ret = cudnnBatchNormalizationForwardInference(cudnnHandle, mode, one, zero,
@@ -159,7 +160,7 @@ public class JCudnnBatchNorm extends JCudaFunction {
 	}
 
 	// Use forward training. A little slower but for unknown reason works for ResNet.
-	public JCudaTensor forward_inference_no_running_variance(JCudaTensor x, JCudaTensor scale, JCudaTensor bias) {
+	private JCudaTensor forward_inference_no_running_variance(JCudaTensor x, JCudaTensor scale, JCudaTensor bias) {
 		JCudaTensor y = new JCudaTensor(x_dims);
 
 		double factor = 0; // don't change running mean or variance

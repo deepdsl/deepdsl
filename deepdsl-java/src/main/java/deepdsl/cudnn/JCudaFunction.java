@@ -13,8 +13,9 @@ import jcuda.jcublas.JCublas2;
 import jcuda.runtime.JCuda;
 import jcuda.vec.VecFloat;
 
-public abstract class JCudaFunction {
-	abstract void free();
+public abstract class JCudaFunction { 
+	public abstract void free();
+	public void save() {}
 	
 	public static final cudnnHandle cudnnHandle = new cudnnHandle();
 	public static final cublasHandle cublasHandle = new cublasHandle();
@@ -51,13 +52,27 @@ public abstract class JCudaFunction {
 		checkError(ret);
 	}
 	
+	public static void copyHostToDevice(byte[] source, Pointer target) {
+		long size = source.length;
+		int ret = cudaMemcpy(target, Pointer.to(source), size, cudaMemcpyHostToDevice); 
+		checkError(ret);
+	}
+	
 	public static void copyDeviceToDevice(long size, Pointer source, Pointer target) {
-        int ret = cudaMemcpy(target, source, size * Sizeof.FLOAT, cudaMemcpyDeviceToDevice); 
+		size = size * Sizeof.FLOAT;
+        int ret = cudaMemcpy(target, source, size, cudaMemcpyDeviceToDevice); 
 		checkError(ret);
 	}
 	
 	public static void copyDeviceToHost(Pointer source, float[] target) {
 		long size = target.length * Sizeof.FLOAT;
+		
+		int ret = cudaMemcpy(Pointer.to(target), source, size, cudaMemcpyDeviceToHost); 
+		checkError(ret);
+	}
+	
+	public static void copyDeviceToHost(Pointer source, byte[] target) {
+		long size = target.length;
 		
 		int ret = cudaMemcpy(Pointer.to(target), source, size, cudaMemcpyDeviceToHost); 
 		checkError(ret);

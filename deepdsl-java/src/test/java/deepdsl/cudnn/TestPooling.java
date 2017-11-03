@@ -1,9 +1,12 @@
 package deepdsl.cudnn;
 
-import deepdsl.tensor.JTensorFloat;
+import java.util.Arrays;
+
 import org.junit.Test;
 
-import java.util.Arrays;
+import deepdsl.cudnn.JCudaTensor;
+import deepdsl.cudnn.JCudnnPooling;
+import deepdsl.tensor.JTensorFloat;
 
 public class TestPooling {
 	@Test
