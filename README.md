@@ -1,7 +1,14 @@
 # Notice
 
-We are working on some major updates on the core which will make the entire work even faster and modulized. The updates are going to be 
-transparent to the users so no worry about any compatibility issues, we will update soon!
+~~We are working on some major updates on the core which will make the entire work even faster and modulized. The updates are going to be 
+transparent to the users so no worry about any compatibility issues, we will update soon!~~
+
+As promised, we are now very happy to announce a major milestone release: DeepDSL v1.0. Also another very important decision we make is
+to release the core Scala source code for reference in the hope that the system will become more popular and also facilitate advanced 
+deep learning with more transparency. Please refer our paper below if you are using our code in academic research: 
+- "DeepDSL: A Compilation-based Domain-Specific Language for Deep Learning" accepted by the International Conference on Learning Representations (ICLR 2017), Toulon, France. [pdf [DeepDSL]]
+
+Please read our LICENSE file and contact zhao.tian@gmail.com for commercial development and cooperation. 
 
 # DeepDSL
 
@@ -166,7 +173,7 @@ You can run this directly from IDE, or cd to deepdsl-java folder and run from co
      - No worry. DeepDSL is designed to save your execution result automatically (Indeed, if you run the same program again, DeepDSL will 
      automatically pick up where you left off last time and start training the model from there!). You just need to let DeepDSL know where 
      to save! In the above example, the code is trying to store the trained model for Alexnet execution, therefore you need to create a 
-     folder `src/main/java/deepdsl/gen/alexnet`ù before you run the program, otherwise you lose it. Please refer to the 
+     folder `src/main/java/deepdsl/gen/alexnet`ÔøΩ before you run the program, otherwise you lose it. Please refer to the 
      [Default location for trained parameters](#default-loc) section for more details.   
 
 [JCuda]: <http://jcuda.org/>
