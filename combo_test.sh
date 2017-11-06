@@ -26,12 +26,12 @@ clean() {
        for network in Alexnet128 Alexnet256 Googlenet128 Googlenet256 Overfeat128 Overfeat256 Vgg64 Resnet32 Resnet64
        do
         rm deepdsl-java/src/main/java/deepdsl/gen/$network.java
-        rm deepdsl-java/src/main/java/deepdsl/gen/$network\_infer.java
+        rm -fr deepdsl-java/src/main/java/deepdsl/gen/`echo $network | tr '[:upper:]' '[:lower:]'`/
         rm deepdsl-java/$network-test1.txt
         rm deepdsl-java/$network-test2.txt
         rm deepdsl-java/$network-test3.txt
-	rm deepdsl-java/*.log
        done
+       git checkout deepdsl-java/src/main/java/deepdsl/*
 }
 echo "Start testing"
 echo "Start test time $(date)" >> deepdsl-java/$result_file
