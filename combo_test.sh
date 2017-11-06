@@ -54,7 +54,7 @@ sleep 10
 #Step 3: Comment out one cache line and run test suite 2
 echo "-------------------------------------------------------"
 echo "test set 2: with only enableMemoryCache disabled" >> $result_file
-sed -i -- 's/JCudaTensor.enableMemoryCache();/\/\/JCudaTensor.enableMemoryCache();/g' src/main/java/deepdsl/gen/*java
+sed -i -- 's/JCudaTensor.enableMemoryCache();/\/\/JCudaTensor.enableMemoryCache();/g' src/main/java/deepdsl/util/CudaRun.java
 cd ..
 { time mvn -Plinux64 clean install -DskipTests; } 2>&1 | grep real | sed -En "s/real\s*(.+)/\1/p" | xargs echo "maven re-build(after enableMemoryCache is disabled) time: " >> deepdsl-java/$result_file
 cd deepdsl-java
@@ -64,7 +64,7 @@ sleep 10
 #Step 4: Comment out both cache lines and run test suite 3
 echo "-------------------------------------------------------"
 echo "test set 3: with both enableMemoryCache and enableWorkspaceCache disabled" >> $result_file
-sed -i -- 's/JCudaTensor.enableWorkspaceCache();/\/\/JCudaTensor.enableWorkspaceCache();/g' src/main/java/deepdsl/gen/*java
+sed -i -- 's/JCudaTensor.enableWorkspaceCache();/\/\/JCudaTensor.enableWorkspaceCache();/g' src/main/java/deepdsl/util/CudaRun.java
 cd ..
 { time mvn -Plinux64 clean install -DskipTests; } 2>&1 | grep real | sed -En "s/real\s*(.+)/\1/p" | xargs echo "maven re-build(after both enableMemoryCache and enableWorkspaceCache are disabled) time: " >> deepdsl-java/$result_file
 cd deepdsl-java
