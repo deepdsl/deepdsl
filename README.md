@@ -1,8 +1,5 @@
 # Notice
 
-~~We are working on some major updates on the core which will make the entire work even faster and modulized. The updates are going to be 
-transparent to the users so no worry about any compatibility issues, we will update soon!~~
-
 As promised, we are now very happy to announce a major milestone release: DeepDSL v1.0. Also another very important decision we make is
 to release the core Scala source code for reference in the hope that the system will become more popular and also facilitate advanced 
 deep learning with more transparency. Please refer our papers below if you are using our code in academic research: 
