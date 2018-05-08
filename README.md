@@ -4,8 +4,7 @@ As promised, we are now very happy to announce a major milestone release: DeepDS
 to release the core Scala source code for reference in the hope that the system will become more popular and also facilitate advanced 
 deep learning with more transparency. Please refer our papers below if you are using our code in academic research: 
 - "DeepDSL: A Compilation-based Domain-Specific Language for Deep Learning" in proceedings of the International Conference on Learning Representations (ICLR 2017), Toulon, France. [pdf [DeepDSL]]
-- "Design and Implementation of DeepDSL: A DSL for Deep Learning", Computer Languages, Systems & Structures, 2018.
- [https://www.sciencedirect.com/science/article/pii/S1477842418300319]
+- "Design and Implementation of DeepDSL: A DSL for Deep Learning", Computer Languages, Systems & Structures, Volume 54, December 2018, Pages 39-70. [https://www.sciencedirect.com/science/article/pii/S1477842418300319]
 
 Please read our LICENSE file and contact zhao.tian@gmail.com for commercial development and cooperation. 
 
